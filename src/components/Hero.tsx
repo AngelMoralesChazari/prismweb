@@ -358,17 +358,15 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               </span>
             </button>
 
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noreferrer"
-              className="flex flex-col items-center group"
+            <button
+              onClick={() => onNavigate('docs', 'semantica-vertauto')}
+              className="flex flex-col items-center group focus:outline-none"
             >
               <GitBranch className="w-11 h-11 text-slate-500 group-hover:text-[#04add6] transition-colors mb-2 stroke-[1.5]" />
               <span className="text-sm font-medium text-slate-600 group-hover:text-slate-900">
-                {language === 'es' ? 'Repositorio Abierto' : 'Open Repository'}
+                {language === 'es' ? 'Deducción y Dictamen Formal' : 'Formal Deduction & Verdict'}
               </span>
-            </a>
+            </button>
 
             <button
               onClick={() => onNavigate('demo')}
@@ -462,41 +460,24 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             </div>
           </div>
 
-          {/* 2 Clean Cards ("Sobre PRISM" & "Colaborar") */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-lg border border-slate-200/90 p-7 shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-bold text-slate-800 mb-3 pb-2.5 border-b border-slate-200">
-                {language === 'es' ? 'Sobre PRISM' : 'About PRISM'}
-              </h3>
-              <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                {t.whatIs.p1}
-              </p>
-              <p className="text-sm text-slate-600 leading-relaxed mb-5">
-                {t.whatIs.p2}
-              </p>
-              <button
-                onClick={() => onNavigate('about')}
-                className="text-xs font-semibold text-[#04add6] hover:text-sky-700 inline-flex items-center gap-1"
-              >
-                <span>{language === 'es' ? 'Conocer más sobre la filosofía de PRISM' : 'Learn more about PRISM philosophy'}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-
-            <div className="bg-white rounded-lg border border-slate-200/90 p-7 shadow-sm hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-bold text-slate-800 mb-3 pb-2.5 border-b border-slate-200">
-                {language === 'es' ? 'Colaborar' : 'Collaborate'}
-              </h3>
-              <p className="text-sm text-slate-600 leading-relaxed mb-4">
-                {language === 'es'
-                  ? 'PRISM es un proyecto abierto enfocado en acercar el razonamiento lógico formal a estudiantes, docentes y desarrolladores de software mediante herramientas claras y modernas.'
-                  : 'PRISM is an open project focused on bringing formal logical reasoning closer to students, educators, and software developers through clear, modern tooling.'}
-              </p>
-              <p className="text-sm text-slate-600 leading-relaxed mb-5">
-                {language === 'es'
-                  ? 'Puedes contribuir probando ejemplos en el Playground, reportando casos de análisis en lenguaje natural o consultando el manual técnico.'
-                  : 'You can contribute by testing examples in the Playground, reporting natural language parsing cases, or exploring the technical manual.'}
-              </p>
+          {/* 2 Cards: Left = "Colaborar", Right = "Herramientas Nativas y Snippets" (Image 3) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+            <div className="bg-white rounded-lg border border-slate-200/90 p-7 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+              <div>
+                <h3 className="text-xl font-bold text-slate-800 mb-3 pb-2.5 border-b border-slate-200">
+                  {language === 'es' ? 'Colaborar' : 'Collaborate'}
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                  {language === 'es'
+                    ? 'PRISM es un proyecto abierto enfocado en acercar el razonamiento lógico formal a estudiantes, docentes y desarrolladores de software mediante herramientas claras y modernas.'
+                    : 'PRISM is an open project focused on bringing formal logical reasoning closer to students, educators, and software developers through clear, modern tooling.'}
+                </p>
+                <p className="text-sm text-slate-600 leading-relaxed mb-5">
+                  {language === 'es'
+                    ? 'Puedes contribuir probando ejemplos en el Playground, reportando casos de análisis en lenguaje natural o consultando el manual técnico.'
+                    : 'You can contribute by testing examples in the Playground, reporting natural language parsing cases, or exploring the technical manual.'}
+                </p>
+              </div>
               <button
                 onClick={() => onNavigate('docs')}
                 className="text-xs font-semibold text-[#04add6] hover:text-sky-700 inline-flex items-center gap-1"
@@ -504,6 +485,60 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 <span>{language === 'es' ? 'Explorar el Manual de PRISM' : 'Explore the PRISM Manual'}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
+            </div>
+
+            <div className="bg-white rounded-lg border border-slate-200/90 p-7 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+              <div>
+                <h3 className="text-xl font-bold text-slate-800 mb-3 pb-2.5 border-b border-slate-200 flex items-center justify-between">
+                  <span>
+                    {language === 'es'
+                      ? 'Herramientas Nativas y Snippets'
+                      : 'Native Tooling & Snippets'}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#04add6] bg-sky-50 border border-sky-200/80 px-2.5 py-0.5 rounded-full">
+                    <Terminal className="w-3.5 h-3.5" />
+                    <span>prc & VS Code</span>
+                  </span>
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed mb-4">
+                  {language === 'es'
+                    ? 'Valida y ejecuta archivos .pr desde consola con prc o utiliza la extensión oficial publicada en Visual Studio Code:'
+                    : 'Validate and run .pr files from the terminal with prc or use the official extension published on Visual Studio Code:'}
+                </p>
+
+                <pre className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 font-mono text-xs text-slate-700 mb-4 overflow-x-auto">
+{`$ prc check argumento.pr
+✓ Sintaxis y átomos verificados (Two-Pass)
+
+$ prc run argumento.pr
+>>> Dictamen: tautology (2^2 = 4 estados)`}
+                </pre>
+
+                <div className="grid grid-cols-4 gap-2 text-center font-mono text-xs font-semibold mb-4">
+                  <span className="py-1.5 px-2 rounded bg-sky-50/80 text-sky-700 border border-sky-200/80">prnl</span>
+                  <span className="py-1.5 px-2 rounded bg-sky-50/80 text-sky-700 border border-sky-200/80">prnlit</span>
+                  <span className="py-1.5 px-2 rounded bg-sky-50/80 text-sky-700 border border-sky-200/80">prform</span>
+                  <span className="py-1.5 px-2 rounded bg-sky-50/80 text-sky-700 border border-sky-200/80">prinl</span>
+                </div>
+              </div>
+
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                <button
+                  onClick={() => onNavigate('downloads')}
+                  className="text-xs font-semibold text-[#04add6] hover:text-sky-700 inline-flex items-center gap-1"
+                >
+                  <span>
+                    {language === 'es' ? 'Descargar prc v1.0.0' : 'Download prc v1.0.0'}
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={() => onNavigate('docs', 'snippets-catalogo')}
+                  className="text-xs font-semibold text-slate-600 hover:text-[#04add6] underline underline-offset-4"
+                >
+                  {language === 'es' ? 'Ver Snippets →' : 'View Snippets →'}
+                </button>
+              </div>
             </div>
           </div>
 

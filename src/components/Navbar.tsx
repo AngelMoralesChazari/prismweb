@@ -182,9 +182,9 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, onNavigate }) => {
             className="flex items-center gap-2 text-left group focus:outline-none flex-shrink-0"
             title="PRISM — Inicio"
           >
-            {/* 👇 AQUÍ AJUSTAS EL TAMAÑO DEL ICONO DEL HEADER (en px) 👇 */}
+            {/* 👇 1. AQUÍ AJUSTAS EL TAMAÑO DEL ICONO DEL HEADER (sin afectar el alto del header) 👇 */}
             <PrismIconLogo
-              style={{ height: '26px', width: 'auto' }}
+              style={{ height: '34px', width: 'auto' }}
               className="transition-transform group-hover:scale-105"
               variant="onLight"
             />
@@ -199,11 +199,12 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, onNavigate }) => {
                   <button
                     key={item.id}
                     onClick={() => handleNav(item.id)}
-                    className={`relative h-14 px-3.5 text-[13px] font-medium transition-colors flex items-center ${
-                      isActive
-                        ? 'text-[#04add6] font-semibold'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
+                    // 👇 2. AQUÍ AJUSTAS EL TAMAÑO DE FUENTE DEL MENÚ DEL HEADER (fontSize) 👇
+                    style={{ fontSize: '17px' }}
+                    className={`relative h-14 px-3.5 font-medium transition-colors flex items-center ${isActive
+                      ? 'text-[#04add6] font-semibold'
+                      : 'text-slate-600 hover:text-slate-900'
+                      }`}
                   >
                     <span>{item.label}</span>
                     {isActive && (
@@ -221,21 +222,19 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, onNavigate }) => {
               <div className="flex items-center bg-slate-100 border border-slate-200 rounded-md p-0.5 text-xs">
                 <button
                   onClick={() => setLanguage('es')}
-                  className={`px-2 py-0.5 rounded transition-colors ${
-                    language === 'es'
-                      ? 'bg-white text-slate-900 font-semibold shadow-sm'
-                      : 'text-slate-500 hover:text-slate-800'
-                  }`}
+                  className={`px-2 py-0.5 rounded transition-colors ${language === 'es'
+                    ? 'bg-white text-slate-900 font-semibold shadow-sm'
+                    : 'text-slate-500 hover:text-slate-800'
+                    }`}
                 >
                   ES
                 </button>
                 <button
                   onClick={() => setLanguage('en')}
-                  className={`px-2 py-0.5 rounded transition-colors ${
-                    language === 'en'
-                      ? 'bg-white text-slate-900 font-semibold shadow-sm'
-                      : 'text-slate-500 hover:text-slate-800'
-                  }`}
+                  className={`px-2 py-0.5 rounded transition-colors ${language === 'en'
+                    ? 'bg-white text-slate-900 font-semibold shadow-sm'
+                    : 'text-slate-500 hover:text-slate-800'
+                    }`}
                 >
                   EN
                 </button>
@@ -256,17 +255,15 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, onNavigate }) => {
             <div className="flex items-center bg-slate-100 border border-slate-200 rounded p-0.5 text-xs">
               <button
                 onClick={() => setLanguage('es')}
-                className={`px-2 py-0.5 rounded ${
-                  language === 'es' ? 'bg-white text-slate-900 font-semibold shadow-sm' : 'text-slate-500'
-                }`}
+                className={`px-2 py-0.5 rounded ${language === 'es' ? 'bg-white text-slate-900 font-semibold shadow-sm' : 'text-slate-500'
+                  }`}
               >
                 ES
               </button>
               <button
                 onClick={() => setLanguage('en')}
-                className={`px-2 py-0.5 rounded ${
-                  language === 'en' ? 'bg-white text-slate-900 font-semibold shadow-sm' : 'text-slate-500'
-                }`}
+                className={`px-2 py-0.5 rounded ${language === 'en' ? 'bg-white text-slate-900 font-semibold shadow-sm' : 'text-slate-500'
+                  }`}
               >
                 EN
               </button>
@@ -290,11 +287,10 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, onNavigate }) => {
             <button
               key={item.id}
               onClick={() => handleNav(item.id)}
-              className={`w-full text-left px-3 py-2.5 rounded-md text-sm font-medium ${
-                activePage === item.id
-                  ? 'bg-sky-50 text-[#04add6] font-semibold'
-                  : 'text-slate-700 hover:bg-slate-50'
-              }`}
+              className={`w-full text-left px-3 py-2.5 rounded-md text-sm font-medium ${activePage === item.id
+                ? 'bg-sky-50 text-[#04add6] font-semibold'
+                : 'text-slate-700 hover:bg-slate-50'
+                }`}
             >
               {item.label}
             </button>
