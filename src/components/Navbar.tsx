@@ -10,15 +10,58 @@ interface NavbarProps {
 }
 
 /**
+ * Icon-only mark from `public/Prismv1.svg` (the double chevron `>>`)
+ * with tight viewBox so it has zero empty margin.
+ */
+export const PrismIconLogo: React.FC<{
+  className?: string;
+  style?: React.CSSProperties;
+  variant?: 'onLight' | 'onDark';
+}> = ({ className = 'h-7 w-auto', style, variant = 'onLight' }) => {
+  const primaryColor = variant === 'onDark' ? '#ffffff' : '#0f172a';
+  const normalizedStyle: React.CSSProperties = {
+    ...style,
+    ...(typeof style?.height === 'string'
+      ? { height: style.height.replace(/\s+/g, '') }
+      : {}),
+  };
+
+  return (
+    <svg
+      viewBox="240 2240 11550 7620"
+      className={className}
+      style={{
+        fillRule: 'evenodd',
+        clipRule: 'evenodd',
+        strokeLinecap: 'round',
+        strokeLinejoin: 'round',
+        strokeMiterlimit: 1.5,
+        ...normalizedStyle,
+      }}
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="PRISM Icon"
+    >
+      <path
+        d="M2410.877,2248.827L5259.959,2248.827L7955.404,4974.369L3118.058,9846.205L246.395,9849.968L5088.399,4981.344L2410.877,2248.827Z"
+        style={{ fill: primaryColor, stroke: primaryColor, strokeWidth: '1px' }}
+      />
+      <path
+        d="M6254.084,2248.827L9091.873,2248.827L11778.046,4983.941L9061.407,7718.418L6205.741,7723.123L8920.27,4985.071L6254.084,2248.827Z"
+        style={{ fill: 'rgb(4,173,214)', stroke: 'rgb(4,173,214)', strokeWidth: '1px' }}
+      />
+    </svg>
+  );
+};
+
+/**
  * Exact official full logo from `public/BannerPrismVSinFOndo1.svg`
- * with a tight viewBox ("140 285 1345 370") so there is no dead padding
- * and the icon + PRISM + LOGIC LANGUAGE keep their exact Affinity Studio proportions.
+ * used in the Hero banner and Footer.
  */
 export const PrismFullLogo: React.FC<{
   className?: string;
   style?: React.CSSProperties;
   variant?: 'onLight' | 'onDark';
-}> = ({ className = 'h-9 w-auto', style, variant = 'onLight' }) => {
+}> = ({ className = 'h-10 w-auto', style, variant = 'onLight' }) => {
   const primaryColor = variant === 'onDark' ? '#ffffff' : '#0f172a';
   const normalizedStyle: React.CSSProperties = {
     ...style,
@@ -129,77 +172,82 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, onNavigate }) => {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-slate-200/90 shadow-sm">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-12 items-center h-14">
-          {/* 1. Left: Official Full Banner Logo */}
-          <div className="md:col-span-3 flex items-center">
-            <button
-              onClick={() => handleNav('home')}
-              className="flex items-center text-left group focus:outline-none"
-            >
-              {/* 👇 AQUÍ AJUSTAS EL TAMAÑO DEL LOGO DEL HEADER (en px, sin espacio antes de px) 👇 */}
-              <PrismFullLogo
-                style={{ height: '35px', width: 'auto' }}
-                className="transition-transform group-hover:scale-[1.02]"
-                variant="onLight"
-              />
-            </button>
-          </div>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        {/* Desktop & Mobile Header: Icon close to navigation links, centered & balanced */}
+        <div className="flex items-center justify-between md:justify-center md:gap-10 h-14">
+          {/* 1. Icon-only Logo from Prismv1.svg */}
+          <button
+            onClick={() => handleNav('home')}
+            className="flex items-center gap-2 text-left group focus:outline-none flex-shrink-0"
+            title="PRISM — Inicio"
+          >
+            {/* 👇 AQUÍ AJUSTAS EL TAMAÑO DEL ICONO DEL HEADER (en px) 👇 */}
+            <PrismIconLogo
+              style={{ height: '26px', width: 'auto' }}
+              className="transition-transform group-hover:scale-105"
+              variant="onLight"
+            />
+          </button>
 
-          {/* 2. Center: Navigation Links perfectamente centrados */}
-          <nav className="hidden md:col-span-6 md:flex items-center justify-center space-x-2 h-full">
-            {navItems.map((item) => {
-              const isActive = activePage === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => handleNav(item.id)}
-                  className={`relative h-14 px-3.5 text-xs sm:text-sm font-medium transition-colors flex items-center ${isActive
-                    ? 'text-[#04add6] font-semibold'
-                    : 'text-slate-600 hover:text-slate-900'
+          {/* 2. Navigation Links + Actions right next to it without big empty gap */}
+          <div className="hidden md:flex items-center gap-5 h-full">
+            <nav className="flex items-center gap-1 h-full">
+              {navItems.map((item) => {
+                const isActive = activePage === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleNav(item.id)}
+                    className={`relative h-14 px-3.5 text-[13px] font-medium transition-colors flex items-center ${
+                      isActive
+                        ? 'text-[#04add6] font-semibold'
+                        : 'text-slate-600 hover:text-slate-900'
                     }`}
-                >
-                  <span>{item.label}</span>
-                  {isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#04add6] rounded-t" />
-                  )}
-                </button>
-              );
-            })}
-          </nav>
+                  >
+                    <span>{item.label}</span>
+                    {isActive && (
+                      <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#04add6] rounded-t" />
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
 
-          {/* 3. Right: Language Switcher & Primary CTA Button */}
-          <div className="hidden md:col-span-3 md:flex items-center justify-end gap-2.5">
-            {/* Language Switcher */}
-            <div className="flex items-center bg-slate-100 border border-slate-200 rounded-md p-0.5 text-xs">
-              <button
-                onClick={() => setLanguage('es')}
-                className={`px-2 py-1 rounded transition-colors ${language === 'es'
-                  ? 'bg-white text-slate-900 font-semibold shadow-sm'
-                  : 'text-slate-500 hover:text-slate-800'
+            <span className="h-4 w-[1px] bg-slate-200" />
+
+            {/* Language Switcher & Primary CTA Button */}
+            <div className="flex items-center gap-2.5">
+              <div className="flex items-center bg-slate-100 border border-slate-200 rounded-md p-0.5 text-xs">
+                <button
+                  onClick={() => setLanguage('es')}
+                  className={`px-2 py-0.5 rounded transition-colors ${
+                    language === 'es'
+                      ? 'bg-white text-slate-900 font-semibold shadow-sm'
+                      : 'text-slate-500 hover:text-slate-800'
                   }`}
-              >
-                ES
-              </button>
-              <button
-                onClick={() => setLanguage('en')}
-                className={`px-2 py-1 rounded transition-colors ${language === 'en'
-                  ? 'bg-white text-slate-900 font-semibold shadow-sm'
-                  : 'text-slate-500 hover:text-slate-800'
+                >
+                  ES
+                </button>
+                <button
+                  onClick={() => setLanguage('en')}
+                  className={`px-2 py-0.5 rounded transition-colors ${
+                    language === 'en'
+                      ? 'bg-white text-slate-900 font-semibold shadow-sm'
+                      : 'text-slate-500 hover:text-slate-800'
                   }`}
+                >
+                  EN
+                </button>
+              </div>
+
+              <button
+                onClick={() => handleNav('docs')}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-semibold bg-[#04add6] hover:bg-[#0396ba] text-white shadow-sm transition-colors"
               >
-                EN
+                <BookOpen className="w-3.5 h-3.5" />
+                <span>{language === 'es' ? 'Manual PRISM' : 'PRISM Manual'}</span>
               </button>
             </div>
-
-            {/* Primary CTA Button */}
-            <button
-              onClick={() => handleNav('docs')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-semibold bg-[#04add6] hover:bg-[#0396ba] text-white shadow-sm transition-colors"
-            >
-              <BookOpen className="w-3.5 h-3.5" />
-              <span>{language === 'es' ? 'Manual PRISM' : 'PRISM Manual'}</span>
-            </button>
           </div>
 
           {/* Mobile Menu Trigger */}
@@ -207,15 +255,17 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, onNavigate }) => {
             <div className="flex items-center bg-slate-100 border border-slate-200 rounded p-0.5 text-xs">
               <button
                 onClick={() => setLanguage('es')}
-                className={`px-2 py-0.5 rounded ${language === 'es' ? 'bg-white text-slate-900 font-semibold shadow-sm' : 'text-slate-500'
-                  }`}
+                className={`px-2 py-0.5 rounded ${
+                  language === 'es' ? 'bg-white text-slate-900 font-semibold shadow-sm' : 'text-slate-500'
+                }`}
               >
                 ES
               </button>
               <button
                 onClick={() => setLanguage('en')}
-                className={`px-2 py-0.5 rounded ${language === 'en' ? 'bg-white text-slate-900 font-semibold shadow-sm' : 'text-slate-500'
-                  }`}
+                className={`px-2 py-0.5 rounded ${
+                  language === 'en' ? 'bg-white text-slate-900 font-semibold shadow-sm' : 'text-slate-500'
+                }`}
               >
                 EN
               </button>
@@ -239,10 +289,11 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, onNavigate }) => {
             <button
               key={item.id}
               onClick={() => handleNav(item.id)}
-              className={`w-full text-left px-3 py-2.5 rounded-md text-sm font-medium ${activePage === item.id
-                ? 'bg-sky-50 text-[#04add6] font-semibold'
-                : 'text-slate-700 hover:bg-slate-50'
-                }`}
+              className={`w-full text-left px-3 py-2.5 rounded-md text-sm font-medium ${
+                activePage === item.id
+                  ? 'bg-sky-50 text-[#04add6] font-semibold'
+                  : 'text-slate-700 hover:bg-slate-50'
+              }`}
             >
               {item.label}
             </button>

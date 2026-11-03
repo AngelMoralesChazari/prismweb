@@ -196,9 +196,9 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   return (
     <div>
       {/* 1. CLEAN HERO BANNER WITH OFFICIAL PRISMv1.svg & SPACE GROTESK */}
-      <section className="bg-prism-hero text-white py-14 sm:py-20 border-b border-slate-800/30">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+      <section className="bg-prism-hero text-white py-12 sm:py-16 border-b border-slate-800/30">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
             {/* Left Column: Official Full Banner Logo (`BannerPrismVSinFOndo1.svg`) */}
             <div className="lg:col-span-5 text-center lg:text-left">
@@ -356,8 +356,8 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
       </section>
 
       {/* 3. PYTHON.ORG-STYLE 4 CLEAN COLUMNS + 2 SUMMARY CARDS */}
-      <section className="py-14 bg-slate-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+      <section className="py-12 bg-slate-50">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-12">
 
           {/* 4 Columns with top #04add6 accent line */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
