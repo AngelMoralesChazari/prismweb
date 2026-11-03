@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { PageView, PrismLogo } from './Navbar';
 import {
@@ -166,6 +166,35 @@ vertauto ((p impl q) iff (not p or q)) {
 export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const { language, t } = useLanguage();
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  const [isFading, setIsFading] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // 👇 1. VELOCIDAD DEL DESVANECIMIENTO EN MILISEGUNDOS (sube el número para hacerlo más lento/suave, ej: 550 o 700) 👇
+  const FADE_DURATION_MS = 650;
+
+  // 👇 2. TIEMPO DE ESPERA ENTRE CADA EJEMPLO (5500 = 5.5 segundos) 👇
+  const SLIDE_INTERVAL_MS = 5000;
+
+  const changeSlide = (nextIdx: number) => {
+    if (nextIdx === activeSlideIndex || isFading) return;
+    setIsFading(true);
+    setTimeout(() => {
+      setActiveSlideIndex(nextIdx);
+      setIsFading(false);
+    }, FADE_DURATION_MS);
+  };
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      setIsFading(true);
+      setTimeout(() => {
+        setActiveSlideIndex((prev) => (prev + 1) % heroSlides.length);
+        setIsFading(false);
+      }, FADE_DURATION_MS);
+    }, SLIDE_INTERVAL_MS);
+    return () => clearInterval(timer);
+  }, [isPaused, activeSlideIndex]);
 
   const currentSlide = heroSlides[activeSlideIndex];
 
@@ -231,7 +260,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               </p>
 
               {/* Main CTA Button */}
-              <div className="flex flex-col items-center lg:items-start gap-2.5">
+              <div className="flex flex-col items-center lg:items-start gap-3.5">
                 <button
                   onClick={() => onNavigate('downloads')}
                   className="w-68 py-3 px-6 rounded bg-[#04add6] hover:bg-[#0396ba] text-white font-semibold text-sm shadow-lg transition-all text-center"
@@ -259,6 +288,8 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             <div
               style={{ width: '770px', maxWidth: '100%' }}
               className="flex-shrink-0"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
             >
               <div className="rounded-lg overflow-hidden shadow-2xl border border-slate-900/60 bg-[#21252b]">
                 {/* macOS Window Titlebar */}
@@ -277,17 +308,30 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
                 {/* 👇 AQUÍ AJUSTAS LA PROPORCIÓN CÓDIGO vs PANEL AZUL (1.85fr_1fr) Y ALTURA (390px) 👇 */}
                 <div className="grid grid-cols-1 md:grid-cols-[1.85fr_1fr] md:h-[390px]">
-                  {/* Code & Output Pane (Wider, larger font, no scroll needed) */}
-                  <div className="px-4 py-3 font-mono bg-[#1d222a] text-slate-100 border-b md:border-b-0 md:border-r border-slate-700/60 h-full flex flex-col justify-between overflow-hidden">
+                  {/* Code & Output Pane (Desvanecimiento limpio Fade-Out → Fade-In sin cortes ni rebote) */}
+                  <div className="px-4 py-3 font-mono bg-[#1d222a] text-slate-100 border-b md:border-b-0 md:border-r border-slate-700/60 h-[360px] md:h-full flex flex-col justify-between overflow-hidden">
                     {/* 👇 AQUÍ AJUSTAS EL TAMAÑO DE LETRA DEL CÓDIGO (fontSize) 👇 */}
-                    <div style={{ fontSize: '15px', lineHeight: '1.35' }}>
+                    <div
+                      style={{
+                        fontSize: '15px',
+                        lineHeight: '1.35',
+                        transitionDuration: `${FADE_DURATION_MS}ms`,
+                      }}
+                      className={`transition-opacity ease-in-out ${isFading ? 'opacity-0' : 'opacity-100'
+                        }`}
+                    >
                       {renderHighlightedCode(currentSlide.code)}
                     </div>
 
                     {/* 👇 AQUÍ AJUSTAS EL TAMAÑO DE LETRA DE LA SALIDA VERDE (fontSize) 👇 */}
                     <div
-                      style={{ fontSize: '14px', lineHeight: '1.35' }}
-                      className="mt-1.5 pt-2 border-t border-slate-700/70 text-emerald-300 whitespace-pre-line"
+                      style={{
+                        fontSize: '14px',
+                        lineHeight: '1.35',
+                        transitionDuration: `${FADE_DURATION_MS}ms`,
+                      }}
+                      className={`mt-1.5 pt-2 border-t border-slate-700/70 text-emerald-300 whitespace-pre-line transition-opacity ease-in-out ${isFading ? 'opacity-0' : 'opacity-100'
+                        }`}
                     >
                       {currentSlide.output}
                     </div>
@@ -295,7 +339,11 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
                   {/* Right Info Pane with Python-style numbered buttons [1][2][3][4][5] */}
                   <div className="p-4 bg-[#162d47] h-full flex flex-col justify-between">
-                    <div>
+                    <div
+                      style={{ transitionDuration: `${FADE_DURATION_MS}ms` }}
+                      className={`transition-opacity ease-in-out ${isFading ? 'opacity-0' : 'opacity-100'
+                        }`}
+                    >
                       {/* 👇 AQUÍ AJUSTAS EL TAMAÑO DEL TÍTULO Y DESCRIPCIÓN DE LA DERECHA 👇 */}
                       <h3
                         style={{ fontSize: '17px' }}
@@ -325,8 +373,8 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                       {heroSlides.map((slide, idx) => (
                         <button
                           key={slide.id}
-                          onClick={() => setActiveSlideIndex(idx)}
-                          className={`w-7 h-7 rounded text-xs font-semibold transition-all ${activeSlideIndex === idx
+                          onClick={() => changeSlide(idx)}
+                          className={`w-7 h-7 rounded text-xs font-semibold transition-colors duration-300 ${activeSlideIndex === idx
                             ? 'bg-[#04add6] text-white shadow'
                             : 'bg-slate-800/70 text-slate-300 hover:bg-slate-700 hover:text-white border border-white/10'
                             }`}
@@ -507,7 +555,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 </p>
 
                 <pre className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 font-mono text-xs text-slate-700 mb-4 overflow-x-auto">
-{`$ prc check argumento.pr
+                  {`$ prc check argumento.pr
 ✓ Sintaxis y átomos verificados (Two-Pass)
 
 $ prc run argumento.pr

@@ -49,3 +49,18 @@
   background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px;
   pointer-events: none;
 }
+
+@keyframes prismSlideFade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-prism-slide {
+  animation: prismSlideFade 0.35s ease-out forwards;
+}
