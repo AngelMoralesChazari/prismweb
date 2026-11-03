@@ -36,13 +36,11 @@ export const Downloads: React.FC<DownloadsProps> = ({ onNavigate }) => {
               : 'Open-source declarative programming language for propositional logic and natural language.'}
           </p>
           <p className="text-sm text-slate-800">
-            <strong className="font-bold">Prism</strong> v1.0.0{' '}
-            <span className="text-slate-400 mx-1.5">•</span>
-            <span className="text-slate-600">VS Code Extension v0.3.2</span>
+            <strong className="font-bold">Prism</strong> v1.0.0
           </p>
         </div>
 
-        {/* 3 Columns: Windows | VS Code Extension (.vsix) | Linux (.tar.gz) */}
+        {/* 3 Columns: Windows | Mac (.tar.gz) | Linux (.tar.gz) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start text-center mb-16">
           
           {/* COLUMN 1: WINDOWS */}
@@ -53,6 +51,7 @@ export const Downloads: React.FC<DownloadsProps> = ({ onNavigate }) => {
                 viewBox="0 0 88 88"
                 className="w-24 h-24 text-[#1572b6]"
                 fill="currentColor"
+                aria-label="Windows"
               >
                 <path d="M0 12.402l35.687-4.86.016 34.423-35.67.203L0 12.402zm35.67 33.529l.028 34.453L.028 75.48.026 45.7l35.644.231zm4.326-39.025L87.314 0v41.527l-47.318.376V6.906zm47.329 39.349l-.011 41.34-47.318-6.678-.066-34.739 47.395.077z" />
               </svg>
@@ -69,84 +68,66 @@ export const Downloads: React.FC<DownloadsProps> = ({ onNavigate }) => {
                 <Download className="w-4 h-4 opacity-80 group-hover:translate-y-0.5 transition-transform" />
               </span>
               <span className="text-xs text-sky-100 mt-1 font-normal">
-                Windows 10, 11 (prism-v1.0.0-windows.zip)
+                Windows 10, 11
               </span>
             </a>
 
             {/* Footnotes */}
             <div className="mt-4 space-y-2 text-xs text-slate-500 max-w-xs">
-              <p>*Solo para 64x bits (288 KB)</p>
+              <p>*Solo para 64x bits</p>
               <p>
-                *Incluye el intérprete y compilador <code className="text-slate-700 font-mono">prc</code> junto con el módulo base <code className="text-slate-700 font-mono">core.lgs</code>.
+                *Paquete <code className="text-slate-700 font-mono">prism-v1.0.0-windows.zip</code> con el ejecutable <code className="text-slate-700 font-mono">prc</code> y módulo base <code className="text-slate-700 font-mono">core.pr</code>.
               </p>
             </div>
           </div>
 
-          {/* COLUMN 2: EXTENSIÓN OFICIAL VS CODE / CURSOR (.vsix) */}
+          {/* COLUMN 2: MAC (Apple Logo + prism-v1.0.0.tar.gz) */}
           <div className="flex flex-col items-center">
-            {/* VS Code / Editor Emblem */}
+            {/* Classic Black Apple Logo */}
             <div className="h-28 flex items-center justify-center mb-6">
               <svg
-                viewBox="0 0 100 100"
-                className="w-24 h-24 text-[#007acc]"
+                viewBox="0 0 384 512"
+                className="w-24 h-24 text-black"
                 fill="currentColor"
+                aria-label="Mac"
               >
-                <path d="M74.5 7.3L35.2 43.2 14.2 26.8 5.5 31.2v37.6l8.7 4.4 21-16.4 39.3 35.9 19.9-9.7V17L74.5 7.3zM14.2 58.6V41.4l11.5 8.6-11.5 8.6zm60.3 15.8L46.8 50l27.7-24.4v48.8z" />
+                <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
               </svg>
             </div>
 
             {/* Big Blue Download Button */}
             <a
-              href="/downloads/prism-0.3.2.vsix"
-              download="prism-0.3.2.vsix"
+              href="/downloads/prism-v1.0.0.tar.gz"
+              download="prism-v1.0.0.tar.gz"
               className="w-full py-5 px-6 rounded bg-[#0e6eb8] hover:bg-[#0b5a97] text-white shadow-md hover:shadow-lg transition-all flex flex-col items-center justify-center group"
             >
               <span className="text-base font-bold tracking-wide flex items-center gap-2">
-                <span>VS Code / Cursor (.vsix)</span>
+                <span>Mac</span>
                 <Download className="w-4 h-4 opacity-80 group-hover:translate-y-0.5 transition-transform" />
               </span>
               <span className="text-xs text-sky-100 mt-1 font-normal">
-                Extensión Oficial v0.3.2 (prism-0.3.2.vsix)
+                macOS 11+ (.tar.gz)
               </span>
             </a>
 
             {/* Footnotes */}
             <div className="mt-4 space-y-2 text-xs text-slate-500 max-w-xs">
-              <p>*Multiplataforma: Windows, Linux y macOS (152 KB)</p>
-              <p>
-                *Incluye resaltado de sintaxis <code className="text-slate-700 font-mono">.pr</code> y autocompletado de snippets (<code className="text-slate-700 font-mono">prnl</code>, <code className="text-slate-700 font-mono">prform</code>, <code className="text-slate-700 font-mono">prinl</code>, <code className="text-slate-700 font-mono">prnlit</code>).
-              </p>
+              <p>*Compatible con Apple Silicon e Intel (<code className="text-slate-700 font-mono">prism-v1.0.0.tar.gz</code>)</p>
             </div>
           </div>
 
-          {/* COLUMN 3: LINUX */}
+          {/* COLUMN 3: LINUX (Tux + prism-v1.0.0-linux.tar.gz) */}
           <div className="flex flex-col items-center">
-            {/* Tux Linux Icon */}
+            {/* Official Tux Linux Icon from public/linux.webp */}
             <div className="h-28 flex items-center justify-center mb-6">
-              <svg viewBox="0 0 64 64" className="w-24 h-24">
-                {/* Body */}
-                <ellipse cx="32" cy="37" rx="17" ry="21" fill="#1e293b" />
-                {/* Head */}
-                <circle cx="32" cy="18" r="12" fill="#1e293b" />
-                {/* Belly */}
-                <ellipse cx="32" cy="39" rx="11" ry="15" fill="#f8fafc" />
-                {/* Eyes */}
-                <ellipse cx="28.5" cy="16" rx="2.5" ry="3.2" fill="#ffffff" />
-                <ellipse cx="35.5" cy="16" rx="2.5" ry="3.2" fill="#ffffff" />
-                <circle cx="29" cy="16.5" r="1.2" fill="#0f172a" />
-                <circle cx="35" cy="16.5" r="1.2" fill="#0f172a" />
-                {/* Beak */}
-                <path
-                  d="M26 20.5 C26 18.5, 38 18.5, 38 20.5 L32 24.5 Z"
-                  fill="#f59e0b"
-                />
-                {/* Feet */}
-                <ellipse cx="22" cy="56" rx="6.5" ry="3.5" fill="#f59e0b" />
-                <ellipse cx="42" cy="56" rx="6.5" ry="3.5" fill="#f59e0b" />
-              </svg>
+              <img
+                src="/linux.webp"
+                alt="Linux Tux"
+                className="h-24 w-auto object-contain"
+              />
             </div>
 
-            {/* Split or Main Linux Download Buttons (Like Reference Image) */}
+            {/* Split Linux Download Buttons (Like Reference Image) */}
             <div className="w-full grid grid-cols-2 gap-2">
               <a
                 href="/downloads/prism-v1.0.0-linux.tar.gz"
@@ -172,7 +153,7 @@ export const Downloads: React.FC<DownloadsProps> = ({ onNavigate }) => {
                   <Download className="w-3.5 h-3.5 opacity-80" />
                 </span>
                 <span className="text-[11px] text-sky-100 mt-1">
-                  Fedora, Arch
+                  Fedora, CentOS
                 </span>
               </a>
             </div>
@@ -180,7 +161,7 @@ export const Downloads: React.FC<DownloadsProps> = ({ onNavigate }) => {
             {/* Consola Sub-buttons (Matching reference image layout) */}
             <div className="w-full mt-4">
               <div className="text-xs font-bold text-slate-800 mb-2">
-                {language === 'es' ? 'Consola / Distribuciones' : 'Console / Distros'}
+                {language === 'es' ? 'Consola' : 'Console'}
               </div>
               <div className="grid grid-cols-3 gap-1.5 mb-2">
                 <a
@@ -202,7 +183,7 @@ export const Downloads: React.FC<DownloadsProps> = ({ onNavigate }) => {
                   download="prism-v1.0.0-linux.tar.gz"
                   className="py-2.5 px-2 rounded bg-[#0e6eb8] hover:bg-[#0b5a97] text-white text-[11px] font-medium transition-colors"
                 >
-                  RHEL, CentOS
+                  Rhel, CentOS
                 </a>
               </div>
               <a
@@ -210,7 +191,7 @@ export const Downloads: React.FC<DownloadsProps> = ({ onNavigate }) => {
                 download="prism-v1.0.0-linux.tar.gz"
                 className="block w-full py-2.5 px-3 rounded bg-[#0e6eb8] hover:bg-[#0b5a97] text-white text-[11px] font-medium transition-colors"
               >
-                ArchLinux, Manjaro (prism-v1.0.0-linux.tar.gz)
+                ArchLinux, Manjaro
               </a>
             </div>
           </div>
@@ -235,7 +216,7 @@ export const Downloads: React.FC<DownloadsProps> = ({ onNavigate }) => {
                 <span>1. Compilador / Intérprete Prism (v1.0.0)</span>
               </div>
               <p className="leading-relaxed">
-                Descomprime el paquete de tu sistema operativo (<code className="font-mono text-slate-800">prism-v1.0.0-windows.zip</code> o <code className="font-mono text-slate-800">prism-v1.0.0-linux.tar.gz</code>) y ejecuta tus programas <code className="font-mono text-slate-800">.pr</code> con <code className="font-mono text-slate-800">prc check</code> o <code className="font-mono text-slate-800">prc run</code>:
+                Descomprime el archivo descargado para Windows (<code className="font-mono text-slate-800">prism-v1.0.0-windows.zip</code>), Mac (<code className="font-mono text-slate-800">prism-v1.0.0.tar.gz</code>) o Linux (<code className="font-mono text-slate-800">prism-v1.0.0-linux.tar.gz</code>) y ejecuta tus programas <code className="font-mono text-slate-800">.pr</code> con <code className="font-mono text-slate-800">prc</code>:
               </p>
               <pre className="p-3 rounded bg-[#1e2430] text-slate-100 font-mono text-[11px] overflow-x-auto">
 {`# Validar sintaxis y coherencia semántica
@@ -249,22 +230,18 @@ prc run mi_ejercicio.pr`}
             <div className="space-y-2">
               <div className="font-bold text-slate-800 flex items-center gap-1.5">
                 <FileCode className="w-3.5 h-3.5 text-[#04add6]" />
-                <span>2. Instalar Extensión en VS Code / Cursor (prism-0.3.2.vsix)</span>
+                <span>2. Extensión Oficial en Visual Studio Code</span>
               </div>
               <p className="leading-relaxed">
-                Abre VS Code o Cursor, presiona <kbd className="px-1.5 py-0.5 rounded bg-white border border-slate-300 font-mono text-[10px]">Ctrl+Shift+P</kbd>, elige <strong>Extensions: Install from VSIX...</strong> y selecciona el archivo descargado <code className="font-mono text-slate-800">prism-0.3.2.vsix</code>:
+                La extensión oficial de <strong>Prism</strong> ya está publicada en el Marketplace de Visual Studio Code. Búscala directamente en la pestaña de extensiones (<kbd className="px-1.5 py-0.5 rounded bg-white border border-slate-300 font-mono text-[10px]">Ctrl+Shift+X</kbd>) para activar el resaltado sintáctico <code className="font-mono text-slate-800">.pr</code> y los snippets (<code className="font-mono text-slate-800">prnl</code>, <code className="font-mono text-slate-800">prnlit</code>, <code className="font-mono text-slate-800">prform</code>, <code className="font-mono text-slate-800">prinl</code>).
               </p>
-              <pre className="p-3 rounded bg-[#1e2430] text-slate-100 font-mono text-[11px] overflow-x-auto">
-{`# O instálalo directamente desde terminal:
-code --install-extension prism-0.3.2.vsix`}
-              </pre>
               {onNavigate && (
                 <button
-                  onClick={() => onNavigate('docs', 'vscode-extension')}
+                  onClick={() => onNavigate('docs', 'snippets-catalogo')}
                   className="inline-flex items-center gap-1 text-xs font-semibold text-[#0e6eb8] hover:underline pt-1"
                 >
                   <BookOpen className="w-3.5 h-3.5" />
-                  <span>Ver guía completa de la extensión y snippets en la Documentación →</span>
+                  <span>Ver catálogo de snippets y documentación oficial →</span>
                 </button>
               )}
             </div>
@@ -274,4 +251,3 @@ code --install-extension prism-0.3.2.vsix`}
     </div>
   );
 };
-

@@ -22,8 +22,8 @@ const heroSlides = [
     id: 1,
     filename: 'mi_archivo.pr',
     title: {
-      es: '1. prnl — Ejercicio NL Canónico (Método en Papel)',
-      en: '1. prnl — Canonical NL Exercise (Paper Method)',
+      es: '1. prnl — Ejercicio NL Canónico',
+      en: '1. prnl — Canonical NL Exercise',
     },
     desc: {
       es: 'Separa la entrada en nl premisa y sigue el flujo en papel paso a paso: Enunciado → Descomposición atómica → Traducción formal → Tabla de verdad.',
@@ -243,7 +243,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 >
                   <div>{language === 'es' ? 'Descargar Prism v1.0.0' : 'Download Prism v1.0.0'}</div>
                   <div className="text-xs font-normal text-sky-100 mt-0.5">
-                    {language === 'es' ? 'Windows, Linux y Extensión VS Code' : 'Windows, Linux & VS Code Extension'}
+                    {language === 'es' ? 'Windows, macOS y Linux' : 'Windows, macOS & Linux'}
                   </div>
                 </button>
 
