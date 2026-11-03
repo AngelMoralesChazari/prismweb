@@ -46,19 +46,15 @@ vertauto equivalencia {
     verdict
 }`,
     output: `>>> Fórmula emitida: (p → q)
-p | q | resultado
-F | F | V
-F | V | V
-V | F | F
-V | V | V
+>>> Tabla: F|F→V, F|V→V, V|F→F, V|V→V
 >>> Dictamen: contingency`,
   },
   {
     id: 2,
     filename: 'literal.pr',
     title: {
-      es: '2. prnlit — Lenguaje Natural con Translate Literal',
-      en: '2. prnlit — Natural Language with Literal Translate',
+      es: '2. prnlit — Translate Literal',
+      en: '2. prnlit — Literal Translate',
     },
     desc: {
       es: 'No crea una variable nl: pasa el texto en español directamente entre comillas dentro de translate("...") para frases cortas.',
@@ -79,7 +75,6 @@ vertauto implicacion {
     verdict
 }`,
     output: `>>> Entrada literal: "si estudio apruebo"
->>> Enlace: p="antecedente", q="consecuente"
 >>> Fórmula emitida: (p → q)
 >>> Dictamen: contingency`,
   },
@@ -116,7 +111,7 @@ vertauto f {
     id: 4,
     filename: 'inline.pr',
     title: {
-      es: '4. prinl — Expresión Directa / Inline (al vuelo)',
+      es: '4. prinl — Expresión Directa / Inline',
       en: '4. prinl — Direct / Inline Expression',
     },
     desc: {
@@ -136,19 +131,15 @@ vertauto (p impl q) {
     verdict
 }`,
     output: `>>> Evaluación al vuelo: (p → q)
-p | q | resultado
-F | F | V
-F | V | V
-V | F | F
-V | V | V
+>>> Tabla: F|F→V, F|V→V, V|F→F, V|V→V
 >>> Dictamen: contingency`,
   },
   {
     id: 5,
     filename: 'de_morgan.pr',
     title: {
-      es: '5. Equivalencias y Tautologías (Álgebra de Boole)',
-      en: '5. Equivalences & Tautologies (Boolean Algebra)',
+      es: '5. Equivalencias y Tautologías',
+      en: '5. Equivalences & Tautologies',
     },
     desc: {
       es: 'Ideal para probar leyes de De Morgan, tautologías como (p → q) ↔ (¬p ∨ q) o reglas de inferencia directamente en código.',
@@ -180,9 +171,13 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
   const renderHighlightedCode = (code: string) => {
     return code.split('\n').map((line, i) => {
+      // 👇 AQUÍ SE CONTROLA EL ESPACIO DE CADA SALTO DE LÍNEA EN BLANCO (height: '8px') 👇
+      if (line.trim() === '') {
+        return <div key={i} style={{ height: '12px' }} />;
+      }
       if (line.trim().startsWith('#') || line.trim().startsWith('//')) {
         return (
-          <div key={i} className="text-slate-400 italic">
+          <div key={i} className="text-slate-400 italic whitespace-pre">
             {line}
           </div>
         );
@@ -210,36 +205,36 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   return (
     <div>
       {/* 1. CLEAN HERO BANNER WITH OFFICIAL PRISMv1.svg & SPACE GROTESK */}
-      <section className="bg-prism-hero text-white py-14 sm:py-18 border-b border-slate-800/30">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+      <section className="bg-prism-hero text-white py-9 sm:py-11 border-b border-slate-800/30 overflow-x-hidden">
+        <div className="max-w-[1180px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center lg:items-center gap-8 lg:gap-10">
 
-            {/* Left Column: Official Full Banner Logo (`BannerPrismVSinFOndo1.svg`) */}
-            <div className="lg:col-span-5 text-center lg:text-left">
-              <div className="flex flex-col items-center lg:items-start mb-5">
+            {/* Left Column: Anchored on the left so it never shifts */}
+            <div className="w-full lg:w-[420px] flex-shrink-0 text-center lg:text-left">
+              <div className="flex flex-col items-center lg:items-start mb-4">
                 {/* 👇 AQUÍ AJUSTAS EL TAMAÑO DEL LOGO DEL HERO (en px) 👇 */}
                 <PrismLogo
-                  style={{ height: '96px', width: 'auto' }}
-                  className="mb-2.5"
+                  style={{ height: '92px', width: 'auto' }}
+                  className="mb-2"
                   variant="onDark"
                 />
               </div>
 
-              <h2 className="text-2xl sm:text-[26px] font-normal text-sky-50 leading-snug mb-4">
+              <h2 className="text-xl sm:text-[24px] font-normal text-sky-50 leading-snug mb-3.5">
                 {language === 'es'
                   ? 'Lenguaje declarativo de lógica proposicional para todos.'
                   : 'Declarative propositional logic language for everyone.'}
               </h2>
 
-              <p className="text-sm text-sky-100/85 mb-8 max-w-md mx-auto lg:mx-0 leading-relaxed">
+              <p className="text-xs sm:text-sm text-sky-100/85 mb-6 max-w-md mx-auto lg:mx-0 leading-relaxed">
                 {t.hero.liveBadge}
               </p>
 
               {/* Main CTA Button */}
-              <div className="flex flex-col items-center lg:items-start gap-3">
+              <div className="flex flex-col items-center lg:items-start gap-2.5">
                 <button
                   onClick={() => onNavigate('downloads')}
-                  className="w-72 py-3.5 px-6 rounded bg-[#04add6] hover:bg-[#0396ba] text-white font-semibold text-sm shadow-lg transition-all text-center"
+                  className="w-68 py-3 px-6 rounded bg-[#04add6] hover:bg-[#0396ba] text-white font-semibold text-sm shadow-lg transition-all text-center"
                 >
                   <div>{language === 'es' ? 'Descargar Prism v1.0.0' : 'Download Prism v1.0.0'}</div>
                   <div className="text-xs font-normal text-sky-100 mt-0.5">
@@ -249,7 +244,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
                 <button
                   onClick={() => onNavigate('docs')}
-                  className="w-72 py-2.5 px-4 rounded bg-slate-900/85 hover:bg-slate-900 text-xs text-slate-200 border border-white/10 transition-colors text-center"
+                  className="w-68 py-2 px-4 rounded bg-slate-900/85 hover:bg-slate-900 text-xs text-slate-200 border border-white/10 transition-colors text-center"
                 >
                   <span className="text-[#04add6] font-medium">
                     {language === 'es' ? 'Documentación Oficial v1.0' : 'Official v1.0 Documentation'}
@@ -259,45 +254,64 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               </div>
             </div>
 
-            {/* Right Column: Clean macOS Terminal Window + Python-style [1..5] Slides */}
-            <div className="lg:col-span-7">
+            {/* 👇 AQUÍ AJUSTAS QUÉ TAN LARGA ES LA VENTANA HACIA LA DERECHA (width: '770px') 👇 */}
+            {/* Su borde izquierdo queda fijo y solo crece hacia la derecha al subir los px */}
+            <div
+              style={{ width: '770px', maxWidth: '100%' }}
+              className="flex-shrink-0"
+            >
               <div className="rounded-lg overflow-hidden shadow-2xl border border-slate-900/60 bg-[#21252b]">
                 {/* macOS Window Titlebar */}
-                <div className="bg-[#e2e8f0] text-slate-700 px-4 py-2.5 flex items-center justify-between text-xs font-medium border-b border-slate-300">
+                <div className="bg-[#e2e8f0] text-slate-700 px-3.5 py-2 flex items-center justify-between text-xs font-medium border-b border-slate-300">
                   <div className="flex items-center space-x-1.5">
-                    <span className="w-3 h-3 rounded-full bg-[#ff5f56] inline-block" />
-                    <span className="w-3 h-3 rounded-full bg-[#ffbd2e] inline-block" />
-                    <span className="w-3 h-3 rounded-full bg-[#27c93f] inline-block" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56] inline-block" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e] inline-block" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f] inline-block" />
                   </div>
-                  <div className="flex items-center gap-1.5 font-mono text-xs text-slate-700">
+                  <div className="flex items-center gap-1.5 font-mono text-[11.5px] text-slate-700">
                     <Terminal className="w-3.5 h-3.5 text-slate-600" />
                     <span>PRISM — {currentSlide.filename}</span>
                   </div>
-                  <div className="w-10" />
+                  <div className="w-8" />
                 </div>
 
-                {/* Terminal + Explanation Split (Python.org inspired) */}
-                <div className="grid grid-cols-1 md:grid-cols-12">
-                  {/* Code & Output Pane */}
-                  <div className="md:col-span-7 p-5 font-mono text-[13px] leading-relaxed bg-[#1d222a] text-slate-100 border-b md:border-b-0 md:border-r border-slate-700/60 min-h-[300px] flex flex-col justify-between">
-                    <div>{renderHighlightedCode(currentSlide.code)}</div>
-                    <div className="mt-3.5 pt-3 border-t border-slate-700/70 text-xs text-emerald-300 whitespace-pre-line">
+                {/* 👇 AQUÍ AJUSTAS LA PROPORCIÓN CÓDIGO vs PANEL AZUL (1.85fr_1fr) Y ALTURA (390px) 👇 */}
+                <div className="grid grid-cols-1 md:grid-cols-[1.85fr_1fr] md:h-[390px]">
+                  {/* Code & Output Pane (Wider, larger font, no scroll needed) */}
+                  <div className="px-4 py-3 font-mono bg-[#1d222a] text-slate-100 border-b md:border-b-0 md:border-r border-slate-700/60 h-full flex flex-col justify-between overflow-hidden">
+                    {/* 👇 AQUÍ AJUSTAS EL TAMAÑO DE LETRA DEL CÓDIGO (fontSize) 👇 */}
+                    <div style={{ fontSize: '15px', lineHeight: '1.35' }}>
+                      {renderHighlightedCode(currentSlide.code)}
+                    </div>
+
+                    {/* 👇 AQUÍ AJUSTAS EL TAMAÑO DE LETRA DE LA SALIDA VERDE (fontSize) 👇 */}
+                    <div
+                      style={{ fontSize: '14px', lineHeight: '1.35' }}
+                      className="mt-1.5 pt-2 border-t border-slate-700/70 text-emerald-300 whitespace-pre-line"
+                    >
                       {currentSlide.output}
                     </div>
                   </div>
 
                   {/* Right Info Pane with Python-style numbered buttons [1][2][3][4][5] */}
-                  <div className="md:col-span-5 p-5 bg-[#162d47] flex flex-col justify-between">
+                  <div className="p-4 bg-[#162d47] h-full flex flex-col justify-between">
                     <div>
-                      <h3 className="text-amber-300 font-bold text-base mb-2.5">
+                      {/* 👇 AQUÍ AJUSTAS EL TAMAÑO DEL TÍTULO Y DESCRIPCIÓN DE LA DERECHA 👇 */}
+                      <h3
+                        style={{ fontSize: '17px' }}
+                        className="text-amber-300 font-bold leading-snug mb-2"
+                      >
                         {currentSlide.title[language]}
                       </h3>
-                      <p className="text-sm text-slate-200 leading-relaxed">
+                      <p
+                        style={{ fontSize: '15px' }}
+                        className="text-slate-200 leading-relaxed"
+                      >
                         {currentSlide.desc[language]}
                       </p>
                       <button
                         onClick={() => onNavigate('demo')}
-                        className="mt-4 inline-flex items-center gap-1 text-xs text-[#04add6] hover:text-amber-300 underline underline-offset-4 transition-colors"
+                        className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-[#04add6] hover:text-amber-300 underline underline-offset-4 transition-colors"
                       >
                         <span>
                           {language === 'es' ? 'Probar este código en vivo' : 'Try this code live'}
@@ -307,7 +321,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                     </div>
 
                     {/* Numbered slide buttons */}
-                    <div className="pt-5 flex items-center justify-center md:justify-start gap-1.5">
+                    <div className="pt-3 flex items-center justify-center md:justify-start gap-1.5">
                       {heroSlides.map((slide, idx) => (
                         <button
                           key={slide.id}
