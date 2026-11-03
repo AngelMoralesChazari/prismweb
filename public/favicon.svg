@@ -1,19 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
-  <rect width="48" height="48" rx="12" fill="#0B0F19"/>
-  <rect x="1" y="1" width="46" height="46" rx="11" stroke="#1E293B" stroke-width="2"/>
-  <!-- Logic symbol glyph: p -> q styled with cyan & indigo gradient -->
+  <rect width="48" height="48" rx="10" fill="#0f172a"/>
   <defs>
-    <linearGradient id="lsGrad" x1="8" y1="8" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#00D2FF"/>
-      <stop offset="100%" stop-color="#6366F1"/>
+    <linearGradient id="prismGrad" x1="8" y1="8" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#2563eb"/>
     </linearGradient>
   </defs>
-  <!-- L shaped bracket / arrow -->
-  <path d="M14 13V31C14 33.2091 15.7909 35 18 35H34" stroke="url(#lsGrad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Arrow tip for implication -->
-  <path d="M29 30L34 35L29 40" stroke="url(#lsGrad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Dot / proposition node p -->
-  <circle cx="14" cy="13" r="3" fill="#00D2FF"/>
-  <!-- S symbolic node -->
-  <path d="M23 15C23 13.5 25 12 27.5 12C30 12 32 13.5 32 15C32 17.5 24 18 24 20.5C24 22 26 23 28.5 23C31 23 33 21.8 33 21" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Geometric Prism Triangle -->
+  <path d="M24 9L39 36H9L24 9Z" stroke="url(#prismGrad)" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M24 9L24 36" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.5"/>
+  <circle cx="24" cy="9" r="2.5" fill="#38bdf8"/>
 </svg>

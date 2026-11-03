@@ -12,7 +12,7 @@ export const examplesData: ExampleItem[] = [
       es: 'Si p entonces q (ej. "Si llueve, entonces la calle se moja")',
       en: 'If p then q (e.g., "If it rains, then the street gets wet")',
     },
-    code: `module hola
+    code: `module test
 
 use core
 
@@ -265,8 +265,8 @@ vertauto regla {
     formula: '((p → q) ∧ p) → q',
     classification: 'tautology',
     explanation: {
-      es: 'El Modus Ponens es la regla deductiva fundamental por excelencia. En LogicScript, su estructura condicional se verifica como una tautología perfecta en todas las asignaciones.',
-      en: 'Modus Ponens is the canonical deductive rule. In LogicScript, its conditional structure verifies as a tautology in every state assignment.',
+      es: 'El Modus Ponens es la regla deductiva fundamental por excelencia. En Prism, su estructura condicional se verifica como una tautología perfecta en todas las asignaciones.',
+      en: 'Modus Ponens is the canonical deductive rule. In Prism, its conditional structure verifies as a tautology in every state assignment.',
     },
     truthTable: [
       { assignments: { p: false, q: false }, result: true },

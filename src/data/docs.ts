@@ -82,12 +82,12 @@ export const docsArticles: DocArticle[] = [
   {
     id: 'intro',
     title: {
-      es: 'Introducción a LogicScript',
-      en: 'Introduction to LogicScript',
+      es: 'Introducción a Prism',
+      en: 'Introduction to Prism',
     },
     description: {
-      es: 'Fundamentos, propósitos y arquitectura declarativa de LogicScript.',
-      en: 'Foundations, purpose, and declarative architecture of LogicScript.',
+      es: 'Fundamentos, propósitos y arquitectura declarativa de Prism.',
+      en: 'Foundations, purpose, and declarative architecture of Prism.',
     },
     category: 'getting-started',
     categoryLabel: {
@@ -96,28 +96,28 @@ export const docsArticles: DocArticle[] = [
     },
     content: {
       es: {
-        summary: 'LogicScript es un lenguaje de programación declarativo diseñado para modelar, traducir y evaluar proposiciones lógicas formales a partir de descripciones verbales y simbólicas.',
+        summary: 'Prism es un lenguaje de programación declarativo diseñado para modelar, traducir y evaluar proposiciones lógicas formales a partir de descripciones verbales y simbólicas.',
         sections: [
           {
-            heading: '¿Por qué LogicScript?',
-            text: 'En la educación formal y el modelado computacional, los estudiantes y desarrolladores deben lidiar con una separación artificial: por un lado, las fórmulas matemáticas en papel (¬, ∧, ∨, →) y por otro, código imperativo lleno de estructuras condicionales que dificultan la comprobación exhaustiva de tautologías o contradicciones. LogicScript ofrece una sintaxis limpia, intuitiva y rigurosa donde la lógica proposicional es nativa.',
+            heading: '¿Por qué Prism?',
+            text: 'En la educación formal y el modelado computacional, los estudiantes y desarrolladores suelen lidiar con una separación entre las fórmulas matemáticas en papel (¬, ∧, ∨, →) y el código imperativo lleno de estructuras condicionales. Prism ofrece una sintaxis limpia, intuitiva y rigurosa donde la lógica proposicional es nativa.',
           },
           {
             heading: 'Características Clave',
-            text: '1. Sintaxis declarativa libre de efectos secundarios.\n2. Procesamiento de lenguaje natural mediante la instrucción `translate`.\n3. Generación y renderizado automático de tablas de verdad en espacio de estados $2^n$.\n4. Clasificación formal de expresiones en Tautología, Contingencia o Contradicción.',
+            text: '1. Sintaxis declarativa libre de efectos secundarios.\n2. Procesamiento de lenguaje natural mediante la instrucción `translate`.\n3. Generación y renderizado automático de tablas de verdad en espacio de estados 2^n.\n4. Clasificación formal de expresiones en Tautología, Contingencia o Contradicción.',
           },
         ],
       },
       en: {
-        summary: 'LogicScript is a declarative programming language engineered to model, translate, and verify formal logical propositions from verbal and symbolic descriptions.',
+        summary: 'Prism is a declarative programming language engineered to model, translate, and verify formal logical propositions from verbal and symbolic descriptions.',
         sections: [
           {
-            heading: 'Why LogicScript?',
-            text: 'In formal education and computational modeling, practitioners struggle with an artificial divide: paper formulas (¬, ∧, ∨, →) versus fragile imperative if/else chains. LogicScript provides a clean, rigorous, and readable declarative syntax where propositional logic is a first-class language feature.',
+            heading: 'Why Prism?',
+            text: 'In formal education and computational modeling, practitioners often face a divide between paper formulas (¬, ∧, ∨, →) and imperative if/else chains. Prism provides a clean, rigorous, and readable declarative syntax where propositional logic is a first-class language feature.',
           },
           {
             heading: 'Key Features',
-            text: '1. Declarative syntax with zero side effects.\n2. Built-in Natural Language Processing with `translate`.\n3. Automatic truth table rendering across the full $2^n$ state space.\n4. Formal automated classification into Tautology, Contingency, or Contradiction.',
+            text: '1. Declarative syntax with zero side effects.\n2. Built-in Natural Language Processing with `translate`.\n3. Automatic truth table rendering across the full 2^n state space.\n4. Formal automated classification into Tautology, Contingency, or Contradiction.',
           },
         ],
       },
@@ -126,12 +126,12 @@ export const docsArticles: DocArticle[] = [
   {
     id: 'installation',
     title: {
-      es: 'Instalación y Requisitos',
-      en: 'Installation & Requirements',
+      es: 'Instalación y Entorno',
+      en: 'Installation & Setup',
     },
     description: {
-      es: 'Cómo configurar el entorno de ejecución de LogicScript y soporte para editores.',
-      en: 'Setting up the LogicScript runtime environment and editor tooling.',
+      es: 'Cómo configurar el entorno de ejecución de Prism y soporte para editores.',
+      en: 'Setting up the Prism runtime environment and editor tooling.',
     },
     category: 'getting-started',
     categoryLabel: {
@@ -140,40 +140,40 @@ export const docsArticles: DocArticle[] = [
     },
     content: {
       es: {
-        summary: 'Aprende a instalar el compilador/intérprete de LogicScript en tu sistema y configurar el resaltado de sintaxis.',
+        summary: 'Aprende a ejecutar el compilador/intérprete de Prism en tu sistema y configurar tu editor de texto.',
         sections: [
           {
             heading: 'Requisitos Previos',
-            text: 'El intérprete de LogicScript está desarrollado para operar en entornos multiplataforma (Linux, macOS, Windows). Requiere un entorno de terminal estándar y acceso a archivos con extensión `.ls`.',
+            text: 'El intérprete de Prism está diseñado para operar en entornos multiplataforma (Linux, macOS, Windows). Utiliza archivos fuente con extensión `.prism` (o `.ls`).',
           },
           {
             heading: 'Uso mediante CLI',
-            text: 'Puedes ejecutar archivos LogicScript directamente desde la línea de comandos pasando la ruta al archivo:',
-            code: `# Ejecutar un script de LogicScript
-logicscript run hola.ls
+            text: 'Puedes ejecutar programas de Prism directamente desde la línea de comandos:',
+            code: `# Ejecutar un script de Prism
+prism run test.pr
 
 # Inspección estricta de sintaxis sin evaluar tablas
-logicscript check hola.ls`,
-            tip: 'Para usuarios de VS Code, la extensión oficial de LogicScript proporciona resaltado léxico automático y vista previa de tablas.',
+prism check test.pr`,
+            tip: 'En VS Code y editores modernos puedes asociar la extensión .prism para contar con resaltado léxico claro.',
           },
         ],
       },
       en: {
-        summary: 'Learn how to install the LogicScript compiler/interpreter and configure editor tooling.',
+        summary: 'Learn how to run the Prism compiler/interpreter and configure your text editor.',
         sections: [
           {
             heading: 'Prerequisites',
-            text: 'The LogicScript interpreter runs cross-platform (Linux, macOS, Windows). It requires a standard shell environment and access to `.ls` files.',
+            text: 'The Prism interpreter runs cross-platform (Linux, macOS, Windows) using `.prism` (or `.ls`) source files.',
           },
           {
             heading: 'CLI Execution',
-            text: 'Execute LogicScript files directly from your terminal by pointing to the script path:',
-            code: `# Run a LogicScript program
-logicscript run hello.ls
+            text: 'Execute Prism files directly from your terminal:',
+            code: `# Run a Prism program
+prism run hello.prism
 
 # Strict syntax checking without evaluation
-logicscript check hello.ls`,
-            tip: 'For VS Code users, the official LogicScript extension provides automatic syntax highlighting and truth table previews.',
+prism check hello.prism`,
+            tip: 'Configure your editor to associate .prism files for clean syntax highlighting.',
           },
         ],
       },
@@ -182,12 +182,12 @@ logicscript check hello.ls`,
   {
     id: 'first-program',
     title: {
-      es: 'Tu Primer Programa',
-      en: 'Your First Program',
+      es: 'Mi Primer Programa',
+      en: 'My First Program',
     },
     description: {
-      es: 'Escribe, analiza y ejecuta tu primer archivo .ls en pocos minutos.',
-      en: 'Write, analyze, and execute your first .ls file in minutes.',
+      es: 'Escribe, analiza y ejecuta tu primer programa en Prism paso a paso.',
+      en: 'Write, analyze, and execute your first Prism program step by step.',
     },
     category: 'getting-started',
     categoryLabel: {
@@ -196,12 +196,12 @@ logicscript check hello.ls`,
     },
     content: {
       es: {
-        summary: 'Un recorrido guiado por el programa canónico de bienvenida en LogicScript.',
+        summary: 'Un recorrido guiado por el programa canónico de bienvenida en Prism.',
         sections: [
           {
-            heading: 'El código de hola.ls',
-            text: 'Crea un archivo llamado `hola.ls` y añade el siguiente contenido:',
-            code: `module hola
+            heading: 'El código de test.pr',
+            text: 'Crea un archivo llamado `test.pr` y añade el siguiente contenido:',
+            code: `module test
 
 use core
 
@@ -224,12 +224,12 @@ vertauto implicacion {
         ],
       },
       en: {
-        summary: 'A guided walkthrough of the canonical greeting program in LogicScript.',
+        summary: 'A guided walkthrough of the canonical greeting program in Prism.',
         sections: [
           {
-            heading: 'Code in hello.ls',
-            text: 'Create a file named `hello.ls` with the following content:',
-            code: `module hola
+            heading: 'Code in hello.prism',
+            text: 'Create a file named `hello.prism` with the following content:',
+            code: `module test
 
 use core
 
@@ -256,25 +256,25 @@ vertauto implicacion {
   {
     id: 'file-structure',
     title: {
-      es: 'Estructura de un Archivo .ls',
-      en: 'Structure of a .ls File',
+      es: 'Estructura de un Programa',
+      en: 'Program Structure',
     },
     description: {
-      es: 'Organización canónica, secciones y convenciones de nombres.',
-      en: 'Canonical organization, sections, and naming conventions.',
+      es: 'Organización canónica, secciones y convenciones de código en Prism.',
+      en: 'Canonical organization, sections, and naming conventions in Prism.',
     },
     category: 'language-basics',
     categoryLabel: {
-      es: 'Conceptos del Lenguaje',
-      en: 'Language Concepts',
+      es: 'Sintaxis y Conceptos',
+      en: 'Syntax & Concepts',
     },
     content: {
       es: {
-        summary: 'Los archivos de código fuente de LogicScript llevan la extensión `.ls` y siguen una secuencia de declaraciones clara y predecible.',
+        summary: 'Los archivos de código fuente de Prism siguen una secuencia de declaraciones clara, minimalista y predecible.',
         sections: [
           {
             heading: 'Partes Fundamentales',
-            text: 'Un archivo `.ls` bien formado se divide típicamente en cuatro zonas:\n1. **Encabezado de Módulo:** Define el identificador del archivo.\n2. **Importaciones:** Declaraciones `use` de librerías del sistema.\n3. **Declaraciones Atómicas y Fórmulas:** Definición de proposiciones y variables.\n4. **Directivas de Evaluación:** Bloques `vertauto` para calcular resultados.',
+            text: 'Un programa bien formado se divide en cuatro zonas:\n1. **Encabezado de Módulo:** Define el identificador del archivo con `module`.\n2. **Importaciones:** Declaraciones `use` de librerías del sistema.\n3. **Declaraciones Atómicas y Fórmulas:** Definición de proposiciones y variables.\n4. **Directivas de Evaluación:** Bloques `vertauto` para calcular resultados.',
             code: `// 1. Declaración de Módulo
 module razonamiento_uno
 
@@ -296,11 +296,11 @@ vertauto f {
         ],
       },
       en: {
-        summary: 'LogicScript source files carry the `.ls` extension and follow a clean, predictable declaration order.',
+        summary: 'Prism source files follow a clean, minimal, and predictable declaration order.',
         sections: [
           {
             heading: 'Fundamental Sections',
-            text: 'A well-structured `.ls` file contains four typical zones:\n1. **Module Header:** Defines the file identifier.\n2. **Imports:** System library `use` directives.\n3. **Atomic Domain & Formulas:** Propositions and variable bindings.\n4. **Evaluation Directives:** `vertauto` blocks computing results.',
+            text: 'A well-structured Prism program contains four typical zones:\n1. **Module Header:** Defines the file identifier via `module`.\n2. **Imports:** System library `use` directives.\n3. **Atomic Domain & Formulas:** Propositions and variable bindings.\n4. **Evaluation Directives:** `vertauto` blocks computing results.',
             code: `// 1. Module Header
 module reasoning_one
 
@@ -335,16 +335,16 @@ vertauto f {
     },
     category: 'language-basics',
     categoryLabel: {
-      es: 'Conceptos del Lenguaje',
-      en: 'Language Concepts',
+      es: 'Sintaxis y Conceptos',
+      en: 'Syntax & Concepts',
     },
     content: {
       es: {
-        summary: 'El sistema de módulos de LogicScript organiza los espacios de nombres y aísla las proposiciones atómicas de diferentes modelos.',
+        summary: 'El sistema de módulos de Prism organiza los espacios de nombres y aísla las proposiciones atómicas de diferentes modelos.',
         sections: [
           {
             heading: 'La palabra clave `module`',
-            text: 'Cada archivo `.ls` debe comenzar con la declaración de su módulo correspondiente. El nombre debe ser un identificador válido en minúsculas y sin caracteres especiales.',
+            text: 'Cada archivo debe comenzar con la declaración de su módulo correspondiente. El nombre debe ser un identificador válido en minúsculas y sin caracteres especiales.',
             code: `module logica_deductiva`,
           },
           {
@@ -355,11 +355,11 @@ vertauto f {
         ],
       },
       en: {
-        summary: 'LogicScript module system structures namespaces and isolates atomic propositions across models.',
+        summary: 'The Prism module system structures namespaces and isolates atomic propositions across models.',
         sections: [
           {
             heading: 'The `module` Keyword',
-            text: 'Every `.ls` file must begin with its module declaration. The name must be a valid lower-case identifier without special characters.',
+            text: 'Every file must begin with its module declaration. The name must be a valid lower-case identifier without special characters.',
             code: `module deductive_logic`,
           },
           {
@@ -383,8 +383,8 @@ vertauto f {
     },
     category: 'language-basics',
     categoryLabel: {
-      es: 'Conceptos del Lenguaje',
-      en: 'Language Concepts',
+      es: 'Sintaxis y Conceptos',
+      en: 'Syntax & Concepts',
     },
     content: {
       es: {
@@ -432,7 +432,7 @@ atom r = "security is notified"`,
     },
     content: {
       es: {
-        summary: 'LogicScript permite almacenar expresiones lógicas estáticas con la palabra clave `formula` o ligar resultados de expresiones dinámicas mediante `let`.',
+        summary: 'Prism permite almacenar expresiones lógicas estáticas con la palabra clave `formula` o ligar resultados de expresiones dinámicas mediante `let`.',
         sections: [
           {
             heading: 'Declaración explícita con `formula`',
@@ -452,7 +452,7 @@ let formula_traducida = translate(frase)`,
         ],
       },
       en: {
-        summary: 'LogicScript allows storing static logical expressions using `formula` or binding dynamic expression results using `let`.',
+        summary: 'Prism allows storing static logical expressions using `formula` or binding dynamic expression results using `let`.',
         sections: [
           {
             heading: 'Explicit Declaration via `formula`',
@@ -490,7 +490,7 @@ let translated_formula = translate(sentence)`,
     },
     content: {
       es: {
-        summary: 'LogicScript implementa los cinco conectores fundamentales de la lógica clásica con palabras clave en inglés de alta legibilidad.',
+        summary: 'Prism implementa los cinco conectores fundamentales de la lógica clásica con palabras clave de alta legibilidad.',
         sections: [
           {
             heading: 'Lista de Operadores',
@@ -501,7 +501,7 @@ let translated_formula = translate(sentence)`,
         ],
       },
       en: {
-        summary: 'LogicScript implements the five core connectives of classical propositional logic with clean, readable English keywords.',
+        summary: 'Prism implements the five core connectives of classical propositional logic with clean, readable keywords.',
         sections: [
           {
             heading: 'Operator List',
@@ -516,8 +516,8 @@ let translated_formula = translate(sentence)`,
   {
     id: 'nlp-processing',
     title: {
-      es: 'Procesamiento de Lenguaje Natural (`nl`)',
-      en: 'Natural Language Processing (`nl`)',
+      es: 'Lenguaje Natural (`nl`)',
+      en: 'Natural Language (`nl`)',
     },
     description: {
       es: 'Declaración de sentencias verbales y el tipo de dato nativo nl.',
@@ -534,7 +534,7 @@ let translated_formula = translate(sentence)`,
         sections: [
           {
             heading: 'Uso del tipo `nl`',
-            text: 'A diferencia de una cadena de texto ordinaria, las variables declaradas con `nl` son analizadas por el subsistema semántico del lenguaje:',
+            text: 'A diferencia de una cadena de texto ordinaria, las variables declaradas con `nl` son analizadas por el subsistema semántico de Prism:',
             code: `nl enunciado = "si p entonces q"
 nl regla_clima = "si llueve o hace viento entonces no salgo"`,
           },
@@ -545,7 +545,7 @@ nl regla_clima = "si llueve o hace viento entonces no salgo"`,
         sections: [
           {
             heading: 'Using the `nl` Type',
-            text: 'Unlike standard strings, variables declared with `nl` are prepared for the language’s semantic mapping subsystem:',
+            text: 'Unlike standard strings, variables declared with `nl` are prepared for Prism’s semantic mapping subsystem:',
             code: `nl statement = "si p entonces q"
 nl weather_rule = "if it rains or is windy then I stay home"`,
           },
@@ -574,7 +574,7 @@ nl weather_rule = "if it rains or is windy then I stay home"`,
         sections: [
           {
             heading: 'Pipeline de Traducción',
-            text: 'Cuando se invoca `translate(linea)`, el intérprete realiza:\n1. Normalización de caracteres y minúsculas.\n2. Detección de lexemas de control: "si ... entonces", "o", "y", "no".\n3. Asociación con átomos existentes en el ámbito o inferencia de nuevas variables.\n4. Construcción del Árbol de Sintaxis Abstracta (AST) de la fórmula resultante.',
+            text: 'Cuando se invoca `translate(linea)`, el intérprete de Prism realiza:\n1. Normalización de caracteres y minúsculas.\n2. Detección de lexemas de control: "si ... entonces", "o", "y", "no".\n3. Asociación con átomos existentes en el ámbito o inferencia de nuevas variables.\n4. Construcción del Árbol de Sintaxis Abstracta (AST) de la fórmula resultante.',
             code: `atom p = "hago ejercicio"
 atom q = "tengo salud"
 
@@ -590,7 +590,7 @@ let formula_salud = translate(meta)
         sections: [
           {
             heading: 'Translation Pipeline',
-            text: 'When calling `translate(line)`, the runtime executes:\n1. Character normalization and case folding.\n2. Control lexeme extraction: "if ... then", "or", "and", "not".\n3. Semantic association with existing scoped atoms or inferred propositions.\n4. Emitting the formal Abstract Syntax Tree (AST) representing the formula.',
+            text: 'When calling `translate(line)`, the Prism runtime executes:\n1. Character normalization and case folding.\n2. Control lexeme extraction: "if ... then", "or", "and", "not".\n3. Semantic association with existing scoped atoms or inferred propositions.\n4. Emitting the formal Abstract Syntax Tree (AST) representing the formula.',
             code: `atom p = "exercise"
 atom q = "healthy"
 
@@ -620,7 +620,7 @@ let health_formula = translate(goal)
     },
     content: {
       es: {
-        summary: '`vertauto` es la instrucción insignia de LogicScript para evaluar una fórmula lógica de forma exhaustiva.',
+        summary: '`vertauto` es la instrucción insignia de Prism para evaluar una fórmula lógica de forma exhaustiva.',
         sections: [
           {
             heading: 'Bloques de Configuración',
@@ -634,7 +634,7 @@ let health_formula = translate(goal)
         ],
       },
       en: {
-        summary: '`vertauto` is the flagship instruction in LogicScript for exhaustive evaluation of logical formulas.',
+        summary: '`vertauto` is the flagship instruction in Prism for exhaustive evaluation of logical formulas.',
         sections: [
           {
             heading: 'Configuration Blocks',
@@ -652,8 +652,8 @@ let health_formula = translate(goal)
   {
     id: 'truth-tables',
     title: {
-      es: 'Tablas de Verdad y Espacio de Estados',
-      en: 'Truth Tables & State Space',
+      es: 'Tablas de Verdad y Espacio 2^n',
+      en: 'Truth Tables & 2^n State Space',
     },
     description: {
       es: 'Cálculo combinatorio de 2^n filas y asignación veritativa determinista.',
@@ -666,11 +666,11 @@ let health_formula = translate(goal)
     },
     content: {
       es: {
-        summary: 'Para $n$ proposiciones atómicas independientes, LogicScript genera un espacio de estados finito de tamaño exacto $2^n$.',
+        summary: 'Para n proposiciones atómicas independientes, Prism genera un espacio de estados finito de tamaño exacto 2^n.',
         sections: [
           {
             heading: 'Ejemplo de Espacio de Estados',
-            text: 'Para una fórmula con 2 variables (p, q), el espacio contiene $2^2 = 4$ filas:\n- Fila 1: {p=false, q=false}\n- Fila 2: {p=false, q=true}\n- Fila 3: {p=true, q=false}\n- Fila 4: {p=true, q=true}',
+            text: 'Para una fórmula con 2 variables (p, q), el espacio contiene 2^2 = 4 filas:\n- Fila 1: {p=false, q=false}\n- Fila 2: {p=false, q=true}\n- Fila 3: {p=true, q=false}\n- Fila 4: {p=true, q=true}',
             code: `=== Tabla de verdad ===
 p | q | resultado
 F | F | V
@@ -681,11 +681,11 @@ V | V | V`,
         ],
       },
       en: {
-        summary: 'For $n$ independent atomic propositions, LogicScript builds an exact state space of size $2^n$.',
+        summary: 'For n independent atomic propositions, Prism builds an exact state space of size 2^n.',
         sections: [
           {
             heading: 'State Space Example',
-            text: 'For a formula with 2 variables (p, q), the space comprises $2^2 = 4$ rows:\n- Row 1: {p=false, q=false}\n- Row 2: {p=false, q=true}\n- Row 3: {p=true, q=false}\n- Row 4: {p=true, q=true}',
+            text: 'For a formula with 2 variables (p, q), the space comprises 2^2 = 4 rows:\n- Row 1: {p=false, q=false}\n- Row 2: {p=false, q=true}\n- Row 3: {p=true, q=false}\n- Row 4: {p=true, q=true}',
             code: `=== Truth Table ===
 p | q | result
 F | F | V
@@ -704,8 +704,8 @@ V | V | V`,
       en: 'Practical Reasoning Examples',
     },
     description: {
-      es: 'Casos de estudio: Modus Tollens, Leyes Distributivas y Circuitos Lógicos.',
-      en: 'Case studies: Modus Tollens, Distributive Laws, and Logic Circuits.',
+      es: 'Casos de estudio: Modus Tollens, Leyes de De Morgan y Silogismos.',
+      en: 'Case studies: Modus Tollens, De Morgan Laws, and Syllogisms.',
     },
     category: 'advanced',
     categoryLabel: {
@@ -714,7 +714,7 @@ V | V | V`,
     },
     content: {
       es: {
-        summary: 'Modelando problemas de razonamiento real y verificando argumentos deductivos clásicos.',
+        summary: 'Modelando problemas de razonamiento real y verificando argumentos deductivos clásicos en Prism.',
         sections: [
           {
             heading: 'Modus Tollens',
@@ -737,7 +737,7 @@ vertauto deduccion {
         ],
       },
       en: {
-        summary: 'Modeling real-world reasoning and validating classical deductive arguments.',
+        summary: 'Modeling real-world reasoning and validating classical deductive arguments in Prism.',
         sections: [
           {
             heading: 'Modus Tollens',
@@ -778,20 +778,20 @@ vertauto deduction {
     },
     content: {
       es: {
-        summary: 'Todo lo que necesitas para consultar la sintaxis formal de LogicScript de un solo vistazo.',
+        summary: 'Todo lo que necesitas para consultar la sintaxis formal de Prism de un solo vistazo.',
         sections: [
           {
             heading: 'Palabras Clave Reservadas',
-            text: '- `module`: Declara el nombre del módulo.\n- `use`: Importa bibliotecas como `core`.\n- `atom`: Define una proposición atómica.\n- `formula`: Declara una fórmula lógica explícita.\n- `nl`: Declara un enunciado en lenguaje natural.\n- `let`: Asigna el resultado de una expresión o traducción.\n- `translate`: Función de procesamiento semántico de lenguaje natural.\n- `vertauto`: Evalúa exhaustivamente una fórmula lógica.\n- `steps`, `table`, `verdict`: Modificadores de salida de `vertauto`.\n- `rule`, `run`: Palabras clave reservadas para el motor deductivo en desarrollo.',
+            text: '- `module`: Declara el nombre del módulo.\n- `use`: Importa bibliotecas como `core`.\n- `atom`: Define una proposición atómica.\n- `formula`: Declara una fórmula lógica explícita.\n- `nl`: Declara un enunciado en lenguaje natural.\n- `let`: Asigna el resultado de una expresión o traducción.\n- `translate`: Función de procesamiento semántico de lenguaje natural.\n- `vertauto`: Evalúa exhaustivamente una fórmula lógica.\n- `steps`, `table`, `verdict`: Modificadores de salida de `vertauto`.\n- `rule`, `run`: Palabras clave reservadas para el motor deductivo.',
           },
         ],
       },
       en: {
-        summary: 'Everything you need to consult LogicScript syntax at a glance.',
+        summary: 'Everything you need to consult Prism syntax at a glance.',
         sections: [
           {
             heading: 'Reserved Keywords',
-            text: '- `module`: Declares the module namespace.\n- `use`: Imports standard libraries like `core`.\n- `atom`: Declares an atomic proposition.\n- `formula`: Declares an explicit logical formula.\n- `nl`: Declares a natural language sentence.\n- `let`: Binds an expression or translation result.\n- `translate`: Natural language semantic parsing function.\n- `vertauto`: Exhaustively evaluates a logical formula.\n- `steps`, `table`, `verdict`: Evaluation display directives.\n- `rule`, `run`: Reserved keywords for the deductive engine in active development.',
+            text: '- `module`: Declares the module namespace.\n- `use`: Imports standard libraries like `core`.\n- `atom`: Declares an atomic proposition.\n- `formula`: Declares an explicit logical formula.\n- `nl`: Declares a natural language sentence.\n- `let`: Binds an expression or translation result.\n- `translate`: Natural language semantic parsing function.\n- `vertauto`: Exhaustively evaluates a logical formula.\n- `steps`, `table`, `verdict`: Evaluation display directives.\n- `rule`, `run`: Reserved keywords for the deductive engine.',
           },
         ],
       },

@@ -1,128 +1,83 @@
 import React from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
-import { Code2, Shield, Terminal } from 'lucide-react';
-import { GithubIcon } from './GithubIcon';
+import { PageView, PrismLogo } from './Navbar';
 
-export const Footer: React.FC = () => {
-  const { language, setLanguage, t } = useLanguage();
+interface FooterProps {
+  onNavigate?: (page: PageView, articleId?: string) => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+  const { language, t } = useLanguage();
+
+  const handleLink = (page: PageView, articleId?: string) => {
+    if (onNavigate) {
+      onNavigate(page, articleId);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
-    <footer className="bg-[#070a13] border-t border-slate-800 text-slate-400 text-xs py-14">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
-          
-          {/* Brand Info */}
-          <div className="md:col-span-5 space-y-3">
-            <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-indigo-600 p-[1.5px] flex items-center justify-center">
-                <div className="w-full h-full bg-[#0b0f19] rounded-[6.5px] flex items-center justify-center">
-                  <Code2 className="w-4 h-4 text-cyan-400" />
-                </div>
-              </div>
-              <span className="text-base font-bold text-white tracking-tight">
-                LogicScript
-              </span>
-              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-slate-800 text-cyan-300">
-                v0.2.0
-              </span>
-            </div>
-
-            <p className="text-slate-300 text-xs max-w-sm leading-relaxed">
-              {t.footer.desc}
-            </p>
-
-            <div className="pt-2 flex items-center space-x-3 text-slate-400">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-[11px] text-slate-300">
-                <Terminal className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Extensión .ls</span>
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-[11px] text-slate-300">
-                <Shield className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Licencia MIT</span>
-              </span>
-            </div>
-          </div>
-
-          {/* Quick Links Column 1 */}
-          <div className="md:col-span-2 space-y-2">
-            <h4 className="text-slate-200 font-semibold text-xs tracking-wider uppercase">
-              {t.nav.whatIs}
-            </h4>
-            <ul className="space-y-1.5">
-              <li><a href="#what-is" className="hover:text-cyan-400 transition-colors">{t.nav.whatIs}</a></li>
-              <li><a href="#demo" className="hover:text-cyan-400 transition-colors">{t.nav.demo}</a></li>
-              <li><a href="#philosophy" className="hover:text-cyan-400 transition-colors">{t.nav.philosophy}</a></li>
-              <li><a href="#features" className="hover:text-cyan-400 transition-colors">{t.nav.features}</a></li>
-            </ul>
-          </div>
-
-          {/* Quick Links Column 2 */}
-          <div className="md:col-span-2 space-y-2">
-            <h4 className="text-slate-200 font-semibold text-xs tracking-wider uppercase">
-              Recursos
-            </h4>
-            <ul className="space-y-1.5">
-              <li><a href="#docs" className="hover:text-cyan-400 transition-colors">{t.nav.docs}</a></li>
-              <li><a href="#examples" className="hover:text-cyan-400 transition-colors">{t.nav.examples}</a></li>
-              <li><a href="#reference" className="hover:text-cyan-400 transition-colors">{t.nav.reference}</a></li>
-              <li><a href="#history" className="hover:text-cyan-400 transition-colors">{t.nav.history}</a></li>
-            </ul>
-          </div>
-
-          {/* Quick Links Column 3: Community & Language */}
-          <div className="md:col-span-3 space-y-2">
-            <h4 className="text-slate-200 font-semibold text-xs tracking-wider uppercase">
-              {t.nav.community} & Idioma
-            </h4>
-            <ul className="space-y-1.5 mb-3">
-              <li>
-                <a 
-                  href="https://github.com/logicscript/logicscript" 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  className="hover:text-cyan-400 transition-colors flex items-center gap-1.5"
-                >
-                  <GithubIcon className="w-3.5 h-3.5" />
-                  <span>GitHub Repository</span>
-                </a>
-              </li>
-              <li><a href="#community" className="hover:text-cyan-400 transition-colors">{t.community.contribTitle}</a></li>
-            </ul>
-
-            <div className="pt-2 flex items-center gap-2">
-              <span className="text-slate-400 text-[11px]">Idioma:</span>
+    <footer className="bg-white border-t border-slate-200 text-slate-500 text-xs py-10">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+          {/* Left: Clean horizontal links & copyright (Like Lenguaje Latino footer) */}
+          <div className="space-y-2 text-center sm:text-left">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1 text-slate-600 font-medium">
               <button
-                onClick={() => setLanguage('es')}
-                className={`px-2 py-0.5 rounded text-[11px] font-medium ${
-                  language === 'es' ? 'bg-cyan-500 text-slate-950 font-bold' : 'bg-slate-900 text-slate-400'
-                }`}
+                onClick={() => handleLink('home')}
+                className="hover:text-sky-600 transition-colors"
               >
-                Español
+                {t.nav.home}
               </button>
+              <span className="text-slate-300">|</span>
               <button
-                onClick={() => setLanguage('en')}
-                className={`px-2 py-0.5 rounded text-[11px] font-medium ${
-                  language === 'en' ? 'bg-cyan-500 text-slate-950 font-bold' : 'bg-slate-900 text-slate-400'
-                }`}
+                onClick={() => handleLink('docs')}
+                className="hover:text-sky-600 transition-colors"
               >
-                English
+                {language === 'es' ? 'Manual Prism' : 'Prism Manual'}
+              </button>
+              <span className="text-slate-300">|</span>
+              <button
+                onClick={() => handleLink('docs', 'syntax-reference')}
+                className="hover:text-sky-600 transition-colors"
+              >
+                {language === 'es' ? 'Referencia Sintáctica' : 'Syntax Reference'}
+              </button>
+              <span className="text-slate-300">|</span>
+              <button
+                onClick={() => handleLink('demo')}
+                className="hover:text-sky-600 transition-colors"
+              >
+                Playground
+              </button>
+              <span className="text-slate-300">|</span>
+              <button
+                onClick={() => handleLink('about')}
+                className="hover:text-sky-600 transition-colors"
+              >
+                {language === 'es' ? 'Sobre Prism' : 'About Prism'}
               </button>
             </div>
+
+            <div className="text-[11px] text-slate-400 space-y-0.5">
+              <p>
+                Lenguaje Prism, {new Date().getFullYear()} — {t.footer.license}
+              </p>
+              <p>{t.footer.tagline}</p>
+            </div>
           </div>
 
+          {/* Right: Official Full Brand Emblem */}
+          <button
+            onClick={() => handleLink('home')}
+            className="flex items-center focus:outline-none group"
+          >
+            <PrismLogo
+              className="h-8 w-auto transition-transform group-hover:scale-105"
+              variant="onLight"
+            />
+          </button>
         </div>
-
-        {/* Bottom copyright and disclaimer */}
-        <div className="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400">
-          <div>
-            © {new Date().getFullYear()} <strong>LogicScript</strong> Project. {t.footer.rights}
-          </div>
-          <div className="text-center sm:text-right">
-            <span>{t.footer.license}</span>
-          </div>
-        </div>
-
       </div>
     </footer>
   );

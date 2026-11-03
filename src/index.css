@@ -3,69 +3,44 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --bg-primary: #0b0f19;
-    --bg-secondary: #101726;
-    --accent-cyan: #00d2ff;
-    --accent-blue: #38bdf8;
-  }
-
   body {
-    background-color: #0b0f19;
-    color: #e2e8f0;
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    background-color: #f8fafc;
+    color: #1e293b;
+    font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   }
 }
 
-/* Custom scrollbars */
+/* Custom subtle scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #090d18;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #cbd5e1;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #94a3b8;
 }
 
-/* Code highlight styling */
-.ls-token-keyword { color: #c084fc; font-weight: 600; }
-.ls-token-atom { color: #38bdf8; font-weight: 500; }
-.ls-token-string { color: #86efac; }
-.ls-token-operator { color: #fb923c; font-weight: 600; }
-.ls-token-comment { color: #64748b; font-style: italic; }
-.ls-token-fn { color: #60a5fa; }
-.ls-token-block { color: #f472b6; }
-.ls-token-number { color: #fde047; }
+/* Hero geometric blue gradient inspired by Python.org & Lenguaje Latino, modernized */
+.bg-prism-hero {
+  background: linear-gradient(135deg, #0b2545 0%, #134074 50%, #0b1d33 100%);
+  position: relative;
+}
 
-/* Subtle mesh & glow backgrounds */
-.bg-grid-pattern {
-  background-size: 32px 32px;
+.bg-prism-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-}
-
-.bg-radial-glow {
-  background: radial-gradient(circle at 50% 0%, rgba(0, 210, 255, 0.12) 0%, rgba(99, 102, 241, 0.05) 45%, transparent 70%);
-}
-
-.bg-glass {
-  background: rgba(16, 23, 38, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.bg-glass-card {
-  background: rgba(15, 22, 36, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+    radial-gradient(circle at 20% 30%, rgba(4, 173, 214, 0.16) 0%, transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(4, 173, 214, 0.12) 0%, transparent 50%),
+    linear-gradient(120deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(60deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px;
+  pointer-events: none;
 }

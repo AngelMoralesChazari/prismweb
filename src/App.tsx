@@ -1,35 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { LanguageProvider } from './i18n/LanguageContext';
-import { Navbar } from './components/Navbar';
+import { Navbar, PageView } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { WhatIsLogicScript } from './components/WhatIsLogicScript';
 import { Playground } from './components/Playground';
-import { Philosophy } from './components/Philosophy';
-import { Features } from './components/Features';
-import { ExamplesGallery } from './components/ExamplesGallery';
 import { DocsHub } from './components/DocsHub';
-import { QuickReference } from './components/QuickReference';
-import { HistorySection } from './components/HistorySection';
-import { CommunitySection } from './components/CommunitySection';
 import { Footer } from './components/Footer';
 
 export function AppContent() {
+  const [activePage, setActivePage] = useState<PageView>('home');
+  const [docArticleId, setDocArticleId] = useState<string | undefined>(undefined);
+
+  const handleNavigate = (page: PageView, articleId?: string) => {
+    setActivePage(page);
+    setDocArticleId(articleId);
+  };
+
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-200">
-      <Navbar />
-      <main>
-        <Hero />
-        <WhatIsLogicScript />
-        <Playground />
-        <Philosophy />
-        <Features />
-        <ExamplesGallery />
-        <DocsHub />
-        <QuickReference />
-        <HistorySection />
-        <CommunitySection />
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800">
+      <Navbar activePage={activePage} onNavigate={handleNavigate} />
+      <main className="flex-1">
+        {activePage === 'home' && <Hero onNavigate={handleNavigate} />}
+        {activePage === 'about' && <WhatIsLogicScript onNavigate={handleNavigate} />}
+        {activePage === 'demo' && <Playground />}
+        {activePage === 'docs' && <DocsHub initialArticleId={docArticleId} />}
       </main>
-      <Footer />
+      <Footer onNavigate={handleNavigate} />
     </div>
   );
 }
