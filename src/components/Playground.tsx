@@ -79,7 +79,7 @@ export const Playground: React.FC = () => {
           <div className="lg:col-span-6 space-y-4">
             <div className="flex items-center justify-between bg-white px-4 py-2.5 rounded-lg border border-slate-200 shadow-sm">
               <div className="text-xs font-semibold text-slate-700">
-                {currentExample.id}.prism — <span className="font-mono text-sky-600">{currentExample.formula}</span>
+                {currentExample.id}.pr — <span className="font-mono text-sky-600">{currentExample.formula}</span>
               </div>
               <button
                 onClick={handleRun}
@@ -93,7 +93,7 @@ export const Playground: React.FC = () => {
 
             <CodeViewer
               code={currentExample.code}
-              filename={`${currentExample.id}.prism`}
+              filename={`${currentExample.id}.pr`}
               showLineNumbers={true}
             />
 

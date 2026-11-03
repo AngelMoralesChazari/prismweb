@@ -265,7 +265,7 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId }) => {
                 <span className="font-bold text-slate-700">
                   {language === 'es' ? 'Extensión:' : 'Extension:'}
                 </span>
-                <span className="font-mono text-slate-700">.prism / .ls</span>
+                <span className="font-mono text-slate-700">.pr</span>
               </div>
 
               {/* Empezando Quick Links */}
@@ -378,7 +378,7 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId }) => {
                     <div className="my-3">
                       <CodeViewer
                         code={sec.code}
-                        filename={`${currentArticle.id}.prism`}
+                        filename={`${currentArticle.id}.pr`}
                         showLineNumbers={true}
                       />
                     </div>

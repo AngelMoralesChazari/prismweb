@@ -18,21 +18,22 @@ interface AboutPrismProps {
 export const WhatIsLogicScript: React.FC<AboutPrismProps> = ({ onNavigate }) => {
   const { language, t } = useLanguage();
 
-  const canonicalCode = `module clima
+  const canonicalCode = `module nombre # = nombre.pr
+use core # carga core.pr
 
-use core
+# 1. Enunciado en lenguaje natural
+nl premisa = "si llueve llevo paraguas"
 
+# 2. Definición de átomos
 atom p = "llueve"
-atom q = "llevo paraguas"
+atom q = "paraguas"
 
-nl oracion = "si llueve entonces llevo paraguas"
-let f = translate(oracion)
+# 3. Traducción o formalización
+let f = translate(premisa)
+formula h = p impl q
 
-vertauto f {
-    steps
-    table
-    verdict
-}`;
+# 4. Evaluación formal
+vertauto f { steps table verdict }`;
 
   const pillars = [
     { title: t.whatIs.card1Title, desc: t.whatIs.card1Desc },
@@ -105,7 +106,7 @@ vertauto f {
           </div>
 
           <div className="lg:col-span-6">
-            <CodeViewer code={canonicalCode} filename="clima.prism" />
+            <CodeViewer code={canonicalCode} filename="nombre.pr" />
           </div>
         </div>
 

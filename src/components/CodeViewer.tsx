@@ -11,7 +11,7 @@ interface CodeViewerProps {
 
 export const CodeViewer: React.FC<CodeViewerProps> = ({
   code,
-  filename = 'test.pr',
+  filename = 'mi_archivo.pr',
   showLineNumbers = true,
   highlightLines = [],
   className = '',
@@ -24,21 +24,21 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Prism syntax tokenizer
+  // Prism syntax tokenizer supporting # and // comments
   const highlightLine = (line: string): React.ReactNode => {
     if (!line.trim()) return <span>&nbsp;</span>;
 
-    if (line.trim().startsWith('//') || line.trim().startsWith('#')) {
+    if (line.trim().startsWith('#') || line.trim().startsWith('//')) {
       return <span className="text-slate-400 italic">{line}</span>;
     }
 
-    const regex = /(\/\/.*$|"(?:\\.|[^"\\])*"|\b(?:module|use|core|atom|nl|let|formula|vertauto|steps|table|verdict|rule|run|translate|not|and|or|impl|iff)\b|[{}()=])/g;
+    const regex = /(#.*$|\/\/.*$|"(?:\\.|[^"\\])*"|\b(?:module|use|core|atom|nl|let|formula|vertauto|steps|table|verdict|rule|run|translate|not|and|or|impl|iff)\b|[{}()=])/g;
     const parts = line.split(regex);
 
     return parts.map((part, index) => {
       if (!part) return null;
 
-      if (part.startsWith('//')) {
+      if (part.startsWith('#') || part.startsWith('//')) {
         return <span key={index} className="text-slate-400 italic">{part}</span>;
       }
       if (part.startsWith('"') && part.endsWith('"')) {

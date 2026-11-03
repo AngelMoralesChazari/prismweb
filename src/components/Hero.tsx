@@ -20,26 +20,28 @@ interface HeroProps {
 const heroSlides = [
   {
     id: 1,
-    filename: 'test.pr',
+    filename: 'mi_archivo.pr',
     title: {
-      es: 'Traducción de Lenguaje Natural',
-      en: 'Natural Language Translation',
+      es: '1. prnl — Ejercicio NL Canónico (Método en Papel)',
+      en: '1. prnl — Canonical NL Exercise (Paper Method)',
     },
     desc: {
-      es: 'Convierte enunciados cotidianos en fórmulas proposicionales formales mediante el tipo nativo nl y la función translate().',
-      en: 'Convert everyday statements into formal propositional formulas using the native nl type and translate() function.',
+      es: 'Separa la entrada en nl premisa y sigue el flujo en papel paso a paso: Enunciado → Descomposición atómica → Traducción formal → Tabla de verdad.',
+      en: 'Separates input into nl premisa and follows the step-by-step paper workflow: Statement → Atomic breakdown → Formal translation → Truth table.',
     },
-    code: `// PRISM: Traducción NL a fórmula lógica
-module test
+    code: `# 1. prnl (o nlex) — Ejercicio NL Canónico
+module mi_archivo
 use core
+
+nl premisa = "si p entonces q"
 
 atom p = "antecedente"
 atom q = "consecuente"
 
-nl linea = "si p entonces q"
-let implicacion = translate(linea)
+let equivalencia = translate(premisa)
 
-vertauto implicacion {
+vertauto equivalencia {
+    steps
     table
     verdict
 }`,
@@ -53,110 +55,120 @@ V | V | V
   },
   {
     id: 2,
-    filename: 'tercero_excluido.prism',
+    filename: 'literal.pr',
     title: {
-      es: 'Tautologías y Leyes Clásicas',
-      en: 'Tautologies & Classical Laws',
+      es: '2. prnlit — Lenguaje Natural con Translate Literal',
+      en: '2. prnlit — Natural Language with Literal Translate',
     },
     desc: {
-      es: 'Construye expresiones simbólicas con operadores legibles (not, and, or, impl, iff) y comprueba su validez universal.',
-      en: 'Build symbolic expressions with readable operators (not, and, or, impl, iff) and verify universal validity.',
+      es: 'No crea una variable nl: pasa el texto en español directamente entre comillas dentro de translate("...") para frases cortas.',
+      en: 'Skips the nl variable: passes the natural language string directly inside translate("...") for concise one-off translations.',
     },
-    code: `// PRISM: Principio del Tercero Excluido
-module tercero_excluido
+    code: `# 2. prnlit — Translate Literal directo
+module mi_archivo
 use core
 
-atom p = "llueve"
-formula f = p or not p
+atom p = "antecedente"
+atom q = "consecuente"
 
-vertauto f {
+let implicacion = translate("si estudio apruebo")
+
+vertauto implicacion {
     steps
-    verdict
-}`,
-    output: `>>> Formalización: (p ∨ ¬p)
-  - Fila 1: {p=F} → (F ∨ V) → V
-  - Fila 2: {p=V} → (V ∨ F) → V
->>> Dictamen: tautology`,
-  },
-  {
-    id: 3,
-    filename: 'modus_ponens.prism',
-    title: {
-      es: 'Deducción Formal (Modus Ponens)',
-      en: 'Formal Deduction (Modus Ponens)',
-    },
-    desc: {
-      es: 'Verifica reglas de inferencia completas en el espacio booleano 2^n de forma determinista y sin efectos secundarios.',
-      en: 'Verify complete inference rules across the 2^n boolean state space deterministically with zero side effects.',
-    },
-    code: `// PRISM: Regla de Inferencia Modus Ponens
-module modus_ponens
-use core
-
-atom p = "premisa"
-atom q = "conclusion"
-
-formula regla = ((p impl q) and p) impl q
-
-vertauto regla {
-    verdict
-}`,
-    output: `>>> Espacio de estados: 2^2 = 4 filas
->>> Evaluación: V en las 4 combinaciones
->>> Dictamen: ((p → q) ∧ p) → q  [tautology]`,
-  },
-  {
-    id: 4,
-    filename: 'de_morgan.prism',
-    title: {
-      es: 'Equivalencia Lógica (De Morgan)',
-      en: 'Logical Equivalence (De Morgan)',
-    },
-    desc: {
-      es: 'Demuestra equivalencias matemáticas utilizando el operador bicondicional iff (↔) entre subfórmulas.',
-      en: 'Prove mathematical equivalences using the biconditional operator iff (↔) between subformulas.',
-    },
-    code: `// PRISM: Primera Ley de De Morgan
-module de_morgan
-use core
-
-atom p = "estudio"
-atom q = "trabajo"
-
-formula izq = not (p and q)
-formula der = not p or not q
-formula eq  = izq iff der
-
-vertauto eq { verdict }`,
-    output: `>>> Fórmula: ¬(p ∧ q) ↔ (¬p ∨ ¬q)
->>> Dictamen: tautology (Equivalencia demostrada)`,
-  },
-  {
-    id: 5,
-    filename: 'contradiccion.prism',
-    title: {
-      es: 'Detección de Contradicciones',
-      en: 'Contradiction Detection',
-    },
-    desc: {
-      es: 'Identifica automáticamente fórmulas insatisfacibles donde ninguna asignación booleana produce un resultado verdadero.',
-      en: 'Automatically identify unsatisfiable formulas where no boolean assignment yields a true result.',
-    },
-    code: `// PRISM: Principio de No Contradicción
-module no_contradiccion
-use core
-
-atom p = "activo"
-formula f = p and not p
-
-vertauto f {
     table
     verdict
 }`,
-    output: `p | resultado
-F | F
-V | F
->>> Dictamen: (p ∧ ¬p)  [contradiction]`,
+    output: `>>> Entrada literal: "si estudio apruebo"
+>>> Enlace: p="antecedente", q="consecuente"
+>>> Fórmula emitida: (p → q)
+>>> Dictamen: contingency`,
+  },
+  {
+    id: 3,
+    filename: 'simbolica.pr',
+    title: {
+      es: '3. prform — Fórmula Simbólica Pura',
+      en: '3. prform — Pure Symbolic Formula',
+    },
+    desc: {
+      es: 'No usa lenguaje natural ni translate. La fórmula se escribe directamente en matemática proposicional con conectores (impl, and, or, not, iff).',
+      en: 'No natural language or translate. The formula is written directly in propositional math using connectives (impl, and, or, not, iff).',
+    },
+    code: `# 3. prform — Fórmula Simbólica Pura
+module mi_archivo
+use core
+
+atom p = "proposicion_a"
+atom q = "proposicion_b"
+
+formula f = p impl q
+
+vertauto f {
+    steps
+    table
+    verdict
+}`,
+    output: `>>> Formalización directa: (p → q)
+>>> Espacio de estados: 2^2 = 4 filas
+>>> Dictamen: (p → q)  [contingency]`,
+  },
+  {
+    id: 4,
+    filename: 'inline.pr',
+    title: {
+      es: '4. prinl — Expresión Directa / Inline (al vuelo)',
+      en: '4. prinl — Direct / Inline Expression',
+    },
+    desc: {
+      es: 'No crea variables intermedias con formula ni let. Evalúa la expresión directamente entre paréntesis dentro de vertauto (...) para pruebas rápidas.',
+      en: 'No intermediate formula or let variables. Evaluates the expression directly inside vertauto (...) for ultra-fast checks.',
+    },
+    code: `# 4. prinl — Expresión Directa / Inline
+module mi_archivo
+use core
+
+atom p = "proposicion_a"
+atom q = "proposicion_b"
+
+vertauto (p impl q) {
+    steps
+    table
+    verdict
+}`,
+    output: `>>> Evaluación al vuelo: (p → q)
+p | q | resultado
+F | F | V
+F | V | V
+V | F | F
+V | V | V
+>>> Dictamen: contingency`,
+  },
+  {
+    id: 5,
+    filename: 'de_morgan.pr',
+    title: {
+      es: '5. Equivalencias y Tautologías (Álgebra de Boole)',
+      en: '5. Equivalences & Tautologies (Boolean Algebra)',
+    },
+    desc: {
+      es: 'Ideal para probar leyes de De Morgan, tautologías como (p → q) ↔ (¬p ∨ q) o reglas de inferencia directamente en código.',
+      en: 'Ideal for proving De Morgan laws, tautologies like (p → q) ↔ (¬p ∨ q), or inference rules directly in code.',
+    },
+    code: `# Demostración: (p → q) ↔ (¬p ∨ q)
+module de_morgan
+use core
+
+atom p = "proposicion_a"
+atom q = "proposicion_b"
+
+vertauto ((p impl q) iff (not p or q)) {
+    steps
+    table
+    verdict
+}`,
+    output: `>>> Fórmula: (p → q) ↔ (¬p ∨ q)
+>>> Resultado: V en las 4 combinaciones
+>>> Dictamen: tautology (Equivalencia demostrada)`,
   },
 ];
 
@@ -168,18 +180,20 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
   const renderHighlightedCode = (code: string) => {
     return code.split('\n').map((line, i) => {
-      if (line.trim().startsWith('//')) {
+      if (line.trim().startsWith('#') || line.trim().startsWith('//')) {
         return (
           <div key={i} className="text-slate-400 italic">
             {line}
           </div>
         );
       }
-      const regex = /("(?:\\.|[^"\\])*"|\b(?:module|use|core|atom|nl|let|formula|vertauto|steps|table|verdict|translate|not|and|or|impl|iff)\b)/g;
+      const regex = /(#.*$|"(?:\\.|[^"\\])*"|\b(?:module|use|core|atom|nl|let|formula|vertauto|steps|table|verdict|translate|not|and|or|impl|iff)\b)/g;
       const parts = line.split(regex);
       return (
         <div key={i} className="whitespace-pre">
           {parts.map((part, idx) => {
+            if (!part) return null;
+            if (part.startsWith('#')) return <span key={idx} className="text-slate-400 italic">{part}</span>;
             if (part.startsWith('"')) return <span key={idx} className="text-emerald-300">{part}</span>;
             if (['module', 'use', 'core'].includes(part)) return <span key={idx} className="text-amber-300 font-semibold">{part}</span>;
             if (['atom', 'nl', 'let', 'formula'].includes(part)) return <span key={idx} className="text-sky-400 font-semibold">{part}</span>;
@@ -196,28 +210,28 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   return (
     <div>
       {/* 1. CLEAN HERO BANNER WITH OFFICIAL PRISMv1.svg & SPACE GROTESK */}
-      <section className="bg-prism-hero text-white py-12 sm:py-16 border-b border-slate-800/30">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <section className="bg-prism-hero text-white py-14 sm:py-18 border-b border-slate-800/30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
 
             {/* Left Column: Official Full Banner Logo (`BannerPrismVSinFOndo1.svg`) */}
             <div className="lg:col-span-5 text-center lg:text-left">
               <div className="flex flex-col items-center lg:items-start mb-5">
                 {/* 👇 AQUÍ AJUSTAS EL TAMAÑO DEL LOGO DEL HERO (en px) 👇 */}
                 <PrismLogo
-                  style={{ height: '85px', width: 'auto' }}
+                  style={{ height: '96px', width: 'auto' }}
                   className="mb-2.5"
                   variant="onDark"
                 />
               </div>
 
-              <h2 className="text-xl sm:text-2xl font-normal text-sky-50 leading-snug mb-4">
+              <h2 className="text-2xl sm:text-[26px] font-normal text-sky-50 leading-snug mb-4">
                 {language === 'es'
                   ? 'Lenguaje declarativo de lógica proposicional para todos.'
                   : 'Declarative propositional logic language for everyone.'}
               </h2>
 
-              <p className="text-xs sm:text-sm text-sky-100/80 mb-8 max-w-md mx-auto lg:mx-0 leading-relaxed">
+              <p className="text-sm text-sky-100/85 mb-8 max-w-md mx-auto lg:mx-0 leading-relaxed">
                 {t.hero.liveBadge}
               </p>
 
@@ -225,17 +239,17 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               <div className="flex flex-col items-center lg:items-start gap-3">
                 <button
                   onClick={() => onNavigate('docs')}
-                  className="w-64 py-3.5 px-6 rounded bg-[#04add6] hover:bg-[#0396ba] text-white font-semibold text-sm shadow-lg transition-all text-center"
+                  className="w-72 py-3.5 px-6 rounded bg-[#04add6] hover:bg-[#0396ba] text-white font-semibold text-sm shadow-lg transition-all text-center"
                 >
                   <div>{language === 'es' ? 'Explorar Documentación' : 'Explore Documentation'}</div>
-                  <div className="text-[11px] font-normal text-sky-100 mt-0.5">
+                  <div className="text-xs font-normal text-sky-100 mt-0.5">
                     {language === 'es' ? 'Manual oficial y referencia' : 'Official manual & reference'}
                   </div>
                 </button>
 
                 <button
                   onClick={() => onNavigate('demo')}
-                  className="w-64 py-2 px-4 rounded bg-slate-900/85 hover:bg-slate-900 text-xs text-slate-200 border border-white/10 transition-colors text-center"
+                  className="w-72 py-2.5 px-4 rounded bg-slate-900/85 hover:bg-slate-900 text-xs text-slate-200 border border-white/10 transition-colors text-center"
                 >
                   <span className="text-[#04add6] font-medium">
                     {language === 'es' ? 'Playground interactivo' : 'Interactive Playground'}
@@ -249,13 +263,13 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             <div className="lg:col-span-7">
               <div className="rounded-lg overflow-hidden shadow-2xl border border-slate-900/60 bg-[#21252b]">
                 {/* macOS Window Titlebar */}
-                <div className="bg-[#e2e8f0] text-slate-700 px-3.5 py-2 flex items-center justify-between text-xs font-medium border-b border-slate-300">
+                <div className="bg-[#e2e8f0] text-slate-700 px-4 py-2.5 flex items-center justify-between text-xs font-medium border-b border-slate-300">
                   <div className="flex items-center space-x-1.5">
                     <span className="w-3 h-3 rounded-full bg-[#ff5f56] inline-block" />
                     <span className="w-3 h-3 rounded-full bg-[#ffbd2e] inline-block" />
                     <span className="w-3 h-3 rounded-full bg-[#27c93f] inline-block" />
                   </div>
-                  <div className="flex items-center gap-1.5 font-mono text-[11px] text-slate-700">
+                  <div className="flex items-center gap-1.5 font-mono text-xs text-slate-700">
                     <Terminal className="w-3.5 h-3.5 text-slate-600" />
                     <span>PRISM — {currentSlide.filename}</span>
                   </div>
@@ -265,9 +279,9 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 {/* Terminal + Explanation Split (Python.org inspired) */}
                 <div className="grid grid-cols-1 md:grid-cols-12">
                   {/* Code & Output Pane */}
-                  <div className="md:col-span-7 p-4 font-mono text-xs leading-relaxed bg-[#1d222a] text-slate-100 border-b md:border-b-0 md:border-r border-slate-700/60 min-h-[275px] flex flex-col justify-between">
+                  <div className="md:col-span-7 p-5 font-mono text-[13px] leading-relaxed bg-[#1d222a] text-slate-100 border-b md:border-b-0 md:border-r border-slate-700/60 min-h-[300px] flex flex-col justify-between">
                     <div>{renderHighlightedCode(currentSlide.code)}</div>
-                    <div className="mt-3 pt-2.5 border-t border-slate-700/70 text-[11px] text-emerald-300 whitespace-pre-line">
+                    <div className="mt-3.5 pt-3 border-t border-slate-700/70 text-xs text-emerald-300 whitespace-pre-line">
                       {currentSlide.output}
                     </div>
                   </div>
@@ -275,10 +289,10 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                   {/* Right Info Pane with Python-style numbered buttons [1][2][3][4][5] */}
                   <div className="md:col-span-5 p-5 bg-[#162d47] flex flex-col justify-between">
                     <div>
-                      <h3 className="text-amber-300 font-bold text-sm sm:text-base mb-2.5">
+                      <h3 className="text-amber-300 font-bold text-base mb-2.5">
                         {currentSlide.title[language]}
                       </h3>
-                      <p className="text-xs sm:text-[13px] text-slate-200 leading-relaxed">
+                      <p className="text-sm text-slate-200 leading-relaxed">
                         {currentSlide.desc[language]}
                       </p>
                       <button
@@ -288,7 +302,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                         <span>
                           {language === 'es' ? 'Probar este código en vivo' : 'Try this code live'}
                         </span>
-                        <ArrowRight className="w-3 h-3" />
+                        <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
 
@@ -317,14 +331,14 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
       </section>
 
       {/* 2. MINIMAL 3-PILLAR ICON BAR */}
-      <section className="bg-white border-b border-slate-200 shadow-sm py-7">
+      <section className="bg-white border-b border-slate-200 shadow-sm py-8">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
             <button
               onClick={() => onNavigate('about')}
               className="flex flex-col items-center group focus:outline-none"
             >
-              <Cpu className="w-10 h-10 text-slate-500 group-hover:text-[#04add6] transition-colors mb-2 stroke-[1.5]" />
+              <Cpu className="w-11 h-11 text-slate-500 group-hover:text-[#04add6] transition-colors mb-2 stroke-[1.5]" />
               <span className="text-sm font-medium text-slate-600 group-hover:text-slate-900">
                 {language === 'es' ? 'Lenguaje Natural a Lógica' : 'Natural Language to Logic'}
               </span>
@@ -336,7 +350,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               rel="noreferrer"
               className="flex flex-col items-center group"
             >
-              <GitBranch className="w-10 h-10 text-slate-500 group-hover:text-[#04add6] transition-colors mb-2 stroke-[1.5]" />
+              <GitBranch className="w-11 h-11 text-slate-500 group-hover:text-[#04add6] transition-colors mb-2 stroke-[1.5]" />
               <span className="text-sm font-medium text-slate-600 group-hover:text-slate-900">
                 {language === 'es' ? 'Repositorio Abierto' : 'Open Repository'}
               </span>
@@ -346,7 +360,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               onClick={() => onNavigate('demo')}
               className="flex flex-col items-center group focus:outline-none"
             >
-              <Layers className="w-10 h-10 text-slate-500 group-hover:text-[#04add6] transition-colors mb-2 stroke-[1.5]" />
+              <Layers className="w-11 h-11 text-slate-500 group-hover:text-[#04add6] transition-colors mb-2 stroke-[1.5]" />
               <span className="text-sm font-medium text-slate-600 group-hover:text-slate-900">
                 {language === 'es' ? 'Tablas de Verdad 2^n' : '2^n Truth Tables'}
               </span>
@@ -356,8 +370,8 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
       </section>
 
       {/* 3. PYTHON.ORG-STYLE 4 CLEAN COLUMNS + 2 SUMMARY CARDS */}
-      <section className="py-12 bg-slate-50">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-12">
+      <section className="py-14 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
 
           {/* 4 Columns with top #04add6 accent line */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">

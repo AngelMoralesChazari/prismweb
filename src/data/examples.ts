@@ -2,27 +2,31 @@ import { ExampleItem } from '../types';
 
 export const examplesData: ExampleItem[] = [
   {
-    id: 'implication-canonical',
-    category: 'implication',
+    id: 'prnl-canonico',
+    category: 'nlp',
     title: {
-      es: 'Implicación y Traducción NL (Canónico)',
-      en: 'Implication & NL Translation (Canonical)',
+      es: '1. prnl — Ejercicio NL Canónico (Método en Papel)',
+      en: '1. prnl — Canonical NL Exercise (Paper Method)',
     },
     naturalLanguage: {
-      es: 'Si p entonces q (ej. "Si llueve, entonces la calle se moja")',
-      en: 'If p then q (e.g., "If it rains, then the street gets wet")',
+      es: 'si p entonces q (Enunciado → Descomposición atómica → Traducción formal → Tabla de verdad)',
+      en: 'if p then q (Statement → Atomic breakdown → Formal translation → Truth table)',
     },
-    code: `module test
-
+    code: `module mi_archivo
 use core
 
+# 1. Enunciado en lenguaje natural
+nl premisa = "si p entonces q"
+
+# 2. Definición de átomos
 atom p = "antecedente"
 atom q = "consecuente"
 
-nl linea = "si p entonces q"
-let implicacion = translate(linea)
+# 3. Traducción formal
+let equivalencia = translate(premisa)
 
-vertauto implicacion {
+# 4. Evaluación formal
+vertauto equivalencia {
     steps
     table
     verdict
@@ -30,8 +34,8 @@ vertauto implicacion {
     formula: '(p → q)',
     classification: 'contingency',
     explanation: {
-      es: 'La implicación material (p → q) solo es falsa cuando el antecedente p es verdadero y el consecuente q es falso. Al haber combinaciones verdaderas y falsas, es una contingencia.',
-      en: 'Material implication (p → q) is false only when antecedent p is true and consequent q is false. Having both true and false evaluations, it is a contingency.',
+      es: 'Separa la entrada en una variable nl premisa y sigue el flujo en papel paso a paso: Enunciado → Descomposición atómica → Traducción formal → Tabla de verdad. Ideal para problemas de examen y enunciados largos.',
+      en: 'Separates input into an nl premisa variable and follows the step-by-step paper workflow: Statement → Atomic breakdown → Formal translation → Truth table.',
     },
     truthTable: [
       { assignments: { p: false, q: false }, result: true },
@@ -43,11 +47,7 @@ vertauto implicacion {
 Entrada: si p entonces q
   - Entrada normalizada: si p entonces q
   - Lexemas LN: [SI("si"), LITERAL("p"), ENTONCES("entonces"), LITERAL("q")]
-  - Bloque 1: si p entonces q
-  - Tokens bloque: [SI("si"), LITERAL("p"), ENTONCES("entonces"), LITERAL("q")]
   - SemanticMapper: patrón SI_ENTONCES detectado.
-  - Nueva proposición: p = "p"
-  - Nueva proposición: q = "q"
 Proposiciones: {antecedente=p, consecuente=q}
 Fórmula emitida: (p → q)
 
@@ -73,303 +73,76 @@ V | V | V
 Clasificación: contingency`,
   },
   {
-    id: 'law-excluded-middle',
-    category: 'tautology',
-    title: {
-      es: 'Principio del Tercero Excluido (Tautología)',
-      en: 'Law of Excluded Middle (Tautology)',
-    },
-    naturalLanguage: {
-      es: 'O bien llueve, o bien no llueve.',
-      en: 'Either it rains, or it does not rain.',
-    },
-    code: `module tercero_excluido
-
-use core
-
-atom p = "llueve"
-
-formula f = p or not p
-
-vertauto f {
-    steps
-    table
-    verdict
-}`,
-    formula: '(p ∨ ¬p)',
-    classification: 'tautology',
-    explanation: {
-      es: 'Una proposición disyuntiva entre una variable y su propia negación siempre es verdadera, independientemente del valor de p. Constituye una tautología lógica universal.',
-      en: 'A disjunction between a proposition and its own negation is always true, regardless of p’s value. It represents a universal logical tautology.',
-    },
-    truthTable: [
-      { assignments: { p: false }, result: true },
-      { assignments: { p: true }, result: true },
-    ],
-    terminalLog: `=== Evaluación lógica ===
-  - Identificación de proposiciones atómicas: [p]
-  - Formalización: (p ∨ ¬p)
-  - Construcción del espacio de estados: 2^1 = 2 filas.
-  - Fila 1: asignación {p=false} → ¬p es V → (F ∨ V) → V
-  - Fila 2: asignación {p=true} → ¬p es F → (V ∨ F) → V
-  - Dictamen final: tautology
-
-=== Tabla de verdad ===
-p | resultado
-F | V
-V | V
-
-=== Dictamen ===
-(p ∨ ¬p)  tautology
-Clasificación: tautology`,
-  },
-  {
-    id: 'non-contradiction',
-    category: 'contradiction',
-    title: {
-      es: 'Principio de No Contradicción',
-      en: 'Principio of Non-Contradiction',
-    },
-    naturalLanguage: {
-      es: 'Es imposible que llueva y no llueva al mismo tiempo.',
-      en: 'It is impossible for it to rain and not rain simultaneously.',
-    },
-    code: `module contradiccion_base
-
-use core
-
-atom p = "llueve"
-
-// Intentar afirmar ambos simultáneamente
-formula f = p and not p
-
-vertauto f {
-    steps
-    table
-    verdict
-}`,
-    formula: '(p ∧ ¬p)',
-    classification: 'contradiction',
-    explanation: {
-      es: 'La afirmación conjunta de una proposición y su negación nunca puede ser satisfecha. Es falsa en todas las asignaciones del espacio booleano: una contradicción.',
-      en: 'Joint affirmation of a proposition and its negation can never be satisfied. It is false in every state space assignment: a contradiction.',
-    },
-    truthTable: [
-      { assignments: { p: false }, result: false },
-      { assignments: { p: true }, result: false },
-    ],
-    terminalLog: `=== Evaluación lógica ===
-  - Identificación de proposiciones atómicas: [p]
-  - Formalización: (p ∧ ¬p)
-  - Construcción del espacio de estados: 2^1 = 2 filas.
-  - Fila 1: asignación {p=false} → ¬p es V → (F ∧ V) → F
-  - Fila 2: asignación {p=true} → ¬p es F → (V ∧ F) → F
-  - Dictamen final: contradiction
-
-=== Tabla de verdad ===
-p | resultado
-F | F
-V | F
-
-=== Dictamen ===
-(p ∧ ¬p)  contradiction
-Clasificación: contradiction`,
-  },
-  {
-    id: 'de-morgan-laws',
-    category: 'tautology',
-    title: {
-      es: 'Leyes de De Morgan (Equivalencia)',
-      en: 'De Morgan’s Laws (Equivalence)',
-    },
-    naturalLanguage: {
-      es: 'Negar que "p y q" ocurren a la vez equivale a decir que "no p o no q".',
-      en: 'Denying that "p and q" happen together is equivalent to saying "not p or not q".',
-    },
-    code: `module de_morgan
-
-use core
-
-atom p = "estudio"
-atom q = "trabajo"
-
-// ¬(p ∧ q) ↔ (¬p ∨ ¬q)
-formula izquierda = not (p and q)
-formula derecha = not p or not q
-formula equivalencia = izquierda iff derecha
-
-vertauto equivalencia {
-    steps
-    table
-    verdict
-}`,
-    formula: '¬(p ∧ q) ↔ (¬p ∨ ¬q)',
-    classification: 'tautology',
-    explanation: {
-      es: 'El bicondicional (iff) entre ambas expresiones resulta siempre en Verdadero en las 4 filas de la tabla de verdad, demostrando que son lógicamente equivalentes.',
-      en: 'The biconditional (iff) between both expressions always evaluates to True across all 4 rows of the truth table, proving logical equivalence.',
-    },
-    truthTable: [
-      { assignments: { p: false, q: false }, result: true },
-      { assignments: { p: false, q: true }, result: true },
-      { assignments: { p: true, q: false }, result: true },
-      { assignments: { p: true, q: true }, result: true },
-    ],
-    terminalLog: `=== Evaluación lógica ===
-  - Identificación de proposiciones atómicas: [p, q]
-  - Formalización: ¬(p ∧ q) ↔ (¬p ∨ ¬q)
-  - Espacio de estados: 2^2 = 4 filas.
-  - Fila 1: {p=false, q=false} → ¬(F) ↔ (V ∨ V) → V ↔ V → V
-  - Fila 2: {p=false, q=true}  → ¬(F) ↔ (V ∨ F) → V ↔ V → V
-  - Fila 3: {p=true, q=false}  → ¬(F) ↔ (F ∨ V) → V ↔ V → V
-  - Fila 4: {p=true, q=true}   → ¬(V) ↔ (F ∨ F) → F ↔ F → V
-  - Dictamen final: tautology
-
-=== Tabla de verdad ===
-p | q | resultado
-F | F | V
-F | V | V
-V | F | V
-V | V | V
-
-=== Dictamen ===
-¬(p ∧ q) ↔ (¬p ∨ ¬q)  tautology
-Clasificación: tautology`,
-  },
-  {
-    id: 'modus-ponens',
-    category: 'tautology',
-    title: {
-      es: 'Regla de Inferencia: Modus Ponens',
-      en: 'Inference Rule: Modus Ponens',
-    },
-    naturalLanguage: {
-      es: 'Si sabemos que "p implica q", y además ocurre "p", entonces necesariamente se deduce "q".',
-      en: 'If we know that "p implies q", and "p" occurs, then "q" necessarily follows.',
-    },
-    code: `module modus_ponens
-
-use core
-
-atom p = "premisa_mayor"
-atom q = "conclusion"
-
-// ((p → q) ∧ p) → q
-formula regla = ((p impl q) and p) impl q
-
-vertauto regla {
-    steps
-    table
-    verdict
-}`,
-    formula: '((p → q) ∧ p) → q',
-    classification: 'tautology',
-    explanation: {
-      es: 'El Modus Ponens es la regla deductiva fundamental por excelencia. En Prism, su estructura condicional se verifica como una tautología perfecta en todas las asignaciones.',
-      en: 'Modus Ponens is the canonical deductive rule. In Prism, its conditional structure verifies as a tautology in every state assignment.',
-    },
-    truthTable: [
-      { assignments: { p: false, q: false }, result: true },
-      { assignments: { p: false, q: true }, result: true },
-      { assignments: { p: true, q: false }, result: true },
-      { assignments: { p: true, q: true }, result: true },
-    ],
-    terminalLog: `=== Evaluación lógica ===
-  - Identificación de proposiciones atómicas: [p, q]
-  - Formalización: ((p → q) ∧ p) → q
-  - Espacio de estados: 2^2 = 4 filas.
-  - Fila 1: {p=F, q=F} → ((V) ∧ F) → F → F → V
-  - Fila 2: {p=F, q=V} → ((V) ∧ F) → F → V → V
-  - Fila 3: {p=V, q=F} → ((F) ∧ V) → F → F → V
-  - Fila 4: {p=V, q=V} → ((V) ∧ V) → V → V → V
-  - Dictamen final: tautology
-
-=== Tabla de verdad ===
-p | q | resultado
-F | F | V
-F | V | V
-V | F | V
-V | V | V
-
-=== Dictamen ===
-((p → q) ∧ p) → q  tautology
-Clasificación: tautology`,
-  },
-  {
-    id: 'disjunctive-syllogism',
-    category: 'disjunction',
-    title: {
-      es: 'Silogismo Disyuntivo',
-      en: 'Disjunctive Syllogism',
-    },
-    naturalLanguage: {
-      es: 'O bien el culpable es A o es B. Se demuestra que no es A, por tanto es B.',
-      en: 'Either the suspect is A or B. It is proven not A, therefore it is B.',
-    },
-    code: `module silogismo_disyuntivo
-
-use core
-
-atom p = "sospechoso_A"
-atom q = "sospechoso_B"
-
-formula premisas = (p or q) and not p
-formula deduccion = premisas impl q
-
-vertauto deduccion {
-    steps
-    table
-    verdict
-}`,
-    formula: '((p ∨ q) ∧ ¬p) → q',
-    classification: 'tautology',
-    explanation: {
-      es: 'El silogismo disyuntivo garantiza que al descartar una de las dos alternativas de una disyunción verdadera, la otra se vuelve indudablemente cierta.',
-      en: 'Disjunctive syllogism guarantees that discarding one option in a true disjunction forces the remaining option to be true.',
-    },
-    truthTable: [
-      { assignments: { p: false, q: false }, result: true },
-      { assignments: { p: false, q: true }, result: true },
-      { assignments: { p: true, q: false }, result: true },
-      { assignments: { p: true, q: true }, result: true },
-    ],
-    terminalLog: `=== Evaluación lógica ===
-  - Proposiciones atómicas: [p, q]
-  - Formalización: ((p ∨ q) ∧ ¬p) → q
-  - Espacio de estados: 2^2 = 4 filas evaluadas.
-  - Dictamen final: tautology
-
-=== Tabla de verdad ===
-p | q | resultado
-F | F | V
-F | V | V
-V | F | V
-V | V | V
-
-=== Dictamen ===
-((p ∨ q) ∧ ¬p) → q  tautology
-Clasificación: tautology`,
-  },
-  {
-    id: 'nlp-weather-contingency',
+    id: 'prnlit-literal',
     category: 'nlp',
     title: {
-      es: 'Traducción PLN: Razonamiento Meteorológico',
-      en: 'NLP Translation: Weather Reasoning',
+      es: '2. prnlit — Lenguaje Natural con Translate Literal',
+      en: '2. prnlit — Natural Language with Literal Translate',
     },
     naturalLanguage: {
-      es: 'si llueve entonces llevo paraguas',
-      en: 'if it rains then I carry an umbrella',
+      es: 'si estudio apruebo',
+      en: 'if I study I pass',
     },
-    code: `module clima
-
+    code: `module mi_archivo
 use core
 
-atom p = "llueve"
-atom q = "llevo paraguas"
+atom p = "antecedente"
+atom q = "consecuente"
 
-nl oracion = "si llueve entonces llevo paraguas"
-let f = translate(oracion)
+let implicacion = translate("si estudio apruebo")
+
+vertauto implicacion {
+    steps
+    table
+    verdict
+}`,
+    formula: '(p → q)',
+    classification: 'contingency',
+    explanation: {
+      es: 'No crea una variable nl. Pone el texto en español directamente entre comillas dentro de translate("..."). Úsalo cuando la frase es corta, solo la vas a traducir una vez y quieres ahorrarte una línea de código.',
+      en: 'Does not create an nl variable. Places the natural language string directly inside translate("..."). Use it when the phrase is short and you only translate it once.',
+    },
+    truthTable: [
+      { assignments: { p: false, q: false }, result: true },
+      { assignments: { p: false, q: true }, result: true },
+      { assignments: { p: true, q: false }, result: false },
+      { assignments: { p: true, q: true }, result: true },
+    ],
+    terminalLog: `=== Traducción Literal (NL → fórmula) ===
+Entrada: "si estudio apruebo"
+  - SemanticMapper: detectado operador condicional implícito
+  - Enlace semántico: p = "antecedente", q = "consecuente"
+Fórmula emitida: (p → q)
+
+=== Tabla de verdad ===
+p | q | resultado
+F | F | V
+F | V | V
+V | F | F
+V | V | V
+
+=== Dictamen ===
+(p → q)  contingency
+Clasificación: contingency`,
+  },
+  {
+    id: 'prform-simbolica',
+    category: 'implication',
+    title: {
+      es: '3. prform — Fórmula Simbólica Pura',
+      en: '3. prform — Pure Symbolic Formula',
+    },
+    naturalLanguage: {
+      es: 'Fórmula matemática directa: p → q',
+      en: 'Direct mathematical formula: p → q',
+    },
+    code: `module mi_archivo
+use core
+
+atom p = "proposicion_a"
+atom q = "proposicion_b"
+
+formula f = p impl q
 
 vertauto f {
     steps
@@ -379,8 +152,8 @@ vertauto f {
     formula: '(p → q)',
     classification: 'contingency',
     explanation: {
-      es: 'El analizador de lenguaje natural identifica la cláusula condicional "si ... entonces ..." y enlaza automáticamente las frases atómicas con las proposiciones declaradas.',
-      en: 'The natural language analyzer identifies the conditional clause "if ... then ..." and maps the atomic clauses into declared propositions.',
+      es: 'No usa lenguaje natural ni translate. La fórmula se escribe directamente en matemática proposicional con conectores (impl, and, or, not, iff). Ideal cuando el ejercicio te da directamente una expresión simbólica.',
+      en: 'Uses no natural language or translate. The formula is written directly in propositional mathematics with connectives (impl, and, or, not, iff).',
     },
     truthTable: [
       { assignments: { p: false, q: false }, result: true },
@@ -388,17 +161,10 @@ vertauto f {
       { assignments: { p: true, q: false }, result: false },
       { assignments: { p: true, q: true }, result: true },
     ],
-    terminalLog: `=== Traducción (NL → fórmula) ===
-Entrada: si llueve entonces llevo paraguas
-  - Normalización de entrada: si llueve entonces llevo paraguas
-  - SemanticMapper: detectado operador SI_ENTONCES
-  - Enlace semántico: "llueve" → átomo p
-  - Enlace semántico: "llevo paraguas" → átomo q
-Fórmula emitida: (p → q)
-
-=== Evaluación lógica ===
-  - Espacio de estados: 2^2 = 4 filas.
-  - Fila 3: {p=true, q=false} → F
+    terminalLog: `=== Evaluación lógica ===
+  - Identificación de proposiciones atómicas: [p, q]
+  - Formalización directa: (p → q)
+  - Construcción del espacio de estados: 2^2 = 4 filas.
   - Dictamen final: contingency
 
 === Tabla de verdad ===
@@ -411,5 +177,111 @@ V | V | V
 === Dictamen ===
 (p → q)  contingency
 Clasificación: contingency`,
+  },
+  {
+    id: 'prinl-inline',
+    category: 'implication',
+    title: {
+      es: '4. prinl — Expresión Directa / Inline (al vuelo)',
+      en: '4. prinl — Direct / Inline Expression',
+    },
+    naturalLanguage: {
+      es: 'Evaluación directa entre paréntesis: vertauto (p impl q)',
+      en: 'Direct parenthesized evaluation: vertauto (p impl q)',
+    },
+    code: `module mi_archivo
+use core
+
+atom p = "proposicion_a"
+atom q = "proposicion_b"
+
+vertauto (p impl q) {
+    steps
+    table
+    verdict
+}`,
+    formula: '(p → q)',
+    classification: 'contingency',
+    explanation: {
+      es: 'No crea variables intermedias con formula f = ... ni con let f = .... Evalúa la expresión directamente entre paréntesis dentro de vertauto (...). Ideal para pruebas ultra rápidas o comprobaciones al vuelo.',
+      en: 'Creates no intermediate variables with formula or let. Evaluates the expression directly inside vertauto (...) for ultra-fast checks.',
+    },
+    truthTable: [
+      { assignments: { p: false, q: false }, result: true },
+      { assignments: { p: false, q: true }, result: true },
+      { assignments: { p: true, q: false }, result: false },
+      { assignments: { p: true, q: true }, result: true },
+    ],
+    terminalLog: `=== Evaluación Inline ===
+  - Expresión al vuelo: (p → q)
+  - Espacio de estados: 2^2 = 4 filas.
+
+=== Tabla de verdad ===
+p | q | resultado
+F | F | V
+F | V | V
+V | F | F
+V | V | V
+
+=== Dictamen ===
+(p → q)  contingency
+Clasificación: contingency`,
+  },
+  {
+    id: 'de-morgan-laws',
+    category: 'tautology',
+    title: {
+      es: 'Equivalencia e Implicación Material (Tautología)',
+      en: 'Equivalence & Material Implication (Tautology)',
+    },
+    naturalLanguage: {
+      es: '(p → q) ↔ (¬p ∨ q)',
+      en: '(p → q) ↔ (¬p ∨ q)',
+    },
+    code: `module equivalencia_implicacion
+use core
+
+atom p = "proposicion_a"
+atom q = "proposicion_b"
+
+formula f = (p impl q) iff (not p or q)
+
+vertauto f {
+    steps
+    table
+    verdict
+}`,
+    formula: '(p → q) ↔ (¬p ∨ q)',
+    classification: 'tautology',
+    explanation: {
+      es: 'Demuestra mediante fórmula simbólica pura (prform) que la implicación material (p → q) es lógicamente equivalente a (¬p ∨ q), obteniendo Verdadero en las 4 filas.',
+      en: 'Proves via pure symbolic formula (prform) that material implication (p → q) is logically equivalent to (¬p ∨ q), evaluating to True across all 4 rows.',
+    },
+    truthTable: [
+      { assignments: { p: false, q: false }, result: true },
+      { assignments: { p: false, q: true }, result: true },
+      { assignments: { p: true, q: false }, result: true },
+      { assignments: { p: true, q: true }, result: true },
+    ],
+    terminalLog: `=== Evaluación lógica ===
+  - Identificación de proposiciones atómicas: [p, q]
+  - Formalización: (p → q) ↔ (¬p ∨ q)
+  - Espacio de estados: 2^2 = 4 filas.
+  - Fila 1: {p=false, q=false} → V ↔ V → V
+  - Fila 2: {p=false, q=true}  → V ↔ V → V
+  - Fila 3: {p=true, q=false}  → F ↔ F → V
+  - Fila 4: {p=true, q=true}   → V ↔ V → V
+  - Dictamen final: tautology
+
+=== Tabla de verdad ===
+p | q | resultado
+F | F | V
+F | V | V
+V | F | V
+V | V | V
+
+=== Dictamen ===
+(p → q) ↔ (¬p ∨ q)  tautology
+Clasificación: tautology`,
   },
 ];

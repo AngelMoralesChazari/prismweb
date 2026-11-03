@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+  /* 👇 AQUÍ AJUSTAS LA ESCALA GENERAL DE TODA LA WEB (16px es 100%, 17.5px es ~110%) 👇 */
+  html {
+    font-size: 17.5px;
+  }
+
   body {
     background-color: #f8fafc;
     color: #1e293b;
