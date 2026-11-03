@@ -11,10 +11,12 @@ import { Footer } from './components/Footer';
 export function AppContent() {
   const [activePage, setActivePage] = useState<PageView>('home');
   const [docArticleId, setDocArticleId] = useState<string | undefined>(undefined);
+  const [navVersion, setNavVersion] = useState<number>(0);
 
   const handleNavigate = (page: PageView, articleId?: string) => {
     setActivePage(page);
     setDocArticleId(articleId);
+    setNavVersion((v) => v + 1);
   };
 
   return (
@@ -25,7 +27,9 @@ export function AppContent() {
         {activePage === 'about' && <WhatIsLogicScript onNavigate={handleNavigate} />}
         {activePage === 'downloads' && <Downloads onNavigate={handleNavigate} />}
         {activePage === 'demo' && <Playground />}
-        {activePage === 'docs' && <DocsHub initialArticleId={docArticleId} />}
+        {activePage === 'docs' && (
+          <DocsHub initialArticleId={docArticleId} navVersion={navVersion} />
+        )}
       </main>
       <Footer onNavigate={handleNavigate} />
     </div>

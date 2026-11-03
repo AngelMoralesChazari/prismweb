@@ -1,13 +1,13 @@
 import React from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { PageView } from './Navbar';
-import { Download, Terminal, CheckCircle2, FileCode, BookOpen } from 'lucide-react';
+import { Download } from 'lucide-react';
 
 interface DownloadsProps {
   onNavigate?: (page: PageView, articleId?: string) => void;
 }
 
-export const Downloads: React.FC<DownloadsProps> = ({ onNavigate }) => {
+export const Downloads: React.FC<DownloadsProps> = () => {
   const { language } = useLanguage();
 
   return (
@@ -42,7 +42,7 @@ export const Downloads: React.FC<DownloadsProps> = ({ onNavigate }) => {
 
         {/* 3 Columns: Windows | Mac (.tar.gz) | Linux (.tar.gz) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start text-center mb-16">
-          
+
           {/* COLUMN 1: WINDOWS */}
           <div className="flex flex-col items-center">
             {/* Windows 4-Pane Perspective Icon */}
@@ -74,9 +74,9 @@ export const Downloads: React.FC<DownloadsProps> = ({ onNavigate }) => {
 
             {/* Footnotes */}
             <div className="mt-4 space-y-2 text-xs text-slate-500 max-w-xs">
-              <p>*Solo para 64x bits</p>
+              <p>Solo para 64x bits</p>
               <p>
-                *Paquete <code className="text-slate-700 font-mono">prism-v1.0.0-windows.zip</code> con el ejecutable <code className="text-slate-700 font-mono">prc</code> y módulo base <code className="text-slate-700 font-mono">core.pr</code>.
+                Paquete <code className="text-slate-700 font-mono">prism-v1.0.0-windows.zip</code> con el ejecutable <code className="text-slate-700 font-mono">prc</code> y módulo base <code className="text-slate-700 font-mono">core.pr</code>.
               </p>
             </div>
           </div>
@@ -112,7 +112,7 @@ export const Downloads: React.FC<DownloadsProps> = ({ onNavigate }) => {
 
             {/* Footnotes */}
             <div className="mt-4 space-y-2 text-xs text-slate-500 max-w-xs">
-              <p>*Compatible con Apple Silicon e Intel (<code className="text-slate-700 font-mono">prism-v1.0.0.tar.gz</code>)</p>
+              <p>Compatible con Apple Silicon e Intel (<code className="text-slate-700 font-mono">prism-v1.0.0.tar.gz</code>)</p>
             </div>
           </div>
 
@@ -196,56 +196,6 @@ export const Downloads: React.FC<DownloadsProps> = ({ onNavigate }) => {
             </div>
           </div>
 
-        </div>
-
-        {/* Quick Installation Instructions Card */}
-        <div className="bg-slate-50 rounded-lg border border-slate-200 p-6 sm:p-8">
-          <h3 className="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
-            <Terminal className="w-4 h-4 text-[#0e6eb8]" />
-            <span>
-              {language === 'es'
-                ? 'Guía Rápida de Instalación y Ejecución'
-                : 'Quick Installation & Execution Guide'}
-            </span>
-          </h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-slate-600">
-            <div className="space-y-2">
-              <div className="font-bold text-slate-800 flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#04add6]" />
-                <span>1. Compilador / Intérprete Prism (v1.0.0)</span>
-              </div>
-              <p className="leading-relaxed">
-                Descomprime el archivo descargado para Windows (<code className="font-mono text-slate-800">prism-v1.0.0-windows.zip</code>), Mac (<code className="font-mono text-slate-800">prism-v1.0.0.tar.gz</code>) o Linux (<code className="font-mono text-slate-800">prism-v1.0.0-linux.tar.gz</code>) y ejecuta tus programas <code className="font-mono text-slate-800">.pr</code> con <code className="font-mono text-slate-800">prc</code>:
-              </p>
-              <pre className="p-3 rounded bg-[#1e2430] text-slate-100 font-mono text-[11px] overflow-x-auto">
-{`# Validar sintaxis y coherencia semántica
-prc check mi_ejercicio.pr
-
-# Ejecutar evaluación y tabla de verdad
-prc run mi_ejercicio.pr`}
-              </pre>
-            </div>
-
-            <div className="space-y-2">
-              <div className="font-bold text-slate-800 flex items-center gap-1.5">
-                <FileCode className="w-3.5 h-3.5 text-[#04add6]" />
-                <span>2. Extensión Oficial en Visual Studio Code</span>
-              </div>
-              <p className="leading-relaxed">
-                La extensión oficial de <strong>Prism</strong> ya está publicada en el Marketplace de Visual Studio Code. Búscala directamente en la pestaña de extensiones (<kbd className="px-1.5 py-0.5 rounded bg-white border border-slate-300 font-mono text-[10px]">Ctrl+Shift+X</kbd>) para activar el resaltado sintáctico <code className="font-mono text-slate-800">.pr</code> y los snippets (<code className="font-mono text-slate-800">prnl</code>, <code className="font-mono text-slate-800">prnlit</code>, <code className="font-mono text-slate-800">prform</code>, <code className="font-mono text-slate-800">prinl</code>).
-              </p>
-              {onNavigate && (
-                <button
-                  onClick={() => onNavigate('docs', 'snippets-catalogo')}
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-[#0e6eb8] hover:underline pt-1"
-                >
-                  <BookOpen className="w-3.5 h-3.5" />
-                  <span>Ver catálogo de snippets y documentación oficial →</span>
-                </button>
-              )}
-            </div>
-          </div>
         </div>
       </div>
     </div>

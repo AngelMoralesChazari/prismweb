@@ -5,22 +5,19 @@ import { DocArticle } from '../types';
 import { CodeViewer } from './CodeViewer';
 import { PrismLogo } from './Navbar';
 import {
-  BookOpen,
-  Code2,
   Search,
   ArrowLeft,
   ArrowRight,
   Lightbulb,
-  LayoutGrid,
 } from 'lucide-react';
 
 interface DocsHubProps {
   initialArticleId?: string;
+  navVersion?: number;
 }
 
-export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId }) => {
+export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion }) => {
   const { language, t } = useLanguage();
-  const [viewMode, setViewMode] = useState<'hub' | 'manual'>(initialArticleId ? 'manual' : 'manual');
   const [selectedArticleId, setSelectedArticleId] = useState<string>(
     initialArticleId || docsArticles[0].id
   );
@@ -29,9 +26,10 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId }) => {
   useEffect(() => {
     if (initialArticleId) {
       setSelectedArticleId(initialArticleId);
-      setViewMode('manual');
+    } else {
+      setSelectedArticleId(docsArticles[0].id);
     }
-  }, [initialArticleId]);
+  }, [initialArticleId, navVersion]);
 
   const categories = [
     { id: 'getting-started', label: { es: 'PRIMEROS PASOS', en: 'GETTING STARTED' } },
@@ -62,76 +60,10 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId }) => {
 
   const openArticle = (id: string) => {
     setSelectedArticleId(id);
-    setViewMode('manual');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // VIEW 1: Clean 2-Card Portal (Like Screenshot 3)
-  if (viewMode === 'hub') {
-    return (
-      <div className="min-h-[80vh] bg-slate-50 flex flex-col justify-between">
-        <div>
-          {/* Top Blue Banner */}
-          <div className="bg-prism-hero py-10 text-white border-b border-slate-800/20">
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h1 className="text-3xl font-bold tracking-tight">
-                {language === 'es' ? 'Documentación' : 'Documentation'}
-              </h1>
-            </div>
-          </div>
-
-          {/* 2 Clean Cards (Manual Prism & Referencia Sintáctica) */}
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Card 1: Manual Prism */}
-              <div
-                onClick={() => openArticle('intro')}
-                className="bg-white rounded-lg border border-slate-200/90 p-10 text-center shadow-md hover:shadow-lg transition-all cursor-pointer group"
-              >
-                <div className="w-16 h-16 mx-auto mb-5 flex items-center justify-center text-slate-400 group-hover:text-sky-600 transition-colors">
-                  <BookOpen className="w-14 h-14 stroke-[1.5]" />
-                </div>
-                <h2 className="text-xl font-bold text-slate-800 mb-3">
-                  {language === 'es' ? 'Manual Prism' : 'Prism Manual'}
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed mb-6">
-                  {language === 'es'
-                    ? 'La documentación oficial de Prism se encuentra en línea y cubre desde la instalación y primeros pasos hasta traducción de lenguaje natural y tablas de verdad.'
-                    : 'The official Prism documentation is available online, covering installation, getting started, natural language translation, and truth tables.'}
-                </p>
-                <span className="text-xs font-bold text-slate-800 group-hover:text-sky-600 underline underline-offset-4">
-                  {language === 'es' ? 'Ver Manual' : 'View Manual'}
-                </span>
-              </div>
-
-              {/* Card 2: Referencia Sintáctica & Operadores */}
-              <div
-                onClick={() => openArticle('gramatica-ebnf')}
-                className="bg-white rounded-lg border border-slate-200/90 p-10 text-center shadow-md hover:shadow-lg transition-all cursor-pointer group"
-              >
-                <div className="w-16 h-16 mx-auto mb-5 flex items-center justify-center text-slate-400 group-hover:text-sky-600 transition-colors">
-                  <Code2 className="w-14 h-14 stroke-[1.5]" />
-                </div>
-                <h2 className="text-xl font-bold text-slate-800 mb-3">
-                  {language === 'es' ? 'Gramática EBNF y Operadores' : 'EBNF Grammar & Operators'}
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed mb-6">
-                  {language === 'es'
-                    ? 'Especificación formal v1.0: conectores lógicos (not, and, or, impl, iff), precedencia, gramática EBNF y reglas de identificadores.'
-                    : 'Formal v1.0 specification: logical connectives (not, and, or, impl, iff), precedence, EBNF grammar, and identifier rules.'}
-                </p>
-                <span className="text-xs font-bold text-slate-800 group-hover:text-sky-600 underline underline-offset-4">
-                  {language === 'es' ? 'Ver Especificación' : 'View Specification'}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // VIEW 2: Full Manual Layout (Like Screenshot 4: Dark Left Sidebar + Clean White Reader)
+  // Full Manual Layout: Dark Left Sidebar + Clean White Reader
   return (
     <div className="min-h-screen bg-white flex flex-col lg:flex-row">
       {/* LEFT SIDEBAR: MANUAL | Lenguaje Prism */}
@@ -146,17 +78,9 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId }) => {
               <span className="text-white/40">|</span>
               <PrismLogo className="h-8 w-auto" variant="onDark" />
             </div>
-
-            <button
-              onClick={() => setViewMode('hub')}
-              title={language === 'es' ? 'Vista de tarjetas' : 'Hub view'}
-              className="p-1.5 rounded bg-white/10 hover:bg-white/20 text-white transition-colors"
-            >
-              <LayoutGrid className="w-4 h-4" />
-            </button>
           </div>
 
-          {/* Search Input (Rounded pill like Screenshot 4) */}
+          {/* Search Input */}
           <div className="relative">
             <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
@@ -208,36 +132,7 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId }) => {
       {/* RIGHT CONTENT READER (Clean White Manual Page) */}
       <div className="flex-1 bg-white text-slate-800">
         <div className="max-w-4xl mx-auto px-6 sm:px-12 py-8 sm:py-10">
-          {/* Top Breadcrumb Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-2 pb-4 mb-6 border-b border-slate-200 text-xs text-slate-500">
-            <div className="flex items-center gap-1.5">
-              <button
-                onClick={() => setViewMode('hub')}
-                className="text-sky-600 hover:underline font-medium"
-              >
-                Docs
-              </button>
-              <span>»</span>
-              <button
-                onClick={() => setSelectedArticleId('intro')}
-                className="text-sky-600 hover:underline font-medium"
-              >
-                Manual Prism 1.0
-              </button>
-              <span>»</span>
-              <span className="text-slate-700 font-medium">{currentArticle.title[language]}</span>
-            </div>
-
-            <button
-              onClick={() => setViewMode('hub')}
-              className="text-xs text-slate-500 hover:text-sky-600 inline-flex items-center gap-1"
-            >
-              <LayoutGrid className="w-3.5 h-3.5" />
-              <span>{language === 'es' ? 'Portal de Documentación' : 'Documentation Portal'}</span>
-            </button>
-          </div>
-
-          {/* Special Manual Overview Header when on 'intro' (Inspired by Screenshot 4) */}
+          {/* Special Manual Overview Header when on 'intro' */}
           {currentArticle.id === 'intro' && (
             <div className="mb-10 pb-8 border-b border-slate-200">
               <blockquote className="text-xs sm:text-sm italic text-slate-600 bg-slate-50 border-l-4 border-sky-500 p-4 rounded-r mb-6">

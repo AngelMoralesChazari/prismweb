@@ -165,8 +165,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, onNavigate }) => {
     { id: 'docs', label: t.nav.docs },
   ];
 
-  const handleNav = (id: PageView) => {
-    onNavigate(id);
+  const handleNav = (id: PageView, articleId?: string) => {
+    onNavigate(id, articleId);
     setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -241,7 +241,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, onNavigate }) => {
               </div>
 
               <button
-                onClick={() => handleNav('docs')}
+                onClick={() => handleNav('docs', 'intro')}
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-semibold bg-[#04add6] hover:bg-[#0396ba] text-white shadow-sm transition-colors"
               >
                 <BookOpen className="w-3.5 h-3.5" />
