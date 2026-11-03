@@ -3,6 +3,7 @@ export const translations = {
     nav: {
       home: 'Inicio',
       whatIs: 'Sobre Prism',
+      download: 'Descarga',
       demo: 'Playground',
       philosophy: 'Filosofía',
       features: 'Características',
@@ -194,6 +195,7 @@ export const translations = {
     nav: {
       home: 'Home',
       whatIs: 'About Prism',
+      download: 'Download',
       demo: 'Playground',
       philosophy: 'Philosophy',
       features: 'Features',

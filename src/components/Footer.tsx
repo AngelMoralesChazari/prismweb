@@ -31,6 +31,13 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </button>
               <span className="text-slate-300">|</span>
               <button
+                onClick={() => handleLink('downloads')}
+                className="hover:text-sky-600 transition-colors"
+              >
+                {t.nav.download}
+              </button>
+              <span className="text-slate-300">|</span>
+              <button
                 onClick={() => handleLink('docs')}
                 className="hover:text-sky-600 transition-colors"
               >
@@ -38,10 +45,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </button>
               <span className="text-slate-300">|</span>
               <button
-                onClick={() => handleLink('docs', 'syntax-reference')}
+                onClick={() => handleLink('docs', 'gramatica-ebnf')}
                 className="hover:text-sky-600 transition-colors"
               >
-                {language === 'es' ? 'Referencia Sintáctica' : 'Syntax Reference'}
+                {language === 'es' ? 'Gramática EBNF' : 'EBNF Grammar'}
               </button>
               <span className="text-slate-300">|</span>
               <button

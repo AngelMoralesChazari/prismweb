@@ -106,22 +106,22 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId }) => {
 
               {/* Card 2: Referencia Sintáctica & Operadores */}
               <div
-                onClick={() => openArticle('syntax-reference')}
+                onClick={() => openArticle('gramatica-ebnf')}
                 className="bg-white rounded-lg border border-slate-200/90 p-10 text-center shadow-md hover:shadow-lg transition-all cursor-pointer group"
               >
                 <div className="w-16 h-16 mx-auto mb-5 flex items-center justify-center text-slate-400 group-hover:text-sky-600 transition-colors">
                   <Code2 className="w-14 h-14 stroke-[1.5]" />
                 </div>
                 <h2 className="text-xl font-bold text-slate-800 mb-3">
-                  {language === 'es' ? 'Gramática y Operadores' : 'Grammar & Operators'}
+                  {language === 'es' ? 'Gramática EBNF y Operadores' : 'EBNF Grammar & Operators'}
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-500 leading-relaxed mb-6">
                   {language === 'es'
-                    ? 'Referencia rápida de conectores lógicos (not, and, or, impl, iff), precedencia formal, palabras reservadas y bloques vertauto.'
-                    : 'Quick reference for logical connectives (not, and, or, impl, iff), formal precedence, reserved keywords, and vertauto blocks.'}
+                    ? 'Especificación formal v1.0: conectores lógicos (not, and, or, impl, iff), precedencia, gramática EBNF y reglas de identificadores.'
+                    : 'Formal v1.0 specification: logical connectives (not, and, or, impl, iff), precedence, EBNF grammar, and identifier rules.'}
                 </p>
                 <span className="text-xs font-bold text-slate-800 group-hover:text-sky-600 underline underline-offset-4">
-                  {language === 'es' ? 'Ver Referencia' : 'View Reference'}
+                  {language === 'es' ? 'Ver Especificación' : 'View Specification'}
                 </span>
               </div>
             </div>
@@ -222,7 +222,7 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId }) => {
                 onClick={() => setSelectedArticleId('intro')}
                 className="text-sky-600 hover:underline font-medium"
               >
-                Manual Prism 0.2
+                Manual Prism 1.0
               </button>
               <span>»</span>
               <span className="text-slate-700 font-medium">{currentArticle.title[language]}</span>
@@ -245,15 +245,15 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId }) => {
               </blockquote>
 
               <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">
-                Manual Prism 0.2.0
+                Manual Oficial de Prism v1.0
               </h1>
               <p className="text-sm text-slate-600 mb-4">
                 {language === 'es'
-                  ? 'Bienvenidos al manual oficial de Prism, un lenguaje declarativo para lógica proposicional y traducción de lenguaje natural.'
-                  : 'Welcome to the official manual of Prism, a declarative language for propositional logic and natural language translation.'}
+                  ? 'Documentación completa del lenguaje de lógica proposicional Prism (extensión .pr), compilador prc y extensión para VS Code.'
+                  : 'Complete documentation for the Prism propositional logic language (.pr extension), prc compiler, and VS Code extension.'}
               </p>
 
-              <div className="grid grid-cols-2 sm:w-72 text-xs gap-y-1.5 mb-8">
+              <div className="grid grid-cols-2 sm:w-80 text-xs gap-y-1.5 mb-8">
                 <span className="font-bold text-slate-700">
                   {language === 'es' ? 'Lenguaje:' : 'Language:'}
                 </span>
@@ -261,51 +261,51 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId }) => {
                 <span className="font-bold text-slate-700">
                   {language === 'es' ? 'Versión:' : 'Version:'}
                 </span>
-                <span className="text-sky-600 font-medium">Prism 0.2.0</span>
+                <span className="text-sky-600 font-medium">Prism v1.0.0 (Extensión 0.3.2)</span>
                 <span className="font-bold text-slate-700">
                   {language === 'es' ? 'Extensión:' : 'Extension:'}
                 </span>
-                <span className="font-mono text-slate-700">.pr</span>
+                <span className="font-mono text-slate-700">.pr (ejecutable: prc)</span>
               </div>
 
               {/* Empezando Quick Links */}
               <h3 className="text-lg font-bold text-slate-800 mb-3">
-                {language === 'es' ? 'Empezando' : 'Getting Started'}
+                {language === 'es' ? 'Guías Oficiales' : 'Official Guides'}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-sm mb-8">
-                <button
-                  onClick={() => setSelectedArticleId('installation')}
-                  className="text-left text-sky-600 hover:underline font-medium"
-                >
-                  {language === 'es' ? 'Instalación y Entorno' : 'Installation & Setup'}
-                </button>
                 <button
                   onClick={() => setSelectedArticleId('first-program')}
                   className="text-left text-sky-600 hover:underline font-medium"
                 >
-                  {language === 'es' ? 'Mi Primer Programa' : 'My First Program'}
+                  {language === 'es' ? '02. Guía Rápida de Ejercicios y CLI (prc)' : '02. Quick Exercise & CLI Guide (prc)'}
                 </button>
                 <button
-                  onClick={() => setSelectedArticleId('file-structure')}
+                  onClick={() => setSelectedArticleId('snippets-catalogo')}
                   className="text-left text-sky-600 hover:underline font-medium"
                 >
-                  {language === 'es' ? 'Estructura de un Programa' : 'Program Structure'}
+                  {language === 'es' ? '03. Autocompletado y Snippets (prnl, prnlit, prform, prinl)' : '03. Autocomplete & Snippets'}
                 </button>
                 <button
-                  onClick={() => setSelectedArticleId('atomic-propositions')}
+                  onClick={() => setSelectedArticleId('vscode-extension')}
                   className="text-left text-sky-600 hover:underline font-medium"
                 >
-                  {language === 'es' ? 'Proposiciones Atómicas (atom)' : 'Atomic Propositions (atom)'}
+                  {language === 'es' ? '04. Extensión VS Code (prism-0.3.2.vsix)' : '04. VS Code Extension (prism-0.3.2.vsix)'}
+                </button>
+                <button
+                  onClick={() => setSelectedArticleId('reglas-identificadores')}
+                  className="text-left text-sky-600 hover:underline font-medium"
+                >
+                  {language === 'es' ? '05. Reglas de Identificadores e Inmutabilidad (let)' : '05. Identifier Rules & let Immutability'}
                 </button>
               </div>
 
-              {/* Categorías Cards (Like Screenshot 4) */}
+              {/* Categorías Cards */}
               <h3 className="text-lg font-bold text-slate-800 mb-4">
-                {language === 'es' ? 'Categorías Principales' : 'Core Categories'}
+                {language === 'es' ? 'Especificación Formal v1.0' : 'Formal Specification v1.0'}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div
-                  onClick={() => setSelectedArticleId('operators')}
+                  onClick={() => setSelectedArticleId('gramatica-ebnf')}
                   className="rounded-lg border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-white"
                 >
                   <div className="h-24 bg-gradient-to-r from-sky-600 to-blue-700 flex items-center justify-center text-white font-mono text-2xl font-bold tracking-widest">
@@ -313,31 +313,31 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId }) => {
                   </div>
                   <div className="p-4">
                     <h4 className="font-bold text-sky-600 text-base mb-1">
-                      {language === 'es' ? 'Operadores Lógicos' : 'Logical Operators'}
+                      {language === 'es' ? 'Gramática EBNF y Precedencia' : 'EBNF Grammar & Precedence'}
                     </h4>
                     <p className="text-xs text-slate-500 leading-relaxed">
                       {language === 'es'
-                        ? 'Conectores proposicionales not, and, or, impl e iff con precedencia formal.'
-                        : 'Propositional connectives not, and, or, impl, and iff with formal precedence.'}
+                        ? 'Conectores proposicionales not (4), and (3), or (2), impl (1, derecha) e iff (0).'
+                        : 'Propositional connectives not (4), and (3), or (2), impl (1, right), and iff (0).'}
                     </p>
                   </div>
                 </div>
 
                 <div
-                  onClick={() => setSelectedArticleId('translate-function')}
+                  onClick={() => setSelectedArticleId('especificacion-lexica')}
                   className="rounded-lg border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-white"
                 >
                   <div className="h-24 bg-[#1e2430] flex items-center justify-center text-emerald-400 font-mono text-xs px-4">
-                    nl linea = "si p entonces q"
+                    nl premisa = "si llueve llevo paraguas"
                   </div>
                   <div className="p-4">
                     <h4 className="font-bold text-sky-600 text-base mb-1">
-                      {language === 'es' ? 'Lenguaje Natural (PLN)' : 'Natural Language (NLP)'}
+                      {language === 'es' ? 'Arquitectura Two-Pass y Diagnósticos' : 'Two-Pass Architecture & Diagnostics'}
                     </h4>
                     <p className="text-xs text-slate-500 leading-relaxed">
                       {language === 'es'
-                        ? 'Traducción automática de enunciados en español/inglés hacia fórmulas simbólicas.'
-                        : 'Automatic translation of verbal statements into symbolic formulas.'}
+                        ? 'Recolección de átomos, enlace de translate() y tabla de errores semánticos.'
+                        : 'Atom collection, translate() binding, and semantic diagnostics table.'}
                     </p>
                   </div>
                 </div>
@@ -393,8 +393,8 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId }) => {
               ))}
             </div>
 
-            {/* If viewing 'operators' or 'syntax-reference', also show the clean Operators Table */}
-            {(currentArticle.id === 'operators' || currentArticle.id === 'syntax-reference') && (
+            {/* If viewing 'gramatica-ebnf' or 'especificacion-lexica', also show the clean Operators Table */}
+            {(currentArticle.id === 'gramatica-ebnf' || currentArticle.id === 'especificacion-lexica') && (
               <div className="mt-8 pt-6 border-t border-slate-200">
                 <h3 className="text-base font-bold text-slate-800 mb-3">
                   {t.reference.operatorsTableTitle}

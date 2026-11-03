@@ -238,23 +238,23 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               {/* Main CTA Button */}
               <div className="flex flex-col items-center lg:items-start gap-3">
                 <button
-                  onClick={() => onNavigate('docs')}
+                  onClick={() => onNavigate('downloads')}
                   className="w-72 py-3.5 px-6 rounded bg-[#04add6] hover:bg-[#0396ba] text-white font-semibold text-sm shadow-lg transition-all text-center"
                 >
-                  <div>{language === 'es' ? 'Explorar Documentación' : 'Explore Documentation'}</div>
+                  <div>{language === 'es' ? 'Descargar Prism v1.0.0' : 'Download Prism v1.0.0'}</div>
                   <div className="text-xs font-normal text-sky-100 mt-0.5">
-                    {language === 'es' ? 'Manual oficial y referencia' : 'Official manual & reference'}
+                    {language === 'es' ? 'Windows, Linux y Extensión VS Code' : 'Windows, Linux & VS Code Extension'}
                   </div>
                 </button>
 
                 <button
-                  onClick={() => onNavigate('demo')}
+                  onClick={() => onNavigate('docs')}
                   className="w-72 py-2.5 px-4 rounded bg-slate-900/85 hover:bg-slate-900 text-xs text-slate-200 border border-white/10 transition-colors text-center"
                 >
                   <span className="text-[#04add6] font-medium">
-                    {language === 'es' ? 'Playground interactivo' : 'Interactive Playground'}
+                    {language === 'es' ? 'Documentación Oficial v1.0' : 'Official v1.0 Documentation'}
                   </span>{' '}
-                  {language === 'es' ? 'disponible' : 'available'}
+                  — {language === 'es' ? 'Manual y Playground' : 'Manual & Playground'}
                 </button>
               </div>
             </div>
@@ -440,7 +440,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                   : 'Quickly look up operator precedence (not, and, or, impl, iff) and reserved language keywords.'}
               </p>
               <button
-                onClick={() => onNavigate('docs', 'syntax-reference')}
+                onClick={() => onNavigate('docs', 'gramatica-ebnf')}
                 className="text-xs font-semibold text-[#04add6] hover:text-sky-800 hover:underline"
               >
                 {language === 'es' ? 'Ver tabla de operadores →' : 'View operators table →'}

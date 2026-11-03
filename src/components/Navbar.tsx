@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Menu, X, Play, BookOpen } from 'lucide-react';
 
-export type PageView = 'home' | 'about' | 'demo' | 'docs';
+export type PageView = 'home' | 'about' | 'downloads' | 'demo' | 'docs';
 
 interface NavbarProps {
   activePage: PageView;
@@ -160,6 +160,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activePage, onNavigate }) => {
   const navItems: { id: PageView; label: string }[] = [
     { id: 'home', label: t.nav.home },
     { id: 'about', label: t.nav.whatIs },
+    { id: 'downloads', label: t.nav.download },
     { id: 'demo', label: t.nav.demo },
     { id: 'docs', label: t.nav.docs },
   ];
