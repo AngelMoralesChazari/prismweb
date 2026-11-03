@@ -63,11 +63,11 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Full Manual Layout: Dark Left Sidebar + Clean White Reader
+  // Full Manual Layout: Dark Left Sidebar (Sticky, no scroll) + Clean White Reader
   return (
-    <div className="min-h-screen bg-white flex flex-col lg:flex-row">
-      {/* LEFT SIDEBAR: MANUAL | Lenguaje Prism */}
-      <aside className="w-full lg:w-72 bg-[#252a30] text-slate-200 flex-shrink-0 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col lg:flex-row lg:items-start">
+      {/* LEFT SIDEBAR: MANUAL | Lenguaje Prism (Sticky under h-14 navbar, stays fixed on scroll) */}
+      <aside className="w-full lg:w-72 bg-[#252a30] text-slate-200 flex-shrink-0 flex flex-col lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] overflow-hidden">
         {/* Top Blue Manual Header */}
         <div className="bg-[#1b75bb] px-5 py-4">
           <div className="flex items-center justify-between mb-3">
@@ -94,7 +94,7 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion }
         </div>
 
         {/* Sidebar Navigation Links */}
-        <nav className="p-4 space-y-5 overflow-y-auto flex-1 text-xs">
+        <nav className="p-4 space-y-4 overflow-hidden flex-1 text-xs">
           {categories.map((cat) => {
             const articlesInCat = filteredArticles.filter((art) => art.category === cat.id);
             if (articlesInCat.length === 0) return null;
@@ -110,7 +110,7 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion }
                     return (
                       <li key={art.id}>
                         <button
-                          onClick={() => setSelectedArticleId(art.id)}
+                          onClick={() => openArticle(art.id)}
                           className={`w-full text-left px-2.5 py-1.5 rounded transition-colors ${
                             isSelected
                               ? 'bg-white/10 text-white font-semibold border-l-2 border-sky-400'
@@ -132,130 +132,22 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion }
       {/* RIGHT CONTENT READER (Clean White Manual Page) */}
       <div className="flex-1 bg-white text-slate-800">
         <div className="max-w-4xl mx-auto px-6 sm:px-12 py-8 sm:py-10">
-          {/* Special Manual Overview Header when on 'intro' */}
-          {currentArticle.id === 'intro' && (
-            <div className="mb-10 pb-8 border-b border-slate-200">
-              <blockquote className="text-xs sm:text-sm italic text-slate-600 bg-slate-50 border-l-4 border-sky-500 p-4 rounded-r mb-6">
-                "La lógica formal es el cimiento del pensamiento riguroso; Prism la convierte en código claro, verificable y accesible desde el lenguaje humano."
-              </blockquote>
-
-              <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">
-                Manual Oficial de Prism v1.0
-              </h1>
-              <p className="text-sm text-slate-600 mb-4">
-                {language === 'es'
-                  ? 'Documentación completa del lenguaje de lógica proposicional Prism (extensión .pr), compilador prc y extensión para VS Code.'
-                  : 'Complete documentation for the Prism propositional logic language (.pr extension), prc compiler, and VS Code extension.'}
-              </p>
-
-              <div className="grid grid-cols-2 sm:w-80 text-xs gap-y-1.5 mb-8">
-                <span className="font-bold text-slate-700">
-                  {language === 'es' ? 'Lenguaje:' : 'Language:'}
-                </span>
-                <span className="text-sky-600 font-medium">Prism</span>
-                <span className="font-bold text-slate-700">
-                  {language === 'es' ? 'Versión:' : 'Version:'}
-                </span>
-                <span className="text-sky-600 font-medium">Prism v1.0.0 (Extensión 0.3.2)</span>
-                <span className="font-bold text-slate-700">
-                  {language === 'es' ? 'Extensión:' : 'Extension:'}
-                </span>
-                <span className="font-mono text-slate-700">.pr (ejecutable: prc)</span>
-              </div>
-
-              {/* Empezando Quick Links */}
-              <h3 className="text-lg font-bold text-slate-800 mb-3">
-                {language === 'es' ? 'Guías Oficiales' : 'Official Guides'}
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-sm mb-8">
-                <button
-                  onClick={() => setSelectedArticleId('first-program')}
-                  className="text-left text-sky-600 hover:underline font-medium"
-                >
-                  {language === 'es' ? '02. Guía Rápida de Ejercicios y CLI (prc)' : '02. Quick Exercise & CLI Guide (prc)'}
-                </button>
-                <button
-                  onClick={() => setSelectedArticleId('snippets-catalogo')}
-                  className="text-left text-sky-600 hover:underline font-medium"
-                >
-                  {language === 'es' ? '03. Autocompletado y Snippets (prnl, prnlit, prform, prinl)' : '03. Autocomplete & Snippets'}
-                </button>
-                <button
-                  onClick={() => setSelectedArticleId('vscode-extension')}
-                  className="text-left text-sky-600 hover:underline font-medium"
-                >
-                  {language === 'es' ? '04. Extensión VS Code (prism-0.3.2.vsix)' : '04. VS Code Extension (prism-0.3.2.vsix)'}
-                </button>
-                <button
-                  onClick={() => setSelectedArticleId('reglas-identificadores')}
-                  className="text-left text-sky-600 hover:underline font-medium"
-                >
-                  {language === 'es' ? '05. Reglas de Identificadores e Inmutabilidad (let)' : '05. Identifier Rules & let Immutability'}
-                </button>
-              </div>
-
-              {/* Categorías Cards */}
-              <h3 className="text-lg font-bold text-slate-800 mb-4">
-                {language === 'es' ? 'Especificación Formal v1.0' : 'Formal Specification v1.0'}
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div
-                  onClick={() => setSelectedArticleId('gramatica-ebnf')}
-                  className="rounded-lg border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-white"
-                >
-                  <div className="h-24 bg-gradient-to-r from-sky-600 to-blue-700 flex items-center justify-center text-white font-mono text-2xl font-bold tracking-widest">
-                    ¬ ∧ ∨ → ↔
-                  </div>
-                  <div className="p-4">
-                    <h4 className="font-bold text-sky-600 text-base mb-1">
-                      {language === 'es' ? 'Gramática EBNF y Precedencia' : 'EBNF Grammar & Precedence'}
-                    </h4>
-                    <p className="text-xs text-slate-500 leading-relaxed">
-                      {language === 'es'
-                        ? 'Conectores proposicionales not (4), and (3), or (2), impl (1, derecha) e iff (0).'
-                        : 'Propositional connectives not (4), and (3), or (2), impl (1, right), and iff (0).'}
-                    </p>
-                  </div>
-                </div>
-
-                <div
-                  onClick={() => setSelectedArticleId('especificacion-lexica')}
-                  className="rounded-lg border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-white"
-                >
-                  <div className="h-24 bg-[#1e2430] flex items-center justify-center text-emerald-400 font-mono text-xs px-4">
-                    nl premisa = "si llueve llevo paraguas"
-                  </div>
-                  <div className="p-4">
-                    <h4 className="font-bold text-sky-600 text-base mb-1">
-                      {language === 'es' ? 'Arquitectura Two-Pass y Diagnósticos' : 'Two-Pass Architecture & Diagnostics'}
-                    </h4>
-                    <p className="text-xs text-slate-500 leading-relaxed">
-                      {language === 'es'
-                        ? 'Recolección de átomos, enlace de translate() y tabla de errores semánticos.'
-                        : 'Atom collection, translate() binding, and semantic diagnostics table.'}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
           {/* Article Content */}
           <article>
             <div className="mb-6">
-              <span className="inline-block text-[11px] font-semibold uppercase tracking-wider text-sky-600 bg-sky-50 border border-sky-200 px-2.5 py-0.5 rounded mb-2">
+              <span className="inline-block text-xs font-semibold uppercase tracking-wider text-sky-600 bg-sky-50 border border-sky-200 px-2.5 py-0.5 rounded mb-2">
                 {currentArticle.categoryLabel[language]}
               </span>
               <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
                 {currentArticle.title[language]}
               </h1>
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <p className="text-base text-slate-600 leading-relaxed">
                 {currentArticle.description[language]}
               </p>
             </div>
 
             {/* Summary Box */}
-            <div className="p-4 rounded-lg bg-slate-50 border border-slate-200 text-sm text-slate-700 leading-relaxed mb-8">
+            <div className="p-4 sm:p-5 rounded-lg bg-slate-50 border border-slate-200 text-base text-slate-700 leading-relaxed mb-8">
               {currentArticle.content[language].summary}
             </div>
 
@@ -263,10 +155,10 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion }
             <div className="space-y-8">
               {currentArticle.content[language].sections.map((sec, idx) => (
                 <div key={idx} className="space-y-3">
-                  <h2 className="text-lg font-bold text-slate-800 border-b border-slate-200 pb-1.5">
+                  <h2 className="text-lg sm:text-xl font-bold text-slate-900 border-b border-slate-200 pb-2">
                     {sec.heading}
                   </h2>
-                  <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line">
+                  <p className="text-base text-slate-700 leading-relaxed whitespace-pre-line">
                     {sec.text}
                   </p>
                   {sec.code && (
@@ -279,7 +171,7 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion }
                     </div>
                   )}
                   {sec.tip && (
-                    <div className="p-3.5 rounded-lg bg-sky-50 border border-sky-200 text-xs text-sky-900 flex items-start gap-2.5">
+                    <div className="p-4 rounded-lg bg-sky-50 border border-sky-200 text-sm text-sky-900 flex items-start gap-2.5">
                       <Lightbulb className="w-4 h-4 text-sky-600 flex-shrink-0 mt-0.5" />
                       <span className="leading-relaxed">{sec.tip}</span>
                     </div>

@@ -5,8 +5,8 @@ export const examplesData: ExampleItem[] = [
     id: 'prnl-canonico',
     category: 'nlp',
     title: {
-      es: '1. prnl — Ejercicio NL Canónico (Método en Papel)',
-      en: '1. prnl — Canonical NL Exercise (Paper Method)',
+      es: '1. prnl — Ejercicio NL Canónico',
+      en: '1. prnl — Canonical NL Exercise',
     },
     naturalLanguage: {
       es: 'si p entonces q (Enunciado → Descomposición atómica → Traducción formal → Tabla de verdad)',
