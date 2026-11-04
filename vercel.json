@@ -1,9 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/sobre-prism", "destination": "/index.html" },
-    { "source": "/descarga", "destination": "/index.html" },
-    { "source": "/playground", "destination": "/index.html" },
-    { "source": "/documentacion", "destination": "/index.html" },
-    { "source": "/documentacion/:path*", "destination": "/index.html" }
-  ]
-}

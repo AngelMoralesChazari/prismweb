@@ -13,63 +13,39 @@ interface HistoryNavState {
   articleId?: string;
 }
 
-const PAGE_TO_PATH: Record<PageView, string> = {
-  home: '/',
-  about: '/sobre-prism',
-  downloads: '/descarga',
-  demo: '/playground',
-  docs: '/documentacion',
-};
+const VALID_PAGES: PageView[] = ['home', 'about', 'downloads', 'demo', 'docs'];
 
-function parseLocationToState(): HistoryNavState {
-  const rawPath = window.location.pathname.replace(/\/+$/, '') || '/';
-
-  if (rawPath === '/sobre-prism' || rawPath === '/about') {
-    return { page: 'about' };
+function getInitialHistoryState(): HistoryNavState {
+  const existing = window.history.state as HistoryNavState | null;
+  if (existing && VALID_PAGES.includes(existing.page)) {
+    return {
+      page: existing.page,
+      articleId: existing.articleId,
+    };
   }
-  if (rawPath === '/descarga' || rawPath === '/downloads') {
-    return { page: 'downloads' };
-  }
-  if (rawPath === '/playground' || rawPath === '/demo') {
-    return { page: 'demo' };
-  }
-  if (rawPath === '/documentacion' || rawPath === '/docs') {
-    return { page: 'docs' };
-  }
-  if (rawPath.startsWith('/documentacion/') || rawPath.startsWith('/docs/')) {
-    const parts = rawPath.split('/').filter(Boolean);
-    return { page: 'docs', articleId: parts[1] };
-  }
-
   return { page: 'home' };
 }
 
-function buildPath(page: PageView, articleId?: string): string {
-  if (page === 'docs' && articleId && articleId !== 'intro') {
-    return `/documentacion/${articleId}`;
-  }
-  return PAGE_TO_PATH[page] || '/';
-}
-
 export function AppContent() {
-  const initial = parseLocationToState();
+  const initial = getInitialHistoryState();
   const [activePage, setActivePage] = useState<PageView>(initial.page);
   const [docArticleId, setDocArticleId] = useState<string | undefined>(initial.articleId);
   const [navVersion, setNavVersion] = useState<number>(0);
 
   // Initialize first history entry & listen to browser Back/Forward buttons
   useEffect(() => {
-    const currentState = parseLocationToState();
-    window.history.replaceState(
-      currentState,
-      '',
-      buildPath(currentState.page, currentState.articleId)
-    );
+    const startState = getInitialHistoryState();
+    window.history.replaceState(startState, '', '/');
 
     const handlePopState = (event: PopStateEvent) => {
-      const state: HistoryNavState = event.state || parseLocationToState();
-      setActivePage(state.page);
-      setDocArticleId(state.articleId);
+      const state = event.state as HistoryNavState | null;
+      if (state && VALID_PAGES.includes(state.page)) {
+        setActivePage(state.page);
+        setDocArticleId(state.articleId);
+      } else {
+        setActivePage('home');
+        setDocArticleId(undefined);
+      }
       setNavVersion((v) => v + 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
@@ -81,15 +57,13 @@ export function AppContent() {
   const handleNavigate = useCallback(
     (page: PageView, articleId?: string) => {
       const normalizedArticle = page === 'docs' ? articleId : undefined;
-      const nextPath = buildPath(page, normalizedArticle);
-      const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
 
-      if (currentPath !== nextPath || activePage !== page || docArticleId !== normalizedArticle) {
-        window.history.pushState(
-          { page, articleId: normalizedArticle } satisfies HistoryNavState,
-          '',
-          nextPath
-        );
+      if (activePage !== page || docArticleId !== normalizedArticle) {
+        const nextState: HistoryNavState = {
+          page,
+          articleId: normalizedArticle,
+        };
+        window.history.pushState(nextState, '', '/');
       }
 
       setActivePage(page);
