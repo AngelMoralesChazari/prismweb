@@ -3,7 +3,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 import { docsArticles, operatorsReference } from '../data/docs';
 import { DocArticle } from '../types';
 import { CodeViewer } from './CodeViewer';
-import { PrismLogo } from './Navbar';
+import { PrismLogo, PageView } from './Navbar';
 import {
   Search,
   ArrowLeft,
@@ -14,9 +14,10 @@ import {
 interface DocsHubProps {
   initialArticleId?: string;
   navVersion?: number;
+  onNavigate?: (page: PageView, articleId?: string) => void;
 }
 
-export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion }) => {
+export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion, onNavigate }) => {
   const { language, t } = useLanguage();
   const [selectedArticleId, setSelectedArticleId] = useState<string>(
     initialArticleId || docsArticles[0].id
@@ -60,6 +61,9 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion }
 
   const openArticle = (id: string) => {
     setSelectedArticleId(id);
+    if (onNavigate) {
+      onNavigate('docs', id);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
