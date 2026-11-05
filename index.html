@@ -1,21 +1,100 @@
 <!doctype html>
 <html lang="es" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/Prismv1.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PRISM — Logic Language</title>
-    <meta name="description" content="PRISM es un lenguaje de programación declarativo que conecta el lenguaje natural con la lógica proposicional formal." />
-    <meta name="keywords" content="PRISM, Logic Language, lenguaje de programación, lógica proposicional, lenguaje declarativo, tablas de verdad, lenguaje natural" />
-    <meta name="theme-color" content="#0f172a" />
 
-    <!-- Google Fonts: Space Grotesk & JetBrains Mono -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-[#04add6]/20 selection:text-sky-900 overflow-x-hidden min-h-screen">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/Prismv1.png" />
+
+  <!-- Título y Metadatos Primarios -->
+  <title>PRISM — Logic Language</title>
+  <meta name="title" content="PRISM — Logic Language" />
+  <meta name="description"
+    content="PRISM es un lenguaje de programación declarativo creado por AngelMorales Cházari (AB Software Group), diseñado para conectar el lenguaje natural con la lógica proposicional formal." />
+  <meta name="keywords"
+    content="PRISM, Logic Language, AngelMorales Cházari, AB Software Group, lenguaje de programación, lógica proposicional, lenguaje declarativo, inferencia lógica, tablas de verdad, lenguaje natural" />
+  <meta name="author" content="AngelMorales Cházari, AB Software Group" />
+  <meta name="theme-color" content="#0f172a" />
+
+  <!-- Control de Rastreo e Indexación -->
+  <link rel="canonical" href="https://prism-lang.com/" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+  <!-- Open Graph / Redes Sociales y Mensajería -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://prism-lang.com/" />
+  <meta property="og:site_name" content="PRISM Logic Language" />
+  <meta property="og:title" content="PRISM — Logic Language | Creado por AngelMorales Cházari" />
+  <meta property="og:description"
+    content="Lenguaje de programación declarativo creado por AngelMorales Cházari que une el lenguaje natural con la lógica proposicional formal." />
+  <meta property="og:image" content="https://prism-lang.com/Prismv1.png" />
+  <meta property="og:image:alt" content="Logotipo Oficial de PRISM Logic Language" />
+  <meta property="og:locale" content="es_ES" />
+
+  <!-- Twitter / X Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://prism-lang.com/" />
+  <meta name="twitter:title" content="PRISM — Logic Language | Creado por AngelMorales Cházari" />
+  <meta name="twitter:description"
+    content="Lenguaje de programación declarativo creado por AngelMorales Cházari que une el lenguaje natural con la lógica proposicional formal." />
+  <meta name="twitter:image" content="https://prism-lang.com/Prismv1.png" />
+
+  <!-- Fuentes Tipográficas -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Datos Estructurados Schema.org (JSON-LD con Autoría y Software) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://prism-lang.com/#author",
+        "name": "AngelMorales Cházari",
+        "url": "https://github.com/AngelMoralesChazari",
+        "sameAs": [
+          "https://github.com/AngelMoralesChazari"
+        ],
+        "jobTitle": "Software Developer & Language Creator",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "AB Software Group",
+          "url": "https://prism-lang.com"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://prism-lang.com/#software",
+        "name": "PRISM",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "All",
+        "url": "https://prism-lang.com/",
+        "description": "Lenguaje de programación declarativo que conecta el lenguaje natural con la lógica proposicional formal.",
+        "author": {
+          "@id": "https://prism-lang.com/#author"
+        },
+        "creator": {
+          "@id": "https://prism-lang.com/#author"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "AB Software Group",
+          "url": "https://prism-lang.com"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body
+  class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-[#04add6]/20 selection:text-sky-900 overflow-x-hidden min-h-screen">
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
