@@ -102,7 +102,7 @@ export const docsArticles: DocArticle[] = [
             heading: '1. Estructura del Programa y Módulos (module, use)',
             text: '• module: Declara el nombre lógico del archivo .pr actual. Debe ser obligatoriamente la primera instrucción del archivo y su identificador debe coincidir con el nombre del archivo sin la extensión .pr.\n\n• use: Importa un módulo léxico de conocimiento (por ejemplo, use core), el cual habilita el reconocimiento de conectores gramaticales en lenguaje natural para el motor de traducción.',
             code: `module mi_programa   # El archivo debe llamarse mi_programa.pr
-use core             # Carga el módulo léxico base (core.lgs)`,
+use core             # Carga el módulo léxico base`,
           },
           {
             heading: '2. Declaración de Proposiciones y Enunciados (atom, nl, formula, let)',
@@ -207,6 +207,16 @@ vertauto f { steps table verdict }`,
             heading: '2. Operadores Lógicos y Errores Frecuentes',
             text: 'Equivalencias entre lenguaje natural y conectores de Prism:\n- y, además → and (∧)\n- o, o bien → or (∨)\n- si… entonces → impl (→)\n- si y solo si → iff (↔)\n- no → not (¬)\n\nErrores frecuentes al formalizar:\n- «Estudio o no estudio» → Correcto: p or not p (tautology) | Incorrecto: p and not p (contradiction).\n- «Estudio y apruebo» → Correcto: p and q | Incorrecto: p or q.',
             tip: 'Usa nl t = "..." + translate(t) cuando reutilices el mismo texto o sigas el método en papel, y translate("...") cuando sea una sola frase corta.',
+          },
+          {
+            heading: '3. Jerarquía de Precedencia de Operadores',
+            text: 'Cuando combinas varios operadores sin paréntesis, Prism los agrupa de mayor a menor prioridad:\n- Nivel 5 (mayor prioridad): not (prefijo unario)\n- Nivel 4: and (asociatividad izquierda)\n- Nivel 3: or (asociatividad izquierda)\n- Nivel 2: impl (asociatividad derecha)\n- Nivel 1 (menor prioridad): iff (asociatividad izquierda)',
+            code: `# not tiene mayor prioridad que and, y and mayor que impl:
+# not p and q impl r  equivale a:  ((not p) and q) impl r
+formula f1 = not p and q impl r
+
+# Usa paréntesis para cambiar el orden de agrupación:
+formula f2 = not (p and q) impl r`,
           },
         ],
       },
@@ -494,80 +504,6 @@ atom proposicion_A = "hace frío"
     },
   },
   {
-    id: 'gramatica-ebnf',
-    title: {
-      es: 'Gramática EBNF y Precedencia de Operadores',
-      en: 'EBNF Grammar & Operator Precedence',
-    },
-    description: {
-      es: 'Especificación EBNF completa v1.0 y niveles de precedencia de operadores.',
-      en: 'Full v1.0 EBNF grammar specification and operator precedence levels.',
-    },
-    category: 'language-basics',
-    categoryLabel: {
-      es: 'Sintaxis y Conceptos',
-      en: 'Syntax & Concepts',
-    },
-    content: {
-      es: {
-        summary: 'Especificación formal de la gramática EBNF de Prism v1.0 y jerarquía de precedencia de operadores proposicionales.',
-        sections: [
-          {
-            heading: '1. Gramática del Programa en EBNF',
-            text: 'Definición formal de la estructura sintáctica de un archivo .pr:',
-            code: `program        ::= module_decl { use_decl } { top_level_stmt }
-module_decl    ::= 'module' identifier
-use_decl       ::= 'use' identifier
-
-top_level_stmt ::= atom_decl
-                 | formula_decl
-                 | nl_decl
-                 | let_decl
-                 | rule_decl
-                 | run_stmt
-                 | vertauto_stmt
-
-atom_decl      ::= 'atom' identifier '=' string_literal
-formula_decl   ::= 'formula' identifier '=' formula_expr
-nl_decl        ::= 'nl' identifier '=' string_literal
-let_decl       ::= 'let' identifier '=' expression
-expression     ::= translate_call
-translate_call ::= 'translate' '(' text_expr { ',' 'module' ':' identifier } ')'
-text_expr      ::= identifier | string_literal
-
-vertauto_stmt  ::= 'vertauto' formula_ref vertauto_suffix?
-formula_ref    ::= identifier | '(' formula_expr ')'
-vertauto_suffix ::= '{' vertauto_option { vertauto_option } '}'
-vertauto_option ::= 'steps' | 'table' | 'verdict'`,
-          },
-          {
-            heading: '2. Gramática de Expresiones de Fórmula y Precedencia',
-            text: 'Jerarquía de precedencia de menor a mayor prioridad de enlace:\n- Nivel 1: iff (asociatividad izquierda)\n- Nivel 2: impl (asociatividad derecha)\n- Nivel 3: or (asociatividad izquierda)\n- Nivel 4: and (asociatividad izquierda)\n- Nivel 5: not (prefijo unario)\n- Nivel 6: átomo o expresión entre paréntesis ( ... )',
-            code: `formula_expr   ::= iff_expr
-iff_expr       ::= impl_expr { 'iff' impl_expr }
-impl_expr      ::= or_expr { 'impl' or_expr }
-or_expr        ::= and_expr { 'or' and_expr }
-and_expr       ::= not_expr { 'and' not_expr }
-not_expr       ::= 'not' not_expr | primary_expr
-primary_expr   ::= identifier | '(' formula_expr ')'`,
-          },
-        ],
-      },
-      en: {
-        summary: 'Formal EBNF grammar specification of Prism v1.0 and operator precedence hierarchy.',
-        sections: [
-          {
-            heading: '1. Program EBNF Grammar',
-            text: 'Formal syntax structure of a .pr file:',
-            code: `program        ::= module_decl { use_decl } { top_level_stmt }
-module_decl    ::= 'module' identifier
-use_decl       ::= 'use' identifier`,
-          },
-        ],
-      },
-    },
-  },
-  {
     id: 'semantica-vertauto',
     title: {
       es: 'Semántica: module, use, translate, vertauto y Tipos',
@@ -674,6 +610,528 @@ let psi = translate("if it rains I carry an umbrella", module: core_en)`,
             code: `nl linea1 = "si llueve llevo paraguas"
 let f1 = translate(linea1)
 let phi = translate("si llueve llevo paraguas")`,
+          },
+        ],
+      },
+    },
+  },
+  {
+    id: 'fundamentos-logica',
+    title: {
+      es: 'Fundamentos: Tautología, Contradicción y Contingencia',
+      en: 'Foundations: Tautology, Contradiction & Contingency',
+    },
+    description: {
+      es: 'Significado formal de los 3 dictámenes de vertauto y cómo interpretar steps, table y verdict.',
+      en: 'Formal meaning of the 3 vertauto verdicts and how to read steps, table, and verdict.',
+    },
+    category: 'nlp',
+    categoryLabel: {
+      es: 'Guía de Lógica y Ejemplos',
+      en: 'Logic Guide & Examples',
+    },
+    content: {
+      es: {
+        summary: 'En Prism, vertauto evalúa todas las interpretaciones posibles (2^n filas para n átomos distintos) y clasifica toda fórmula o argumento en exactamente uno de tres dictámenes formales: tautology, contradiction o contingency. Cada archivo .pr debe coincidir con el nombre del module para su ejecución.',
+        sections: [
+          {
+            heading: '1. Ejecución de Ejemplos en Consola',
+            text: 'Cada bloque de código de esta guía representa un archivo .pr completo e independiente. El nombre del archivo al guardar debe coincidir con el nombre del module (por ejemplo, module fundamentos -> guardar como fundamentos.pr):\n\nprc check fundamentos.pr\nprc run fundamentos.pr',
+          },
+          {
+            heading: '2. Ejemplo Autocontenido: fundamentos.pr',
+            text: 'Guarda este código como fundamentos.pr para comparar los tres dictámenes en un mismo archivo:',
+            filename: 'fundamentos.pr',
+            code: `module fundamentos
+
+use core
+
+atom p = "llueve"
+atom q = "la calle se moja"
+
+formula tautologia = p or not p
+formula contradiccion = p and not p
+formula contingencia = p impl q
+
+vertauto tautologia { steps table verdict }
+vertauto contradiccion { table verdict }
+vertauto contingencia { steps table verdict }
+
+# Salida esperada:
+# (p ∨ ¬p)  tautology        -> Verdadera en todas las filas
+# (p ∧ ¬p)  contradiction    -> Falsa en todas las filas
+# (p → q)   contingency      -> Falla en Fila 3: {p=true, q=false} → F`,
+          },
+          {
+            heading: '3. Cómo Leer la Salida de vertauto',
+            text: '• steps: Muestra los átomos identificados, la fórmula formalizada y el resultado booleano fila por fila en las 2^n asignaciones.\n• table: Presenta la tabla de verdad completa (F = falso, V = verdadero).\n• verdict: Resume si la fórmula o argumento es tautology (ley lógica / argumento válido), contradiction (inconsistente) o contingency (depende de los valores; en un argumento deductivo indica invalidez o falacia mostrando el contraejemplo exacto).',
+          },
+        ],
+      },
+      en: {
+        summary: 'In Prism, vertauto evaluates all 2^n truth assignments and classifies every formula or argument as tautology, contradiction, or contingency. Each .pr file name must match its module name.',
+        sections: [
+          {
+            heading: '1. Running Examples via CLI',
+            text: 'Each code block is a complete, standalone .pr file. Save with the exact module name:\n\nprc check fundamentos.pr\nprc run fundamentos.pr',
+          },
+          {
+            heading: '2. Standalone Example: fundamentos.pr',
+            text: 'Save this code as fundamentos.pr to compare all three verdicts:',
+            filename: 'fundamentos.pr',
+            code: `module fundamentos
+
+use core
+
+atom p = "llueve"
+atom q = "la calle se moja"
+
+formula tautologia = p or not p
+formula contradiccion = p and not p
+formula contingencia = p impl q
+
+vertauto tautologia { steps table verdict }
+vertauto contradiccion { table verdict }
+vertauto contingencia { steps table verdict }
+
+# Salida esperada:
+# (p ∨ ¬p)  tautology        -> Verdadera en todas las filas
+# (p ∧ ¬p)  contradiction    -> Falsa en todas las filas
+# (p → q)   contingency      -> Falla en Fila 3: {p=true, q=false} → F`,
+          },
+          {
+            heading: '3. Reading vertauto Output',
+            text: '• steps: Shows identified atomic propositions, formalized formula, and step-by-step evaluations across 2^n assignments.\n• table: Displays truth table (F = false, V = true).\n• verdict: Reports if the formula is a tautology (law / valid argument), contradiction, or contingency (revealing counterexamples).',
+          },
+        ],
+      },
+    },
+  },
+  {
+    id: 'reglas-inferencia',
+    title: {
+      es: 'Recetario de Leyes Lógicas y Reglas de Inferencia',
+      en: 'Logical Laws & Inference Rules Cookbook',
+    },
+    description: {
+      es: 'Demostración de Modus Ponens, Modus Tollens, Contraposición, De Morgan y Silogismos en archivos autocontenidos.',
+      en: 'Demonstrating Modus Ponens, Modus Tollens, Contraposition, De Morgan, and Syllogisms in standalone files.',
+    },
+    category: 'nlp',
+    categoryLabel: {
+      es: 'Guía de Lógica y Ejemplos',
+      en: 'Logic Guide & Examples',
+    },
+    content: {
+      es: {
+        summary: 'Colección de leyes lógicas y reglas de inferencia clásicas listas para ejecutar con Prism v1.1.0. Cada ejemplo está estructurado como un archivo autocontenido listo para copiar y probar.',
+        sections: [
+          {
+            heading: '1. Modus Ponens: ((p → q) ∧ p) → q',
+            text: 'Puedes combinar variables let dentro de formula (enfoque modular) o escribir el argumento completo en una sola oración en español con "por lo tanto". En ambos casos el dictamen es tautology:\n\nArchivo sugerido: modus_ponens.pr',
+            filename: 'modus_ponens.pr',
+            code: `module modus_ponens
+
+use core
+
+atom p = "llueve"
+atom q = "la calle se moja"
+
+# Enfoque 1: Modular (combinando variables let dentro de formula)
+nl texto_regla = "Si llueve entonces la calle se moja."
+let regla = translate(texto_regla)
+let hecho = translate("Llueve.")
+
+formula mp_modular = (regla and hecho) impl q
+vertauto mp_modular { steps table verdict }
+
+# Enfoque 2: En una sola oración en español
+nl arg_es = "Si llueve entonces la calle se moja; llueve; por lo tanto la calle se moja."
+let mp_nl = translate(arg_es)
+vertauto mp_nl { verdict }
+
+# Salida en ambos casos:
+# (((p → q) ∧ p) → q)  tautology`,
+          },
+          {
+            heading: '2. Modus Tollens: ((p → q) ∧ ¬q) → ¬p',
+            text: 'Si una implicación es verdadera y su consecuente es falso, se deduce formalmente la negación del antecedente. Funciona tanto en modo modular como directo en español (; ...; por lo tanto ... o . ..., luego ...):\n\nArchivo sugerido: modus_tollens.pr',
+            filename: 'modus_tollens.pr',
+            code: `module modus_tollens
+
+use core
+
+atom p = "llueve"
+atom q = "la calle se moja"
+
+# Enfoque 1: Modular autocontenido
+let regla = translate("Si llueve entonces la calle se moja.")
+let calle_seca = translate("La calle no se moja.")
+
+formula mt_modular = (regla and calle_seca) impl not p
+vertauto mt_modular { steps table verdict }
+
+# Enfoque 2: En una sola oración en español
+nl arg_es = "Si llueve entonces la calle se moja; la calle no se moja; por lo tanto no llueve."
+let mt_nl = translate(arg_es)
+vertauto mt_nl { verdict }
+
+# Salida en ambos casos:
+# (((p → q) ∧ ¬q) → ¬p)  tautology`,
+          },
+          {
+            heading: '3. Ley de Contraposición: (p → q) ↔ (¬q → ¬p)',
+            text: 'Demuestra que una implicación es lógicamente equivalente a invertir y negar ambos extremos:\n\nArchivo sugerido: contraposicion.pr',
+            filename: 'contraposicion.pr',
+            code: `module contraposicion
+
+use core
+
+atom p = "llueve"
+atom q = "la calle se moja"
+
+# Enfoque 1: Simbólico modular
+let regla = translate("Si llueve entonces la calle se moja.")
+formula contra_simbolica = regla iff (not q impl not p)
+vertauto contra_simbolica { table verdict }
+
+# Enfoque 2: En una sola oración en español
+nl arg_es = "Si llueve entonces la calle se moja si y solo si si la calle no se moja entonces no llueve."
+let contra_nl = translate(arg_es)
+vertauto contra_nl { verdict }
+
+# Salida en ambos casos:
+# ((p → q) ↔ (¬q → ¬p))  tautology`,
+          },
+          {
+            heading: '4. Leyes de De Morgan',
+            text: 'Ambas leyes verificadas en español puro, tanto en forma de regla conclusiva (por lo tanto) como de equivalencia bicondicional (si y solo si):\n\nArchivo sugerido: leyes_de_morgan.pr',
+            filename: 'leyes_de_morgan.pr',
+            code: `module leyes_de_morgan
+
+use core
+
+atom p = "llueve"
+atom q = "la calle se moja"
+
+# Primera ley: !(p \\/ q) -> (!p /\\ !q)
+nl ley_1 = "No es verdad que llueva o la calle se moje; por lo tanto no llueve y la calle no se moja."
+let de_morgan_1 = translate(ley_1)
+vertauto de_morgan_1 { table verdict }
+
+# Segunda ley: !(p /\\ q) <-> (!p \\/ !q)
+nl ley_2 = "No es verdad que llueva y la calle se moje si y solo si no llueve o la calle no se moja."
+let de_morgan_2 = translate(ley_2)
+vertauto de_morgan_2 { verdict }
+
+# Salidas esperadas:
+# (¬((p ∨ q)) → (¬p ∧ ¬q))  tautology
+# (¬((p ∧ q)) ↔ (¬p ∨ ¬q))  tautology`,
+          },
+          {
+            heading: '5. Silogismo Hipotético: ((p → q) ∧ (q → r)) → (p → r)',
+            text: 'Encadena dos implicaciones para deducir la transitividad. En el enfoque modular ni siquiera es obligatorio declarar atom: Prism unifica las proposiciones repetidas automáticamente entre múltiples llamadas translate:\n\nArchivo sugerido: silogismo_hipotetico.pr',
+            filename: 'silogismo_hipotetico.pr',
+            code: `module silogismo_hipotetico
+
+use core
+
+# Enfoque 1: Modular sin declarar atom previos (unificación automática)
+let p1 = translate("Si estudio entonces aprendo.")
+let p2 = translate("Si aprendo entonces apruebo.")
+let conclusion = translate("Si estudio entonces apruebo.")
+
+formula sh_modular = (p1 and p2) impl conclusion
+vertauto sh_modular { table verdict }
+
+# Enfoque 2: En una sola oración en español
+nl arg_es = "Si estudio entonces aprendo; si aprendo entonces apruebo; por lo tanto si estudio entonces apruebo."
+let sh_nl = translate(arg_es)
+vertauto sh_nl { verdict }
+
+# Salida en ambos casos:
+# (((p → q) ∧ (q → r)) → (p → r))  tautology`,
+          },
+          {
+            heading: '6. Silogismo Disyuntivo: ((p ∨ q) ∧ ¬p) → q',
+            text: 'Si una disyunción es verdadera y se descarta una de sus alternativas, la otra es necesariamente verdadera (soporta "o", "o ... o ..." y "o bien ... o bien ..."):\n\nArchivo sugerido: silogismo_disyuntivo.pr',
+            filename: 'silogismo_disyuntivo.pr',
+            code: `module silogismo_disyuntivo
+
+use core
+
+# Enfoque 1: Modular con translate
+let disyuncion = translate("Estudio o trabajo.")
+let negacion = translate("No estudio.")
+let conclusion = translate("Trabajo.")
+
+formula sd_modular = (disyuncion and negacion) impl conclusion
+vertauto sd_modular { table verdict }
+
+# Enfoque 2: En una sola oración en español (con o correlativa)
+nl arg_es = "O estudio o trabajo; no estudio; en consecuencia trabajo."
+let sd_nl = translate(arg_es)
+vertauto sd_nl { verdict }
+
+# Salida en ambos casos:
+# (((p ∨ q) ∧ ¬p) → q)  tautology`,
+          },
+        ],
+      },
+      en: {
+        summary: 'Collection of classic logical laws and inference rules ready to run with Prism v1.1.0 in standalone files.',
+        sections: [
+          {
+            heading: '1. Modus Ponens: ((p → q) ∧ p) → q',
+            text: 'Suggested file: modus_ponens.pr',
+            filename: 'modus_ponens.pr',
+            code: `module modus_ponens
+
+use core
+
+atom p = "llueve"
+atom q = "la calle se moja"
+
+# Enfoque 1: Modular (combinando variables let dentro de formula)
+nl texto_regla = "Si llueve entonces la calle se moja."
+let regla = translate(texto_regla)
+let hecho = translate("Llueve.")
+
+formula mp_modular = (regla and hecho) impl q
+vertauto mp_modular { steps table verdict }
+
+# Enfoque 2: En una sola oración en español
+nl arg_es = "Si llueve entonces la calle se moja; llueve; por lo tanto la calle se moja."
+let mp_nl = translate(arg_es)
+vertauto mp_nl { verdict }
+
+# Salida en ambos casos:
+# (((p → q) ∧ p) → q)  tautology`,
+          },
+          {
+            heading: '2. Modus Tollens: ((p → q) ∧ ¬q) → ¬p',
+            text: 'Suggested file: modus_tollens.pr',
+            filename: 'modus_tollens.pr',
+            code: `module modus_tollens
+
+use core
+
+atom p = "llueve"
+atom q = "la calle se moja"
+
+# Enfoque 1: Modular autocontenido
+let regla = translate("Si llueve entonces la calle se moja.")
+let calle_seca = translate("La calle no se moja.")
+
+formula mt_modular = (regla and calle_seca) impl not p
+vertauto mt_modular { steps table verdict }
+
+# Enfoque 2: En una sola oración en español
+nl arg_es = "Si llueve entonces la calle se moja; la calle no se moja; por lo tanto no llueve."
+let mt_nl = translate(arg_es)
+vertauto mt_nl { verdict }
+
+# Salida en ambos casos:
+# (((p → q) ∧ ¬q) → ¬p)  tautology`,
+          },
+          {
+            heading: '3. Hypothetical Syllogism: ((p → q) ∧ (q → r)) → (p → r)',
+            text: 'Suggested file: silogismo_hipotetico.pr',
+            filename: 'silogismo_hipotetico.pr',
+            code: `module silogismo_hipotetico
+
+use core
+
+# Enfoque 1: Modular sin declarar atom previos (unificación automática)
+let p1 = translate("Si estudio entonces aprendo.")
+let p2 = translate("Si aprendo entonces apruebo.")
+let conclusion = translate("Si estudio entonces apruebo.")
+
+formula sh_modular = (p1 and p2) impl conclusion
+vertauto sh_modular { table verdict }
+
+# Enfoque 2: En una sola oración en español
+nl arg_es = "Si estudio entonces aprendo; si aprendo entonces apruebo; por lo tanto si estudio entonces apruebo."
+let sh_nl = translate(arg_es)
+vertauto sh_nl { verdict }
+
+# Salida en ambos casos:
+# (((p → q) ∧ (q → r)) → (p → r))  tautology`,
+          },
+        ],
+      },
+    },
+  },
+  {
+    id: 'deteccion-falacias',
+    title: {
+      es: 'Cómo Detectar Falacias Comunes con Prism',
+      en: 'Detecting Common Formal Fallacies with Prism',
+    },
+    description: {
+      es: 'Identificación de argumentos inválidos y contraejemplos exactos en archivos autocontenidos.',
+      en: 'Identifying invalid arguments and exact counterexamples in standalone files.',
+    },
+    category: 'nlp',
+    categoryLabel: {
+      es: 'Guía de Lógica y Ejemplos',
+      en: 'Logic Guide & Examples',
+    },
+    content: {
+      es: {
+        summary: 'Un argumento inválido puede parecer verdadero en lenguaje cotidiano, pero al evaluarlo con vertauto Prism devuelve contingency y muestra exactamente la asignación que lo refuta en la tabla de verdad.',
+        sections: [
+          {
+            heading: '1. Falacia de Afirmación del Consecuente: ((p → q) ∧ q) → p',
+            text: 'Enunciado cotidiano: "Si llueve entonces la calle se moja; la calle se moja; por lo tanto llueve."\n\nArchivo sugerido: falacia_consecuente.pr',
+            filename: 'falacia_consecuente.pr',
+            code: `module falacia_consecuente
+
+use core
+
+atom p = "llueve"
+atom q = "la calle se moja"
+
+nl arg_es = "Si llueve entonces la calle se moja; la calle se moja; por lo tanto llueve."
+let falacia = translate(arg_es)
+
+vertauto falacia {
+    steps
+    table
+    verdict
+}
+
+# Salida:
+# (((p → q) ∧ q) → p)  contingency
+# Contraejemplo en Fila 2: {p=false, q=true} -> F
+# (La calle puede estar mojada aunque no haya llovido).`,
+          },
+          {
+            heading: '2. Falacia de Negación del Antecedente: ((p → q) ∧ ¬p) → ¬q',
+            text: 'Enunciado cotidiano: "Si llueve entonces la calle se moja; no llueve; por lo tanto la calle no se moja."\n\nArchivo sugerido: falacia_antecedente.pr',
+            filename: 'falacia_antecedente.pr',
+            code: `module falacia_antecedente
+
+use core
+
+atom p = "llueve"
+atom q = "la calle se moja"
+
+# Enfoque 1: Modular autocontenido
+let regla = translate("Si llueve entonces la calle se moja.")
+let no_llueve = translate("No llueve.")
+let no_moja = translate("La calle no se moja.")
+
+formula falacia_mod = (regla and no_llueve) impl no_moja
+vertauto falacia_mod { table verdict }
+
+# Enfoque 2: En una sola oración en español
+nl arg_es = "Si llueve entonces la calle se moja; no llueve; por lo tanto la calle no se moja."
+let falacia_nl = translate(arg_es)
+vertauto falacia_nl { verdict }
+
+# Salida en ambos casos:
+# (((p → q) ∧ ¬p) → ¬q)  contingency
+# Contraejemplo en Fila 2: {p=false, q=true} -> F`,
+          },
+          {
+            heading: '3. Falsa Conversión de la Implicación: (p → q) → (q → p)',
+            text: 'Enunciado cotidiano: "Si estudio entonces apruebo; por lo tanto si apruebo entonces estudio."\n\nArchivo sugerido: falsa_conversion.pr',
+            filename: 'falsa_conversion.pr',
+            code: `module falsa_conversion
+
+use core
+
+nl arg_es = "Si estudio entonces apruebo; por lo tanto si apruebo entonces estudio."
+let falacia = translate(arg_es)
+
+vertauto falacia {
+    steps
+    table
+    verdict
+}
+
+# Salida:
+# ((p → q) → (q → p))  contingency
+# Contraejemplo en Fila 2: {p=false, q=true} -> F`,
+          },
+        ],
+      },
+      en: {
+        summary: 'Prism exposes formal fallacies by showing that arguments evaluate to contingency and pinpointing the exact counterexample row in standalone files.',
+        sections: [
+          {
+            heading: '1. Affirming the Consequent: ((p → q) ∧ q) → p',
+            text: 'Suggested file: falacia_consecuente.pr',
+            filename: 'falacia_consecuente.pr',
+            code: `module falacia_consecuente
+
+use core
+
+atom p = "llueve"
+atom q = "la calle se moja"
+
+nl arg_es = "Si llueve entonces la calle se moja; la calle se moja; por lo tanto llueve."
+let falacia = translate(arg_es)
+
+vertauto falacia {
+    steps
+    table
+    verdict
+}
+
+# Salida:
+# (((p → q) ∧ q) → p)  contingency
+# Contraejemplo en Fila 2: {p=false, q=true} -> F`,
+          },
+          {
+            heading: '2. Denying the Antecedent: ((p → q) ∧ ¬p) → ¬q',
+            text: 'Suggested file: falacia_antecedente.pr',
+            filename: 'falacia_antecedente.pr',
+            code: `module falacia_antecedente
+
+use core
+
+atom p = "llueve"
+atom q = "la calle se moja"
+
+# Enfoque 1: Modular autocontenido
+let regla = translate("Si llueve entonces la calle se moja.")
+let no_llueve = translate("No llueve.")
+let no_moja = translate("La calle no se moja.")
+
+formula falacia_mod = (regla and no_llueve) impl no_moja
+vertauto falacia_mod { table verdict }
+
+# Enfoque 2: En una sola oración en español
+nl arg_es = "Si llueve entonces la calle se moja; no llueve; por lo tanto la calle no se moja."
+let falacia_nl = translate(arg_es)
+vertauto falacia_nl { verdict }
+
+# Salida en ambos casos:
+# (((p → q) ∧ ¬p) → ¬q)  contingency
+# Contraejemplo en Fila 2: {p=false, q=true} -> F`,
+          },
+          {
+            heading: '3. False Conversion: (p → q) → (q → p)',
+            text: 'Suggested file: falsa_conversion.pr',
+            filename: 'falsa_conversion.pr',
+            code: `module falsa_conversion
+
+use core
+
+nl arg_es = "Si estudio entonces apruebo; por lo tanto si apruebo entonces estudio."
+let falacia = translate(arg_es)
+
+vertauto falacia {
+    steps
+    table
+    verdict
+}
+
+# Salida:
+# ((p → q) → (q → p))  contingency
+# Contraejemplo en Fila 2: {p=false, q=true} -> F`,
           },
         ],
       },

@@ -34,9 +34,9 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion, 
 
   const categories = [
     { id: 'getting-started', label: { es: 'PRIMEROS PASOS', en: 'GETTING STARTED' } },
+    { id: 'nlp', label: { es: 'GUÍA DE LÓGICA Y EJEMPLOS', en: 'LOGIC GUIDE & EXAMPLES' } },
     { id: 'language-basics', label: { es: 'SINTAXIS Y CONCEPTOS', en: 'SYNTAX & CONCEPTS' } },
     { id: 'logic-engine', label: { es: 'MOTOR LÓGICO', en: 'LOGIC ENGINE' } },
-    { id: 'nlp', label: { es: 'LENGUAJE NATURAL', en: 'NATURAL LANGUAGE' } },
     { id: 'advanced', label: { es: 'AVANZADO Y REFERENCIA', en: 'ADVANCED & REFERENCE' } },
   ];
 
@@ -98,14 +98,14 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion, 
         </div>
 
         {/* Sidebar Navigation Links */}
-        <nav className="p-4 space-y-4 overflow-hidden flex-1 text-xs">
+        <nav className="p-3.5 space-y-3 overflow-hidden flex-1 text-xs">
           {categories.map((cat) => {
             const articlesInCat = filteredArticles.filter((art) => art.category === cat.id);
             if (articlesInCat.length === 0) return null;
 
             return (
               <div key={cat.id}>
-                <h4 className="text-[11px] font-bold uppercase tracking-wider text-[#38bdf8] mb-2 px-2">
+                <h4 className="text-[11px] font-bold uppercase tracking-wider text-[#38bdf8] mb-1.5 px-2">
                   {cat.label[language]}
                 </h4>
                 <ul className="space-y-0.5">
@@ -115,7 +115,7 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion, 
                       <li key={art.id}>
                         <button
                           onClick={() => openArticle(art.id)}
-                          className={`w-full text-left px-2.5 py-1.5 rounded transition-colors ${
+                          className={`w-full text-left px-2.5 py-1 rounded transition-colors ${
                             isSelected
                               ? 'bg-white/10 text-white font-semibold border-l-2 border-sky-400'
                               : 'text-slate-300 hover:text-white hover:bg-white/5'
@@ -169,7 +169,7 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion, 
                     <div className="my-3">
                       <CodeViewer
                         code={sec.code}
-                        filename={`${currentArticle.id}.pr`}
+                        filename={sec.filename || `${currentArticle.id}.pr`}
                         showLineNumbers={true}
                       />
                     </div>
@@ -184,31 +184,108 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion, 
               ))}
             </div>
 
-            {/* If viewing 'gramatica-ebnf' or 'especificacion-lexica', also show the clean Operators Table */}
-            {(currentArticle.id === 'gramatica-ebnf' || currentArticle.id === 'especificacion-lexica') && (
+            {/* If viewing 'fundamentos-logica', show the Verdicts Reference Table */}
+            {currentArticle.id === 'fundamentos-logica' && (
+              <div className="mt-8 pt-6 border-t border-slate-200">
+                <h3 className="text-base font-bold text-slate-800 mb-3">
+                  {language === 'es'
+                    ? 'Tabla Resumen: Los 3 Dictámenes de vertauto en Prism'
+                    : 'Summary Table: The 3 vertauto Verdicts in Prism'}
+                </h3>
+                <div className="overflow-x-auto rounded-lg border border-slate-200">
+                  <table className="w-full text-sm text-left">
+                    <thead className="bg-slate-100 text-slate-700 border-b border-slate-200">
+                      <tr>
+                        <th className="py-2.5 px-3.5 font-bold">
+                          {language === 'es' ? 'Dictamen (verdict)' : 'Verdict'}
+                        </th>
+                        <th className="py-2.5 px-3.5 font-bold">
+                          {language === 'es' ? 'Significado formal' : 'Formal Meaning'}
+                        </th>
+                        <th className="py-2.5 px-3.5 font-bold">
+                          {language === 'es'
+                            ? 'Qué indica al evaluar un argumento (Premisas) → Conclusión'
+                            : 'Meaning when evaluating an argument (Premises) → Conclusion'}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200">
+                      <tr className="hover:bg-slate-50">
+                        <td className="py-2.5 px-3.5 font-mono font-bold text-emerald-700 whitespace-nowrap">
+                          tautology
+                        </td>
+                        <td className="py-2.5 px-3.5 text-slate-700">
+                          {language === 'es'
+                            ? 'Verdadera (V) en todas las filas de la tabla.'
+                            : 'True (T) in every row of the truth table.'}
+                        </td>
+                        <td className="py-2.5 px-3.5 text-slate-700">
+                          {language === 'es'
+                            ? 'Ley lógica o argumento deductivamente válido: jamás ocurre premisas verdaderas y conclusión falsa.'
+                            : 'Logical law or deductively valid argument: true premises and false conclusion never occur.'}
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-slate-50">
+                        <td className="py-2.5 px-3.5 font-mono font-bold text-rose-700 whitespace-nowrap">
+                          contradiction
+                        </td>
+                        <td className="py-2.5 px-3.5 text-slate-700">
+                          {language === 'es'
+                            ? 'Falsa (F) en todas las filas de la tabla.'
+                            : 'False (F) in every row of the truth table.'}
+                        </td>
+                        <td className="py-2.5 px-3.5 text-slate-700">
+                          {language === 'es'
+                            ? 'Contradicción lógica: sus enunciados se refutan mutuamente bajo cualquier asignación posible.'
+                            : 'Logical contradiction: statements mutually refute each other under any possible assignment.'}
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-slate-50">
+                        <td className="py-2.5 px-3.5 font-mono font-bold text-amber-700 whitespace-nowrap">
+                          contingency
+                        </td>
+                        <td className="py-2.5 px-3.5 text-slate-700">
+                          {language === 'es'
+                            ? 'Verdadera (V) en unas filas y falsa (F) en otras.'
+                            : 'True (T) in some rows and false (F) in others.'}
+                        </td>
+                        <td className="py-2.5 px-3.5 text-slate-700">
+                          {language === 'es'
+                            ? 'Fórmula contingente. En argumentos deductivos revela una falacia o inferencia inválida, mostrando en F el contraejemplo exacto.'
+                            : 'Contingent formula. In deductive arguments it reveals a fallacy or invalid inference, showing the exact counterexample in F.'}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* If viewing 'first-program' or 'especificacion-lexica', show the clean Operators Table */}
+            {(currentArticle.id === 'first-program' || currentArticle.id === 'especificacion-lexica') && (
               <div className="mt-8 pt-6 border-t border-slate-200">
                 <h3 className="text-base font-bold text-slate-800 mb-3">
                   {t.reference.operatorsTableTitle}
                 </h3>
                 <div className="overflow-x-auto rounded-lg border border-slate-200">
-                  <table className="w-full text-xs text-left">
+                  <table className="w-full text-sm text-left">
                     <thead className="bg-slate-100 text-slate-700 border-b border-slate-200">
                       <tr>
-                        <th className="py-2.5 px-3 font-bold">{t.reference.colKeyword}</th>
-                        <th className="py-2.5 px-3 font-bold">{t.reference.colSymbol}</th>
-                        <th className="py-2.5 px-3 font-bold">{t.reference.colMeaning}</th>
-                        <th className="py-2.5 px-3 font-bold">{t.reference.colPrecedence}</th>
-                        <th className="py-2.5 px-3 font-bold">{t.reference.colExample}</th>
+                        <th className="py-2.5 px-3.5 font-bold">{t.reference.colKeyword}</th>
+                        <th className="py-2.5 px-3.5 font-bold">{t.reference.colSymbol}</th>
+                        <th className="py-2.5 px-3.5 font-bold">{t.reference.colMeaning}</th>
+                        <th className="py-2.5 px-3.5 font-bold">{t.reference.colPrecedence}</th>
+                        <th className="py-2.5 px-3.5 font-bold">{t.reference.colExample}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200">
                       {operatorsReference.map((op) => (
                         <tr key={op.keyword} className="hover:bg-slate-50">
-                          <td className="py-2 px-3 font-mono font-bold text-sky-700">{op.keyword}</td>
-                          <td className="py-2 px-3 font-mono text-sm">{op.symbol}</td>
-                          <td className="py-2 px-3 text-slate-700">{op.meaning[language]}</td>
-                          <td className="py-2 px-3 font-mono text-slate-500">{op.precedence}</td>
-                          <td className="py-2 px-3 font-mono text-slate-800">{op.example}</td>
+                          <td className="py-2.5 px-3.5 font-mono font-bold text-sky-700">{op.keyword}</td>
+                          <td className="py-2.5 px-3.5 font-mono text-base">{op.symbol}</td>
+                          <td className="py-2.5 px-3.5 text-slate-700">{op.meaning[language]}</td>
+                          <td className="py-2.5 px-3.5 font-mono text-slate-500">{op.precedence}</td>
+                          <td className="py-2.5 px-3.5 font-mono text-slate-800">{op.example}</td>
                         </tr>
                       ))}
                     </tbody>

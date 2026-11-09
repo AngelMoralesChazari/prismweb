@@ -43,13 +43,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               >
                 {language === 'es' ? 'Manual Prism' : 'Prism Manual'}
               </button>
-              <span className="text-slate-300">|</span>
-              <button
-                onClick={() => handleLink('docs', 'gramatica-ebnf')}
-                className="hover:text-sky-600 transition-colors"
-              >
-                {language === 'es' ? 'Gramática EBNF' : 'EBNF Grammar'}
-              </button>
+
               <span className="text-slate-300">|</span>
               <button
                 onClick={() => handleLink('demo')}

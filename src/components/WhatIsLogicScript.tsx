@@ -666,7 +666,7 @@ vertauto (p and not p) {
                   className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-md bg-[#04add6] hover:bg-[#0396ba] text-white text-xs font-semibold shadow transition-colors"
                 >
                   <Download className="w-3.5 h-3.5" />
-                  <span>Descargar Prism v1.0.0</span>
+                  <span>Descargar Prism</span>
                 </button>
                 <button
                   onClick={() => onNavigate('docs')}

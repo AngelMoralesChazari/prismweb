@@ -147,8 +147,8 @@ export const Downloads: React.FC<DownloadsProps> = () => {
               <span className="text-base font-bold tracking-wide flex items-center gap-2">
                 <span>
                   {language === 'es'
-                    ? 'Descargar para Windows (.exe)'
-                    : 'Download for Windows (.exe)'}
+                    ? 'Windows (.exe)'
+                    : 'Windows (.exe)'}
                 </span>
                 <Download className="w-4 h-4 opacity-80 group-hover:translate-y-0.5 transition-transform" />
               </span>
@@ -172,23 +172,7 @@ export const Downloads: React.FC<DownloadsProps> = () => {
             </a>
 
             {/* Updated Windows Instructions */}
-            <div className="mt-4 space-y-1.5 text-xs text-slate-600 max-w-xs text-left bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
-              <p>
-                1. Descarga y ejecuta{' '}
-                <code className="text-slate-800 font-mono font-semibold">
-                  {exeName}
-                </code>
-                .
-              </p>
-              <p>
-                2. Sigue el asistente gráfico (<strong>Siguiente → Instalar</strong>).
-              </p>
-              <p className="text-slate-500 pt-0.5">
-                No requiere instalar Java aparte; configura automáticamente el comando{' '}
-                <code className="text-slate-800 font-mono font-semibold">prc</code> en el
-                PATH de Windows.
-              </p>
-            </div>
+
           </div>
 
           {/* COLUMN 2: MAC (Apple Logo + prism-v1.0.0.tar.gz) */}
@@ -227,6 +211,8 @@ export const Downloads: React.FC<DownloadsProps> = () => {
                 <code className="text-slate-700 font-mono">{macName}</code>)
               </p>
             </div>
+
+
           </div>
 
           {/* COLUMN 3: LINUX (Tux + prism-v1.0.0-linux.tar.gz) */}
@@ -240,35 +226,20 @@ export const Downloads: React.FC<DownloadsProps> = () => {
               />
             </div>
 
-            {/* Split Linux Download Buttons */}
-            <div className="w-full grid grid-cols-2 gap-2">
-              <a
-                id="btn-download-linux"
-                href={linuxTarUrl}
-                className="py-5 px-3 rounded bg-[#0e6eb8] hover:bg-[#0b5a97] text-white shadow-md hover:shadow-lg transition-all flex flex-col items-center justify-center group"
-              >
-                <span className="text-sm font-bold flex items-center gap-1">
-                  <span>.tar.gz</span>
-                  <Download className="w-3.5 h-3.5 opacity-80" />
-                </span>
-                <span className="text-[11px] text-sky-100 mt-1">
-                  Debian, Ubuntu
-                </span>
-              </a>
-
-              <a
-                href={linuxTarUrl}
-                className="py-5 px-3 rounded bg-[#0e6eb8] hover:bg-[#0b5a97] text-white shadow-md hover:shadow-lg transition-all flex flex-col items-center justify-center group"
-              >
-                <span className="text-sm font-bold flex items-center gap-1">
-                  <span>.tar.gz</span>
-                  <Download className="w-3.5 h-3.5 opacity-80" />
-                </span>
-                <span className="text-[11px] text-sky-100 mt-1">
-                  Fedora, CentOS
-                </span>
-              </a>
-            </div>
+            {/* Unified Linux Download Button (.tar.gz works across all distros) */}
+            <a
+              id="btn-download-linux"
+              href={linuxTarUrl}
+              className="w-full py-5 px-6 rounded bg-[#0e6eb8] hover:bg-[#0b5a97] text-white shadow-md hover:shadow-lg transition-all flex flex-col items-center justify-center group"
+            >
+              <span className="text-base font-bold tracking-wide flex items-center gap-2">
+                <span>Linux (.tar.gz)</span>
+                <Download className="w-4 h-4 opacity-80 group-hover:translate-y-0.5 transition-transform" />
+              </span>
+              <span className="text-xs text-sky-100 mt-1 font-normal">
+                Debian, Ubuntu, Fedora, CentOS, Arch
+              </span>
+            </a>
 
             {/* Consola Sub-buttons */}
             <div className="w-full mt-4">

@@ -51,6 +51,7 @@ export interface DocArticle {
         heading: string;
         text: string;
         code?: string;
+        filename?: string;
         tip?: string;
       }[];
     };
@@ -60,6 +61,7 @@ export interface DocArticle {
         heading: string;
         text: string;
         code?: string;
+        filename?: string;
         tip?: string;
       }[];
     };

@@ -265,7 +265,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                   onClick={() => onNavigate('downloads')}
                   className="w-68 py-3 px-6 rounded bg-[#04add6] hover:bg-[#0396ba] text-white font-semibold text-sm shadow-lg transition-all text-center"
                 >
-                  <div>{language === 'es' ? 'Descargar Prism v1.0.0' : 'Download Prism v1.0.0'}</div>
+                  <div>{language === 'es' ? 'Descargar Prism' : 'Download Prism'}</div>
                   <div className="text-xs font-normal text-sky-100 mt-0.5">
                     {language === 'es' ? 'Windows, macOS y Linux' : 'Windows, macOS & Linux'}
                   </div>
@@ -278,7 +278,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                   <span className="text-[#04add6] font-medium">
                     {language === 'es' ? 'Documentación Oficial v1.0' : 'Official v1.0 Documentation'}
                   </span>{' '}
-                  — {language === 'es' ? 'Manual y Playground' : 'Manual & Playground'}
+
                 </button>
               </div>
             </div>
@@ -500,7 +500,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                   : 'Quickly look up operator precedence (not, and, or, impl, iff) and reserved language keywords.'}
               </p>
               <button
-                onClick={() => onNavigate('docs', 'gramatica-ebnf')}
+                onClick={() => onNavigate('docs', 'first-program')}
                 className="text-xs font-semibold text-[#04add6] hover:text-sky-800 hover:underline"
               >
                 {language === 'es' ? 'Ver tabla de operadores →' : 'View operators table →'}
