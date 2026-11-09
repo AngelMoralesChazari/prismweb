@@ -639,7 +639,7 @@ let phi = translate("si llueve llevo paraguas")`,
             text: 'Cada bloque de código de esta guía representa un archivo .pr completo e independiente. El nombre del archivo al guardar debe coincidir con el nombre del module (por ejemplo, module fundamentos -> guardar como fundamentos.pr):\n\nprc check fundamentos.pr\nprc run fundamentos.pr',
           },
           {
-            heading: '2. Ejemplo Autocontenido: fundamentos.pr',
+            heading: '2. Ejemplo  : fundamentos.pr',
             text: 'Guarda este código como fundamentos.pr para comparar los tres dictámenes en un mismo archivo:',
             filename: 'fundamentos.pr',
             code: `module fundamentos
@@ -714,7 +714,7 @@ vertauto contingencia { steps table verdict }
       en: 'Logical Laws & Inference Rules Cookbook',
     },
     description: {
-      es: 'Demostración de Modus Ponens, Modus Tollens, Contraposición, De Morgan y Silogismos en archivos autocontenidos.',
+      es: 'Demostración de Modus Ponens, Modus Tollens, Contraposición, De Morgan y Silogismos en archivos  s.',
       en: 'Demonstrating Modus Ponens, Modus Tollens, Contraposition, De Morgan, and Syllogisms in standalone files.',
     },
     category: 'nlp',
@@ -724,7 +724,7 @@ vertauto contingencia { steps table verdict }
     },
     content: {
       es: {
-        summary: 'Colección de leyes lógicas y reglas de inferencia clásicas listas para ejecutar con Prism v1.1.0. Cada ejemplo está estructurado como un archivo autocontenido listo para copiar y probar.',
+        summary: 'Colección de leyes lógicas y reglas de inferencia clásicas listas para ejecutar con Prism v1.1.0. Cada ejemplo está estructurado como un archivo   listo para copiar y probar.',
         sections: [
           {
             heading: '1. Modus Ponens: ((p → q) ∧ p) → q',
@@ -764,7 +764,7 @@ use core
 atom p = "llueve"
 atom q = "la calle se moja"
 
-# Enfoque 1: Modular autocontenido
+# Enfoque 1: Modular  
 let regla = translate("Si llueve entonces la calle se moja.")
 let calle_seca = translate("La calle no se moja.")
 
@@ -919,7 +919,7 @@ use core
 atom p = "llueve"
 atom q = "la calle se moja"
 
-# Enfoque 1: Modular autocontenido
+# Enfoque 1: Modular  
 let regla = translate("Si llueve entonces la calle se moja.")
 let calle_seca = translate("La calle no se moja.")
 
@@ -969,7 +969,7 @@ vertauto sh_nl { verdict }
       en: 'Detecting Common Formal Fallacies with Prism',
     },
     description: {
-      es: 'Identificación de argumentos inválidos y contraejemplos exactos en archivos autocontenidos.',
+      es: 'Identificación de argumentos inválidos y contraejemplos exactos en archivos  s.',
       en: 'Identifying invalid arguments and exact counterexamples in standalone files.',
     },
     category: 'nlp',
@@ -1017,7 +1017,7 @@ use core
 atom p = "llueve"
 atom q = "la calle se moja"
 
-# Enfoque 1: Modular autocontenido
+# Enfoque 1: Modular  
 let regla = translate("Si llueve entonces la calle se moja.")
 let no_llueve = translate("No llueve.")
 let no_moja = translate("La calle no se moja.")
@@ -1095,7 +1095,7 @@ use core
 atom p = "llueve"
 atom q = "la calle se moja"
 
-# Enfoque 1: Modular autocontenido
+# Enfoque 1: Modular  
 let regla = translate("Si llueve entonces la calle se moja.")
 let no_llueve = translate("No llueve.")
 let no_moja = translate("La calle no se moja.")
