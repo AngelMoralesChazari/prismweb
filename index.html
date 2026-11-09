@@ -4,7 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/svg+xml" href="/Prismv1.png" />
+
+  <!-- Favicons para Navegadores, Google Search (múltiplos de 48x48) y Dispositivos -->
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/Prismv1.png" />
+  <link rel="shortcut icon" type="image/png" href="/Prismv1.png" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
   <!-- Título y Metadatos Primarios -->
   <title>PRISM — Logic Language</title>
@@ -28,6 +35,9 @@
   <meta property="og:description"
     content="Lenguaje de programación declarativo creado por AngelMorales Chazari que une el lenguaje natural con la lógica proposicional formal." />
   <meta property="og:image" content="https://prism-lang.com/Prismv1.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
   <meta property="og:image:alt" content="Logotipo Oficial de PRISM Logic Language" />
   <meta property="og:locale" content="es_ES" />
 
@@ -46,11 +56,32 @@
     href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
 
-  <!-- Datos Estructurados Schema.org (JSON-LD con Autoría y Software) -->
+  <!-- Datos Estructurados Schema.org (JSON-LD con Autoría, Organización, Logo y Software) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://prism-lang.com/#organization",
+        "name": "PRISM Logic Language",
+        "url": "https://prism-lang.com/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://prism-lang.com/Prismv1.png",
+          "width": 512,
+          "height": 512
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://prism-lang.com/#website",
+        "url": "https://prism-lang.com/",
+        "name": "PRISM — Logic Language",
+        "publisher": {
+          "@id": "https://prism-lang.com/#organization"
+        }
+      },
       {
         "@type": "Person",
         "@id": "https://prism-lang.com/#author",
@@ -61,9 +92,7 @@
         ],
         "jobTitle": "Software Developer & Language Creator",
         "worksFor": {
-          "@type": "Organization",
-          "name": "AB Software Group",
-          "url": "https://prism-lang.com"
+          "@id": "https://prism-lang.com/#organization"
         }
       },
       {
@@ -73,6 +102,7 @@
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": "All",
         "url": "https://prism-lang.com/",
+        "image": "https://prism-lang.com/Prismv1.png",
         "description": "Lenguaje de programación declarativo que conecta el lenguaje natural con la lógica proposicional formal.",
         "author": {
           "@id": "https://prism-lang.com/#author"
@@ -81,9 +111,7 @@
           "@id": "https://prism-lang.com/#author"
         },
         "publisher": {
-          "@type": "Organization",
-          "name": "AB Software Group",
-          "url": "https://prism-lang.com"
+          "@id": "https://prism-lang.com/#organization"
         }
       }
     ]
