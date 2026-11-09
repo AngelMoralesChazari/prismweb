@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { PageView } from './Navbar';
 import { Download } from 'lucide-react';
@@ -7,12 +7,93 @@ interface DownloadsProps {
   onNavigate?: (page: PageView, articleId?: string) => void;
 }
 
+interface GitHubReleaseAsset {
+  name: string;
+  browser_download_url: string;
+}
+
+interface GitHubLatestRelease {
+  tag_name?: string;
+  assets?: GitHubReleaseAsset[];
+}
+
+const GITHUB_RELEASE_BASE =
+  'https://github.com/AngelMoralesChazari/prism/releases/latest/download';
+
 export const Downloads: React.FC<DownloadsProps> = () => {
   const { language } = useLanguage();
 
+  // Static fallback URLs (/releases/latest/download/...) updated automatically by GitHub API
+  const [versionTag, setVersionTag] = useState<string>('v1.0.0');
+  const [exeName, setExeName] = useState<string>('Prism-1.0.0-Setup.exe');
+  const [macName, setMacName] = useState<string>('prism-v1.0.0.tar.gz');
+
+  const [winExeUrl, setWinExeUrl] = useState<string>(
+    `${GITHUB_RELEASE_BASE}/Prism-1.0.0-Setup.exe`
+  );
+  const [winZipUrl, setWinZipUrl] = useState<string>(
+    `${GITHUB_RELEASE_BASE}/prism-v1.0.0-windows.zip`
+  );
+  const [macTarUrl, setMacTarUrl] = useState<string>(
+    `${GITHUB_RELEASE_BASE}/prism-v1.0.0.tar.gz`
+  );
+  const [linuxTarUrl, setLinuxTarUrl] = useState<string>(
+    `${GITHUB_RELEASE_BASE}/prism-v1.0.0-linux.tar.gz`
+  );
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetch('https://api.github.com/repos/AngelMoralesChazari/prism/releases/latest')
+      .then((r) => {
+        if (!r.ok) throw new Error('Failed to fetch latest release');
+        return r.json() as Promise<GitHubLatestRelease>;
+      })
+      .then((release) => {
+        if (!isMounted || !release) return;
+
+        if (release.tag_name) {
+          setVersionTag(
+            release.tag_name.startsWith('v') ? release.tag_name : `v${release.tag_name}`
+          );
+        }
+
+        if (Array.isArray(release.assets)) {
+          const exe = release.assets.find((a) => a.name.endsWith('-Setup.exe') || a.name.endsWith('.exe'));
+          const winZip = release.assets.find((a) => a.name.endsWith('-windows.zip') || a.name.endsWith('.zip'));
+          const linux = release.assets.find((a) => a.name.endsWith('-linux.tar.gz'));
+          const mac = release.assets.find(
+            (a) => a.name.endsWith('.tar.gz') && !a.name.endsWith('-linux.tar.gz')
+          );
+
+          if (exe) {
+            setWinExeUrl(exe.browser_download_url);
+            setExeName(exe.name);
+          }
+          if (winZip) {
+            setWinZipUrl(winZip.browser_download_url);
+          }
+          if (linux) {
+            setLinuxTarUrl(linux.browser_download_url);
+          }
+          if (mac) {
+            setMacTarUrl(mac.browser_download_url);
+            setMacName(mac.name);
+          }
+        }
+      })
+      .catch(() => {
+        /* Mantiene los enlaces estáticos /latest/download/ de respaldo */
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <div className="bg-white min-h-[82vh] pb-16">
-      {/* Top Blue Banner (Exact style from reference image) */}
+      {/* Top Blue Banner */}
       <div className="bg-[#0e6eb8] py-8 text-white shadow-sm">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl sm:text-3xl font-normal tracking-tight">
@@ -36,11 +117,11 @@ export const Downloads: React.FC<DownloadsProps> = () => {
               : 'Open-source declarative programming language for propositional logic and natural language.'}
           </p>
           <p className="text-sm text-slate-800">
-            <strong className="font-bold">Prism</strong> v1.0.0
+            <strong className="font-bold">Prism</strong> {versionTag}
           </p>
         </div>
 
-        {/* 3 Columns: Windows | Mac (.tar.gz) | Linux (.tar.gz) */}
+        {/* 3 Columns: Windows (.exe + .zip) | Mac (.tar.gz) | Linux (.tar.gz) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start text-center mb-16">
 
           {/* COLUMN 1: WINDOWS */}
@@ -57,26 +138,55 @@ export const Downloads: React.FC<DownloadsProps> = () => {
               </svg>
             </div>
 
-            {/* Big Blue Download Button */}
+            {/* Primary Blue Download Button: Graphical Installer (.exe with bundled Java) */}
             <a
-              href="/downloads/prism-v1.0.0-windows.zip"
-              download="prism-v1.0.0-windows.zip"
+              id="btn-download-windows"
+              href={winExeUrl}
               className="w-full py-5 px-6 rounded bg-[#0e6eb8] hover:bg-[#0b5a97] text-white shadow-md hover:shadow-lg transition-all flex flex-col items-center justify-center group"
             >
               <span className="text-base font-bold tracking-wide flex items-center gap-2">
-                <span>Windows</span>
+                <span>
+                  {language === 'es'
+                    ? 'Descargar para Windows (.exe)'
+                    : 'Download for Windows (.exe)'}
+                </span>
                 <Download className="w-4 h-4 opacity-80 group-hover:translate-y-0.5 transition-transform" />
               </span>
               <span className="text-xs text-sky-100 mt-1 font-normal">
-                Windows 10, 11
+                Windows 10, 11 (64 bits • Java integrado)
               </span>
             </a>
 
-            {/* Footnotes */}
-            <div className="mt-4 space-y-2 text-xs text-slate-500 max-w-xs">
-              <p>Solo para 64x bits</p>
+            {/* Alternative Windows Portable ZIP Button */}
+            <a
+              id="btn-download-win-zip"
+              href={winZipUrl}
+              className="w-full mt-2.5 py-2.5 px-4 rounded border border-[#0e6eb8]/30 bg-sky-50/60 hover:bg-sky-100/70 text-[#0e6eb8] text-xs font-semibold transition-colors flex items-center justify-center gap-1.5"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>
+                {language === 'es'
+                  ? 'Descargar versión ZIP para Windows'
+                  : 'Download ZIP version for Windows'}
+              </span>
+            </a>
+
+            {/* Updated Windows Instructions */}
+            <div className="mt-4 space-y-1.5 text-xs text-slate-600 max-w-xs text-left bg-slate-50 border border-slate-200/80 rounded-lg p-3.5">
               <p>
-                Paquete <code className="text-slate-700 font-mono">prism-v1.0.0-windows.zip</code> con el ejecutable <code className="text-slate-700 font-mono">prc</code> y módulo base <code className="text-slate-700 font-mono">core.pr</code>.
+                1. Descarga y ejecuta{' '}
+                <code className="text-slate-800 font-mono font-semibold">
+                  {exeName}
+                </code>
+                .
+              </p>
+              <p>
+                2. Sigue el asistente gráfico (<strong>Siguiente → Instalar</strong>).
+              </p>
+              <p className="text-slate-500 pt-0.5">
+                No requiere instalar Java aparte; configura automáticamente el comando{' '}
+                <code className="text-slate-800 font-mono font-semibold">prc</code> en el
+                PATH de Windows.
               </p>
             </div>
           </div>
@@ -97,8 +207,8 @@ export const Downloads: React.FC<DownloadsProps> = () => {
 
             {/* Big Blue Download Button */}
             <a
-              href="/downloads/prism-v1.0.0.tar.gz"
-              download="prism-v1.0.0.tar.gz"
+              id="btn-download-mac"
+              href={macTarUrl}
               className="w-full py-5 px-6 rounded bg-[#0e6eb8] hover:bg-[#0b5a97] text-white shadow-md hover:shadow-lg transition-all flex flex-col items-center justify-center group"
             >
               <span className="text-base font-bold tracking-wide flex items-center gap-2">
@@ -112,7 +222,10 @@ export const Downloads: React.FC<DownloadsProps> = () => {
 
             {/* Footnotes */}
             <div className="mt-4 space-y-2 text-xs text-slate-500 max-w-xs">
-              <p>Compatible con Apple Silicon e Intel (<code className="text-slate-700 font-mono">prism-v1.0.0.tar.gz</code>)</p>
+              <p>
+                Compatible con Apple Silicon e Intel (
+                <code className="text-slate-700 font-mono">{macName}</code>)
+              </p>
             </div>
           </div>
 
@@ -127,11 +240,11 @@ export const Downloads: React.FC<DownloadsProps> = () => {
               />
             </div>
 
-            {/* Split Linux Download Buttons (Like Reference Image) */}
+            {/* Split Linux Download Buttons */}
             <div className="w-full grid grid-cols-2 gap-2">
               <a
-                href="/downloads/prism-v1.0.0-linux.tar.gz"
-                download="prism-v1.0.0-linux.tar.gz"
+                id="btn-download-linux"
+                href={linuxTarUrl}
                 className="py-5 px-3 rounded bg-[#0e6eb8] hover:bg-[#0b5a97] text-white shadow-md hover:shadow-lg transition-all flex flex-col items-center justify-center group"
               >
                 <span className="text-sm font-bold flex items-center gap-1">
@@ -144,8 +257,7 @@ export const Downloads: React.FC<DownloadsProps> = () => {
               </a>
 
               <a
-                href="/downloads/prism-v1.0.0-linux.tar.gz"
-                download="prism-v1.0.0-linux.tar.gz"
+                href={linuxTarUrl}
                 className="py-5 px-3 rounded bg-[#0e6eb8] hover:bg-[#0b5a97] text-white shadow-md hover:shadow-lg transition-all flex flex-col items-center justify-center group"
               >
                 <span className="text-sm font-bold flex items-center gap-1">
@@ -158,37 +270,33 @@ export const Downloads: React.FC<DownloadsProps> = () => {
               </a>
             </div>
 
-            {/* Consola Sub-buttons (Matching reference image layout) */}
+            {/* Consola Sub-buttons */}
             <div className="w-full mt-4">
               <div className="text-xs font-bold text-slate-800 mb-2">
                 {language === 'es' ? 'Consola' : 'Console'}
               </div>
               <div className="grid grid-cols-3 gap-1.5 mb-2">
                 <a
-                  href="/downloads/prism-v1.0.0-linux.tar.gz"
-                  download="prism-v1.0.0-linux.tar.gz"
+                  href={linuxTarUrl}
                   className="py-2.5 px-2 rounded bg-[#0e6eb8] hover:bg-[#0b5a97] text-white text-[11px] font-medium transition-colors"
                 >
                   Debian, Ubuntu
                 </a>
                 <a
-                  href="/downloads/prism-v1.0.0-linux.tar.gz"
-                  download="prism-v1.0.0-linux.tar.gz"
+                  href={linuxTarUrl}
                   className="py-2.5 px-2 rounded bg-[#0e6eb8] hover:bg-[#0b5a97] text-white text-[11px] font-medium transition-colors"
                 >
                   Fedora
                 </a>
                 <a
-                  href="/downloads/prism-v1.0.0-linux.tar.gz"
-                  download="prism-v1.0.0-linux.tar.gz"
+                  href={linuxTarUrl}
                   className="py-2.5 px-2 rounded bg-[#0e6eb8] hover:bg-[#0b5a97] text-white text-[11px] font-medium transition-colors"
                 >
                   Rhel, CentOS
                 </a>
               </div>
               <a
-                href="/downloads/prism-v1.0.0-linux.tar.gz"
-                download="prism-v1.0.0-linux.tar.gz"
+                href={linuxTarUrl}
                 className="block w-full py-2.5 px-3 rounded bg-[#0e6eb8] hover:bg-[#0b5a97] text-white text-[11px] font-medium transition-colors"
               >
                 ArchLinux, Manjaro
