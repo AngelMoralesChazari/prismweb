@@ -89,7 +89,7 @@ export function AppContent() {
           />
         )}
       </main>
-      <Footer onNavigate={handleNavigate} />
+      {activePage !== 'docs' && <Footer onNavigate={handleNavigate} />}
     </div>
   );
 }

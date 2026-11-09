@@ -1,9 +1,10 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { docsArticles, operatorsReference } from '../data/docs';
 import { DocArticle } from '../types';
 import { CodeViewer } from './CodeViewer';
 import { PrismLogo, PageView } from './Navbar';
+import { Footer } from './Footer';
 import {
   Search,
   ArrowLeft,
@@ -23,6 +24,7 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion, 
     initialArticleId || docsArticles[0].id
   );
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const contentContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (initialArticleId) {
@@ -30,6 +32,8 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion, 
     } else {
       setSelectedArticleId(docsArticles[0].id);
     }
+    contentContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [initialArticleId, navVersion]);
 
   const categories = [
@@ -64,16 +68,17 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion, 
     if (onNavigate) {
       onNavigate('docs', id);
     }
+    contentContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Full Manual Layout: Dark Left Sidebar (Sticky, no scroll) + Clean White Reader
+  // Full Manual Layout: 100% Frozen Dark Left Sidebar + Independent Scrollable Reader
   return (
-    <div className="min-h-screen bg-white flex flex-col lg:flex-row lg:items-start">
-      {/* LEFT SIDEBAR: MANUAL | Lenguaje Prism (Sticky under h-14 navbar, stays fixed on scroll) */}
-      <aside className="w-full lg:w-72 bg-[#252a30] text-slate-200 flex-shrink-0 flex flex-col lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] overflow-hidden">
+    <div className="bg-white flex flex-col lg:flex-row lg:h-[calc(100vh-3.5rem)] lg:overflow-hidden">
+      {/* LEFT SIDEBAR: MANUAL | Lenguaje Prism (100% frozen on desktop, never moves on scroll) */}
+      <aside className="w-full lg:w-72 bg-[#252a30] text-slate-200 flex-shrink-0 flex flex-col lg:h-full overflow-hidden select-none border-r border-[#1e2329]">
         {/* Top Blue Manual Header */}
-        <div className="bg-[#1b75bb] px-5 py-4">
+        <div className="bg-[#1b75bb] px-5 py-4 flex-shrink-0">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2.5">
               <span className="text-lg font-extrabold tracking-wider text-white">
@@ -98,7 +103,7 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion, 
         </div>
 
         {/* Sidebar Navigation Links */}
-        <nav className="p-3.5 space-y-3 overflow-hidden flex-1 text-xs">
+        <nav className="p-3.5 space-y-3 overflow-y-auto flex-1 text-xs">
           {categories.map((cat) => {
             const articlesInCat = filteredArticles.filter((art) => art.category === cat.id);
             if (articlesInCat.length === 0) return null;
@@ -133,11 +138,15 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion, 
         </nav>
       </aside>
 
-      {/* RIGHT CONTENT READER (Clean White Manual Page) */}
-      <div className="flex-1 bg-white text-slate-800">
-        <div className="max-w-4xl mx-auto px-6 sm:px-12 py-8 sm:py-10">
-          {/* Article Content */}
-          <article>
+      {/* RIGHT CONTENT READER (Independent scrollable container on desktop) */}
+      <div
+        ref={contentContainerRef}
+        className="flex-1 bg-white text-slate-800 lg:h-full lg:overflow-y-auto flex flex-col justify-between"
+      >
+        <div className="flex-1">
+          <div className="max-w-4xl mx-auto px-6 sm:px-12 py-8 sm:py-10">
+            {/* Article Content */}
+            <article>
             <div className="mb-6">
               <span className="inline-block text-xs font-semibold uppercase tracking-wider text-sky-600 bg-sky-50 border border-sky-200 px-2.5 py-0.5 rounded mb-2">
                 {currentArticle.categoryLabel[language]}
@@ -323,6 +332,10 @@ export const DocsHub: React.FC<DocsHubProps> = ({ initialArticleId, navVersion, 
           </div>
         </div>
       </div>
+
+      {/* Footer positioned inside the right scrollable reader at the bottom of the article */}
+      <Footer onNavigate={onNavigate} />
     </div>
-  );
+  </div>
+);
 };
