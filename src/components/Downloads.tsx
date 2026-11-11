@@ -24,9 +24,10 @@ export const Downloads: React.FC<DownloadsProps> = () => {
   const { language } = useLanguage();
 
   // Static fallback URLs (/releases/latest/download/...) updated automatically by GitHub API
-  const [versionTag, setVersionTag] = useState<string>('v1.0.0');
+  const [versionTag, setVersionTag] = useState<string>('v1.1.0');
   const [exeName, setExeName] = useState<string>('Prism-1.0.0-Setup.exe');
-  const [macName, setMacName] = useState<string>('prism-v1.0.0.tar.gz');
+  const [macArmName, setMacArmName] = useState<string>('Prism-1.1.0-macOS-arm64.pkg');
+  const [macIntelName, setMacIntelName] = useState<string>('Prism-1.1.0-macOS-Universal.pkg');
 
   const [winExeUrl, setWinExeUrl] = useState<string>(
     `${GITHUB_RELEASE_BASE}/Prism-1.0.0-Setup.exe`
@@ -34,8 +35,11 @@ export const Downloads: React.FC<DownloadsProps> = () => {
   const [winZipUrl, setWinZipUrl] = useState<string>(
     `${GITHUB_RELEASE_BASE}/prism-v1.0.0-windows.zip`
   );
-  const [macTarUrl, setMacTarUrl] = useState<string>(
-    `${GITHUB_RELEASE_BASE}/prism-v1.0.0.tar.gz`
+  const [macArmUrl, setMacArmUrl] = useState<string>(
+    `${GITHUB_RELEASE_BASE}/Prism-1.1.0-macOS-arm64.pkg`
+  );
+  const [macIntelUrl, setMacIntelUrl] = useState<string>(
+    `${GITHUB_RELEASE_BASE}/Prism-1.1.0-macOS-Universal.pkg`
   );
   const [linuxTarUrl, setLinuxTarUrl] = useState<string>(
     `${GITHUB_RELEASE_BASE}/prism-v1.0.0-linux.tar.gz`
@@ -62,8 +66,11 @@ export const Downloads: React.FC<DownloadsProps> = () => {
           const exe = release.assets.find((a) => a.name.endsWith('-Setup.exe') || a.name.endsWith('.exe'));
           const winZip = release.assets.find((a) => a.name.endsWith('-windows.zip') || a.name.endsWith('.zip'));
           const linux = release.assets.find((a) => a.name.endsWith('-linux.tar.gz'));
-          const mac = release.assets.find(
-            (a) => a.name.endsWith('.tar.gz') && !a.name.endsWith('-linux.tar.gz')
+          const macArm = release.assets.find(
+            (a) => a.name.endsWith('-macOS-arm64.pkg') || (a.name.includes('arm64') && a.name.endsWith('.pkg'))
+          );
+          const macIntel = release.assets.find(
+            (a) => a.name.endsWith('-macOS-Universal.pkg') || ((a.name.includes('Universal') || a.name.includes('x64')) && a.name.endsWith('.pkg'))
           );
 
           if (exe) {
@@ -76,9 +83,13 @@ export const Downloads: React.FC<DownloadsProps> = () => {
           if (linux) {
             setLinuxTarUrl(linux.browser_download_url);
           }
-          if (mac) {
-            setMacTarUrl(mac.browser_download_url);
-            setMacName(mac.name);
+          if (macArm) {
+            setMacArmUrl(macArm.browser_download_url);
+            setMacArmName(macArm.name);
+          }
+          if (macIntel) {
+            setMacIntelUrl(macIntel.browser_download_url);
+            setMacIntelName(macIntel.name);
           }
         }
       })
@@ -175,7 +186,7 @@ export const Downloads: React.FC<DownloadsProps> = () => {
 
           </div>
 
-          {/* COLUMN 2: MAC (Apple Logo + prism-v1.0.0.tar.gz) */}
+          {/* COLUMN 2: MAC (Apple Logo + .pkg Graphical Installers) */}
           <div className="flex flex-col items-center">
             {/* Classic Black Apple Logo */}
             <div className="h-28 flex items-center justify-center mb-6">
@@ -189,28 +200,35 @@ export const Downloads: React.FC<DownloadsProps> = () => {
               </svg>
             </div>
 
-            {/* Big Blue Download Button */}
+            {/* Primary Blue Download Button: Apple Silicon (M1 / M2 / M3 / M4) */}
             <a
-              id="btn-download-mac"
-              href={macTarUrl}
+              id="btn-download-mac-arm"
+              href={macArmUrl}
               className="w-full py-5 px-6 rounded bg-[#0e6eb8] hover:bg-[#0b5a97] text-white shadow-md hover:shadow-lg transition-all flex flex-col items-center justify-center group"
             >
               <span className="text-base font-bold tracking-wide flex items-center gap-2">
-                <span>Mac</span>
+                <span>Mac (.pkg)</span>
                 <Download className="w-4 h-4 opacity-80 group-hover:translate-y-0.5 transition-transform" />
               </span>
               <span className="text-xs text-sky-100 mt-1 font-normal">
-                macOS 11+ (.tar.gz)
+                Apple Silicon (M1, M2, M3, M4)
               </span>
             </a>
 
-            {/* Footnotes */}
-            <div className="mt-4 space-y-2 text-xs text-slate-500 max-w-xs">
-              <p>
-                Compatible con Apple Silicon e Intel (
-                <code className="text-slate-700 font-mono">{macName}</code>)
-              </p>
-            </div>
+            {/* Secondary Button: Mac Intel (.pkg) */}
+            <a
+              id="btn-download-mac-intel"
+              href={macIntelUrl}
+              className="w-full mt-2.5 py-2.5 px-4 rounded border border-[#0e6eb8]/30 bg-sky-50/60 hover:bg-sky-100/70 text-[#0e6eb8] text-xs font-semibold transition-colors flex items-center justify-center gap-1.5"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>
+                {language === 'es'
+                  ? 'Descargar para Mac Intel (.pkg)'
+                  : 'Download for Mac Intel (.pkg)'}
+              </span>
+            </a>
+
 
 
           </div>
